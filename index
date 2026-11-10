@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中1英単語マスターPro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+    body { font-family: 'Noto Sans JP', 'Inter', sans-serif; }
+    .badge-s { background-color: #fef08a; color: #854d0e; border: 1px solid #facc15; }
+    .badge-a { background-color: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
+    .badge-b { background-color: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .badge-c { background-color: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
+    .badge-d { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- ヘッダー -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2 cursor-pointer" onclick="showScreen('home')">
+        <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-100">
+          <i class="ph-bold ph-graduation-cap text-2xl"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg leading-tight text-slate-900 tracking-tight flex items-center gap-1.5">
+            中1英単語マスター <span class="bg-indigo-100 text-indigo-700 text-xs px-2 py-0.5 rounded-full font-bold">Pro</span>
+          </h1>
+          <p class="text-[11px] text-slate-500">中1教科書完全準拠・全718語収録 & 成績自動集計</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button onclick="showScreen('dictionary')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition flex items-center gap-1">
+          <i class="ph-bold ph-book-open-text text-base"></i>
+          <span class="hidden sm:inline">辞書・検索</span>
+        </button>
+        <button onclick="showScreen('analytics')" class="px-3.5 py-1.5 text-xs font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition flex items-center gap-1 border border-indigo-200 shadow-xs">
+          <i class="ph-bold ph-chart-pie-slice text-base text-indigo-600"></i>
+          <span>成績表・分析</span>
+        </button>
+        <button onclick="showScreen('manage')" class="px-3 py-1.5 text-xs font-semibold text-slate-600 hover:text-indigo-600 hover:bg-slate-100 rounded-lg transition flex items-center gap-1">
+          <i class="ph-bold ph-database text-base"></i>
+          <span class="hidden sm:inline">単語一覧</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ領域 -->
+  <main class="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6">
+
+    <!-- 1. ホーム画面 -->
+    <div id="screen-home" class="space-y-6">
+      <div class="bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden">
+        <div class="relative z-10 space-y-2">
+          <div class="flex items-center justify-between flex-wrap gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs px-2.5 py-1 rounded-full font-medium inline-block">
+              新学習指導要領・中1教科書全718単語対応
+            </span>
+            <button onclick="showScreen('analytics')" class="px-3 py-1 rounded-full bg-white text-indigo-700 text-xs font-extrabold hover:bg-indigo-50 shadow-sm transition flex items-center gap-1">
+              <i class="ph-bold ph-chart-line-up"></i> 成績表・弱点カルテを見る
+            </button>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold">中1英単語マスターPro</h2>
+          <p class="text-indigo-100 text-sm max-w-lg">
+            テスト範囲のUnitを自由に組み合わせて練習できます。結果は先生のスプレッドシートに自動提出されます。
+          </p>
+        </div>
+        <i class="ph-duotone ph-books text-9xl absolute -right-6 -bottom-8 opacity-15"></i>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-6">
+        <!-- 氏名入力 -->
+        <div class="bg-indigo-50/70 border-2 border-indigo-200 rounded-xl p-4 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="block text-xs font-black uppercase tracking-wider text-indigo-950 flex items-center gap-1.5">
+              <i class="ph-bold ph-user text-indigo-600 text-base"></i>
+              お名前の入力 <span class="bg-rose-500 text-white text-[10px] font-black px-1.5 py-0.5 rounded">必須</span>
+            </label>
+            <span class="text-[11px] text-indigo-700 font-semibold">※一度入れると次回から自動記憶されます</span>
+          </div>
+
+          <div class="relative">
+            <input type="text" id="student-name-input" placeholder="氏名を入力してください (例: 山田 太郎)" 
+              class="w-full px-4 py-3 rounded-xl border border-indigo-200 bg-white text-sm font-black text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 shadow-xs">
+            <i class="ph-bold ph-identification-card text-slate-400 absolute right-3.5 top-3.5 text-lg"></i>
+          </div>
+          
+          <div id="student-input-alert" class="hidden text-[11px] font-bold text-rose-600 flex items-center gap-1">
+            <i class="ph-bold ph-warning-circle"></i> 成績を記録するため「氏名」を入力してください
+          </div>
+        </div>
+
+        <!-- 学習モード -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">1. 学習モードを選択</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3" id="mode-selector">
+            <button type="button" onclick="selectMode('en-ja')" id="btn-mode-en-ja" class="mode-btn p-4 rounded-xl border-2 text-left transition flex flex-col gap-1 border-indigo-600 bg-indigo-50/50">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 text-sm">英語 → 日本語</span>
+                <i class="ph-bold ph-translate text-indigo-600 text-lg"></i>
+              </div>
+              <p class="text-xs text-slate-500">英単語を見て意味を選ぶ基本練習</p>
+            </button>
+            <button type="button" onclick="selectMode('ja-en')" id="btn-mode-ja-en" class="mode-btn p-4 rounded-xl border-2 border-slate-200 hover:border-slate-300 text-left transition flex flex-col gap-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 text-sm">日本語 → 英語</span>
+                <i class="ph-bold ph-pen text-indigo-600 text-lg"></i>
+              </div>
+              <p class="text-xs text-slate-500">意味から正確な英単語を連想</p>
+            </button>
+            <button type="button" onclick="selectMode('fill-in')" id="btn-mode-fill-in" class="mode-btn p-4 rounded-xl border-2 border-slate-200 hover:border-slate-300 text-left transition flex flex-col gap-1">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 text-sm">英文穴埋め (例文)</span>
+                <i class="ph-bold ph-article text-indigo-600 text-lg"></i>
+              </div>
+              <p class="text-xs text-slate-500">文脈から ( ) に入る単語を判別</p>
+            </button>
+            <button type="button" onclick="selectMode('spelling')" id="btn-mode-spelling" class="mode-btn p-4 rounded-xl border-2 border-purple-200 bg-gradient-to-br from-purple-50/60 to-indigo-50/60 hover:border-purple-500 text-left transition flex flex-col gap-1">
+              <div class="flex items-center justify-between">
+                <span class="font-extrabold text-purple-900 text-sm flex items-center gap-1.5">
+                  <i class="ph-fill ph-keyboard text-purple-600"></i> スペルタイピング
+                </span>
+                <span class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-[10px] font-black px-2 py-0.5 rounded-full">裏モード</span>
+              </div>
+              <p class="text-xs text-purple-700 font-medium">_ _ _ _ に文字を埋めるパズル</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- 難易度 -->
+        <div>
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2.5">2. 難易度を選択</label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2.5" id="level-selector">
+            <button type="button" onclick="selectLevel('beginner')" id="btn-lvl-beginner" class="lvl-btn p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 text-center transition flex flex-col items-center">
+              <span class="font-extrabold text-sm text-slate-900">初級</span>
+              <span class="text-[10px] text-amber-700 font-bold bg-amber-100 px-1.5 py-0.5 rounded mt-1">S 100%</span>
+              <span class="text-[10px] text-slate-400 mt-0.5">超重要・基礎</span>
+            </button>
+            <button type="button" onclick="selectLevel('intermediate')" id="btn-lvl-intermediate" class="lvl-btn p-3 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 text-center transition flex flex-col items-center">
+              <span class="font-extrabold text-sm text-slate-900">中級</span>
+              <span class="text-[10px] text-blue-700 font-bold bg-blue-100 px-1.5 py-0.5 rounded mt-1">S 30% / A 70%</span>
+              <span class="text-[10px] text-slate-400 mt-0.5">標準レベル</span>
+            </button>
+            <button type="button" onclick="selectLevel('advanced')" id="btn-lvl-advanced" class="lvl-btn p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 text-center transition flex flex-col items-center">
+              <span class="font-extrabold text-sm text-slate-900">上級</span>
+              <span class="text-[10px] text-emerald-700 font-bold bg-emerald-100 px-1.5 py-0.5 rounded mt-1">A 30% / B 70%</span>
+              <span class="text-[10px] text-slate-400 mt-0.5">発展レベル</span>
+            </button>
+            <button type="button" onclick="selectLevel('super')" id="btn-lvl-super" class="lvl-btn p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 text-center transition flex flex-col items-center">
+              <span class="font-extrabold text-sm text-slate-900">超級</span>
+              <span class="text-[10px] text-orange-700 font-bold bg-orange-100 px-1.5 py-0.5 rounded mt-1">B 30% / C 70%</span>
+              <span class="text-[10px] text-slate-400 mt-0.5">難関語句</span>
+            </button>
+            <button type="button" onclick="selectLevel('hell')" id="btn-lvl-hell" class="lvl-btn p-3 rounded-xl border-2 border-slate-200 hover:border-red-400 text-center transition flex flex-col items-center">
+              <span class="font-extrabold text-sm text-red-600 flex items-center gap-0.5"><i class="ph-fill ph-fire"></i>地獄級</span>
+              <span class="text-[10px] text-rose-700 font-bold bg-rose-100 px-1.5 py-0.5 rounded mt-1">C 30% / D 70%</span>
+              <span class="text-[10px] text-slate-400 mt-0.5">超難問・固有名詞</span>
+            </button>
+            <button type="button" onclick="selectLevel('random')" id="btn-lvl-random" class="lvl-btn p-3 rounded-xl border-2 border-slate-200 hover:border-slate-300 text-center transition flex flex-col items-center">
+              <span class="font-extrabold text-sm text-purple-700 flex items-center gap-0.5"><i class="ph-bold ph-shuffle"></i>ランダム</span>
+              <span class="text-[10px] text-purple-700 font-bold bg-purple-100 px-1.5 py-0.5 rounded mt-1">全範囲混合</span>
+              <span class="text-[10px] text-slate-400 mt-0.5">実力測定</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 出題範囲 -->
+        <div class="space-y-4 pt-2 border-t border-slate-100">
+          <div>
+            <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                <i class="ph-bold ph-check-square-offset text-indigo-600 text-base"></i>
+                3. 出題範囲のUnitを選択（複数選択OK！）
+              </label>
+              <div class="flex items-center gap-2 text-xs">
+                <button type="button" onclick="setAllUnits(true)" class="px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-[11px] transition">すべて選択</button>
+                <button type="button" onclick="setAllUnits(false)" class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold text-[11px] transition">全解除</button>
+                <span id="unit-selection-summary" class="bg-slate-100 text-slate-700 font-bold px-2 py-0.5 rounded-full text-[11px]">全718語対象</span>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2" id="unit-checkbox-container"></div>
+            <div id="unit-select-alert" class="hidden text-xs font-bold text-rose-600 mt-2 flex items-center gap-1">
+              <i class="ph-bold ph-warning-circle"></i> 少なくとも1つ以上のUnitを選択してください
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3">
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500">出題数</label>
+            <div class="flex gap-2 w-full sm:w-64">
+              <button type="button" onclick="selectCount(10)" id="btn-count-10" class="count-btn flex-1 py-2.5 rounded-xl border-2 border-indigo-600 bg-indigo-50/50 font-bold text-xs text-indigo-900 transition">10 問</button>
+              <button type="button" onclick="selectCount(20)" id="btn-count-20" class="count-btn flex-1 py-2.5 rounded-xl border-2 border-slate-200 font-bold text-xs text-slate-700 hover:border-slate-300 transition">20 問</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2">
+          <button type="button" onclick="startQuiz()" class="w-full py-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-[0.99] text-white font-extrabold text-base shadow-lg shadow-indigo-200 transition flex items-center justify-center gap-2">
+            <i class="ph-bold ph-play text-xl"></i> テストを開始する
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-indigo-50/60 border border-indigo-100 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-slate-700">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center shrink-0">
+            <i class="ph-bold ph-books text-lg"></i>
+          </div>
+          <div>
+            <span class="font-extrabold text-slate-900">収録単語数: <span id="total-words-count" class="text-indigo-600 font-black text-sm">718</span> 語</span>
+            <div class="text-[11px] text-slate-500">中1教科書全単語がHTML内に完全収録済み。ネット接続が切れても快適に学習できます。</div>
+          </div>
+        </div>
+        <button onclick="showScreen('manage')" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-bold shadow-xs transition">
+          単語一覧を見る <i class="ph-bold ph-caret-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 2. テスト出題画面 -->
+    <div id="screen-quiz" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span id="quiz-level-badge" class="px-2.5 py-1 rounded-md text-xs font-bold badge-b">中級</span>
+          <span id="quiz-mode-badge" class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[11px] font-bold">英語 → 日本語</span>
+          <span id="quiz-student-badge" class="hidden sm:inline bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded text-[11px] font-bold">
+            <i class="ph-bold ph-user"></i> <span id="quiz-student-display-name">生徒</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="text-xs font-bold text-slate-600">
+            第 <span id="current-q-index" class="text-indigo-600 font-black text-base">1</span> / <span id="total-q-index">10</span> 問
+          </div>
+          <button onclick="confirmQuitQuiz()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+            <i class="ph-bold ph-x text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+        <div id="progress-bar-fill" class="bg-indigo-600 h-full rounded-full transition-all duration-300" style="width: 10%"></div>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <span id="q-unit-tag" class="text-[11px] font-black text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-md tracking-wide">UNIT 1</span>
+            <span id="q-rank-tag" class="text-[10px] font-bold px-1.5 py-0.5 rounded badge-b">Bランク</span>
+          </div>
+          <button id="btn-speak-word" onclick="speakWord(currentQuiz.questions[currentQuiz.currentIndex]?.target?.word || '')" class="px-3 py-1.5 rounded-lg bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="ph-bold ph-speaker-high text-base"></i> 発音を聴く
+          </button>
+        </div>
+
+        <div class="space-y-2 text-center py-4">
+          <div id="question-prompt-label" class="text-xs font-bold text-slate-400 uppercase tracking-wider">この英単語の意味を選んでください</div>
+          <div id="question-main-text" class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-relaxed">word</div>
+          <div id="question-sub-text" class="text-xs sm:text-sm text-slate-500 font-medium hidden"></div>
+        </div>
+
+        <div id="choices-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2"></div>
+
+        <div id="spelling-container" class="hidden space-y-5 pt-2">
+          <div id="spelling-slots" class="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 py-4 min-h-[70px]"></div>
+          <div class="flex items-center justify-center gap-2 text-xs">
+            <button type="button" onclick="giveSpellingHint()" class="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-bold transition flex items-center gap-1 shadow-xs">
+              <i class="ph-bold ph-lightbulb"></i> ヒント
+            </button>
+            <button type="button" onclick="handleSpellingBackspace()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold transition flex items-center gap-1 shadow-xs">
+              <i class="ph-bold ph-backspace"></i> 1文字消す
+            </button>
+            <button type="button" onclick="checkSpellingAnswer()" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold transition flex items-center gap-1 shadow-md">
+              <i class="ph-bold ph-check"></i> 回答を確定
+            </button>
+          </div>
+          <div id="spelling-keyboard" class="max-w-md mx-auto space-y-1.5 p-3 rounded-2xl bg-slate-100/90 border border-slate-200"></div>
+        </div>
+
+        <div id="feedback-panel" class="hidden p-5 rounded-2xl border transition-all duration-300 space-y-4">
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b pb-3" id="feedback-header-border">
+            <div class="flex items-center gap-3">
+              <div id="feedback-icon" class="w-9 h-9 rounded-full flex items-center justify-center shrink-0 shadow-xs"></div>
+              <div>
+                <div id="feedback-title" class="font-extrabold text-base"></div>
+                <div id="feedback-desc" class="text-xs font-semibold"></div>
+              </div>
+            </div>
+            <button type="button" onclick="goToNextQuestion()" class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5">
+              次の問題へ <i class="ph-bold ph-arrow-right"></i>
+            </button>
+          </div>
+          <div class="space-y-2 pt-1">
+            <div class="text-[11px] font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+              <i class="ph-bold ph-books text-indigo-600"></i> 各選択肢の単語解説
+            </div>
+            <div id="feedback-choices-explanation" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. テスト結果発表画面 -->
+    <div id="screen-result" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm text-center space-y-6">
+        <div class="space-y-2">
+          <div id="result-student-display" class="text-xs font-bold text-indigo-600 uppercase tracking-wider">山田 太郎 さんの結果</div>
+          <h2 class="text-2xl sm:text-3xl font-black text-slate-900">テスト終了！お疲れ様でした</h2>
+          <div id="result-sheet-sent-notice" class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-800 border border-emerald-200 px-3.5 py-1.5 rounded-full text-xs font-bold">
+            <i class="ph-bold ph-check-circle text-emerald-600 text-base"></i> 
+            <span id="result-sheet-sent-text">先生のスプレッドシートへ成績を自動送信しました！</span>
+          </div>
+        </div>
+        <div class="max-w-xs mx-auto p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100 flex flex-col items-center justify-center">
+          <div class="text-xs font-bold text-slate-500 mb-1">獲得スコア</div>
+          <div id="result-score-percent" class="text-5xl font-black text-indigo-600">80<span class="text-xl font-normal text-slate-400">%</span></div>
+          <div class="text-xs text-slate-600 font-bold mt-2">正解数: <span id="result-score-correct" class="text-indigo-600 font-black text-sm">8</span> / <span id="result-score-total">10</span> 問</div>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-center gap-3">
+          <button onclick="retryCurrentQuiz()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-arrows-clockwise text-base"></i> もう一度挑戦
+          </button>
+          <button onclick="showScreen('home')" class="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-house text-base"></i> ホームへ戻る
+          </button>
+          <button onclick="showScreen('analytics')" class="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-indigo-700 font-bold text-xs transition flex items-center justify-center gap-1.5">
+            <i class="ph-bold ph-chart-pie-slice text-base"></i> 成績分析を見る
+          </button>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-5">
+        <h3 class="font-extrabold text-sm text-slate-900 mb-3 flex items-center gap-1.5">
+          <i class="ph-bold ph-list-checks text-indigo-600"></i> 出題単語の振り返り & 音声確認
+        </h3>
+        <div id="result-review-list" class="divide-y divide-slate-100"></div>
+      </div>
+    </div>
+
+    <!-- 4. 成績分析画面 -->
+    <div id="screen-analytics" class="hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <i class="ph-bold ph-chalkboard-teacher text-indigo-600"></i> 教師用アナリティクス & 生徒解答集計
+          </h2>
+          <p class="text-xs text-slate-500">生徒全員の解答履歴を自動集計・クラス全体の弱点単語と個別カルテを分析</p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="exportLogsToCSV()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition flex items-center gap-1">
+            <i class="ph-bold ph-download-simple text-sm"></i> 全ログCSV出力
+          </button>
+          <button onclick="clearAnalyticsLogs()" class="px-3 py-2 text-rose-600 hover:bg-rose-50 rounded-lg text-xs font-bold transition flex items-center gap-1">
+            <i class="ph-bold ph-trash text-sm"></i> 履歴消去
+          </button>
+        </div>
+      </div>
+
+      <div id="sheet-sync-status-bar" class="p-3.5 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-between text-xs text-slate-600">
+        <div class="flex items-center gap-2.5">
+          <span id="sheet-status-dot" class="w-3 h-3 rounded-full bg-slate-400"></span>
+          <span id="sheet-status-text" class="font-bold">Google スプレッドシート連携: 接続中（自動送信ON）</span>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-[11px] font-bold text-slate-400">総受験回数</div>
+          <div id="stat-total-quizzes" class="text-2xl font-black text-slate-900 mt-1">0 <span class="text-xs font-normal text-slate-400">回</span></div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-[11px] font-bold text-slate-400">解答された総問題数</div>
+          <div id="stat-total-questions" class="text-2xl font-black text-indigo-600 mt-1">0 <span class="text-xs font-normal text-slate-400">問</span></div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-[11px] font-bold text-slate-400">学級全体の平均正答率</div>
+          <div id="stat-avg-accuracy" class="text-2xl font-black text-emerald-600 mt-1">0<span class="text-xs font-normal text-slate-400">%</span></div>
+        </div>
+        <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+          <div class="text-[11px] font-bold text-slate-400">要指導・苦手単語</div>
+          <div id="stat-weak-words-count" class="text-2xl font-black text-rose-600 mt-1">0 <span class="text-xs font-normal text-slate-400">語</span></div>
+        </div>
+      </div>
+
+      <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div class="flex items-center gap-2">
+            <i class="ph-bold ph-identification-card text-indigo-600 text-lg"></i>
+            <h3 class="font-extrabold text-sm text-slate-900">生徒個別カルテ分析</h3>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-xs font-bold text-slate-500">生徒を選択:</label>
+            <select id="student-filter-select" onchange="renderStudentReport()" class="p-2 border border-slate-200 rounded-xl text-xs font-bold bg-white text-slate-800">
+              <option value="ALL">全生徒の合計・全体</option>
+            </select>
+          </div>
+        </div>
+        <div id="student-report-card" class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs space-y-2"></div>
+      </div>
+    </div>
+
+    <!-- 5. 辞書画面 -->
+    <div id="screen-dictionary" class="hidden space-y-6">
+      <div class="bg-gradient-to-r from-sky-600 to-indigo-600 rounded-2xl p-6 text-white shadow-lg space-y-2">
+        <h2 class="text-2xl sm:text-3xl font-black">英和スマート辞書</h2>
+        <p class="text-sky-100 text-xs sm:text-sm">教科書全718語の検索や発音確認が可能です。</p>
+      </div>
+      <div class="bg-white p-4 sm:p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+        <form onsubmit="handleDictionarySearch(event)" class="relative flex items-center gap-2">
+          <div class="relative flex-1">
+            <input type="text" id="dict-search-input" placeholder="調べたい英単語を入力..." class="w-full pl-11 pr-10 py-3 rounded-xl border-2 border-slate-200 focus:border-indigo-500 focus:outline-none text-sm font-semibold transition">
+            <i class="ph-bold ph-magnifying-glass text-slate-400 absolute left-3.5 top-3.5 text-lg"></i>
+          </div>
+          <button type="submit" class="px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md transition shrink-0">検索</button>
+        </form>
+      </div>
+      <div id="dict-result-container" class="space-y-4">
+        <div id="dict-card" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6"></div>
+      </div>
+    </div>
+
+    <!-- 6. 単語管理画面 -->
+    <div id="screen-manage" class="hidden space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <i class="ph-bold ph-database text-indigo-600"></i> 単語データの確認
+          </h2>
+          <p class="text-xs text-slate-500">収録されている全718語の確認が可能です</p>
+        </div>
+        <button onclick="resetDefaultWords()" class="px-3 py-2 text-indigo-600 hover:bg-indigo-50 rounded-lg text-xs font-bold transition flex items-center gap-1">
+          <i class="ph-bold ph-arrow-counter-clockwise"></i> 初期全718語に完全同期
+        </button>
+      </div>
+
+      <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
+        <div class="relative w-full sm:w-80">
+          <input type="text" id="manage-search-input" oninput="renderManageTable()" placeholder="英単語や日本語で検索..." class="w-full pl-9 pr-3 py-2 rounded-lg border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
+          <i class="ph-bold ph-magnifying-glass text-slate-400 absolute left-3 top-2.5 text-sm"></i>
+        </div>
+        <select id="manage-rank-filter" onchange="renderManageTable()" class="px-3 py-2 rounded-lg border border-slate-200 text-xs text-slate-700 bg-white">
+          <option value="ALL">全ランク表示</option>
+          <option value="S">Sランク</option>
+          <option value="A">Aランク</option>
+          <option value="B">Bランク</option>
+          <option value="C">Cランク</option>
+          <option value="D">Dランク</option>
+        </select>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-600">
+            <thead class="bg-slate-50 text-slate-400 uppercase font-semibold text-[10px]">
+              <tr>
+                <th class="p-3">ランク</th>
+                <th class="p-3">Unit</th>
+                <th class="p-3">英単語</th>
+                <th class="p-3">日本語の意味</th>
+                <th class="p-3">例文</th>
+                <th class="p-3 text-center">発音</th>
+              </tr>
+            </thead>
+            <tbody id="manage-table-body" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl text-xs font-medium flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <i class="ph-bold ph-check text-emerald-400 text-base"></i>
+    <span id="toast-message">保存しました</span>
+  </div>
+
+  <script>
+    // ★中1用のGASウェブアプリURLを発行したら、以下の "" の中に貼り付けてください★
+    const DEFAULT_TEACHER_GAS_URL = "";
+
+    // ==========================================
+    // ★ここに「HTML貼り付け用」シートのA列（DEFAULT_WORDS と ALL_UNITS）を貼り付けてください★
+        const DEFAULT_WORDS = [
+      { id: 1, rank: "S", unit: "sounds and letters0", word: "apple", meaning: "リンゴ", sentence: "This is an ( ).", translation: "これはリンゴです。", answer: "apple" },
+      { id: 2, rank: "A", unit: "sounds and letters0", word: "bat", meaning: "バット", sentence: "I have a baseball ( ).", translation: "私は野球のバットを持っています。", answer: "bat" },
+      { id: 3, rank: "A", unit: "sounds and letters0", word: "hat", meaning: "帽子", sentence: "I have a brown ( ).", translation: "私は茶色の帽子を持っています。", answer: "hat" },
+      { id: 4, rank: "S", unit: "sounds and letters0", word: "cat", meaning: "ネコ", sentence: "I have a cute ( ).", translation: "私はかわいいネコを飼っています。", answer: "cat" },
+      { id: 5, rank: "S", unit: "sounds and letters0", word: "dog", meaning: "イヌ", sentence: "This ( ) is very cute.", translation: "このイヌはとてもかわいいです。", answer: "dog" },
+      { id: 6, rank: "S", unit: "sounds and letters0", word: "egg", meaning: "卵", sentence: "I eat an ( ) every day.", translation: "私は毎日卵を食べます。", answer: "egg" },
+      { id: 7, rank: "S", unit: "sounds and letters0", word: "flower", meaning: "花", sentence: "This is a beautiful ( ).", translation: "これは美しい花です。", answer: "flower" },
+      { id: 8, rank: "A", unit: "sounds and letters0", word: "gorilla", meaning: "ゴリラ", sentence: "Look at that big ( ).", translation: "あの大きなゴリラを見てください。", answer: "gorilla" },
+      { id: 9, rank: "A", unit: "sounds and letters0", word: "horse", meaning: "ウマ", sentence: "Can you ride a ( )?", translation: "あなたはウマに乗ることができますか。", answer: "horse" },
+      { id: 10, rank: "A", unit: "sounds and letters0", word: "ink", meaning: "インク", sentence: "I need black ( ).", translation: "私は黒いインクが必要です。", answer: "ink" },
+      { id: 11, rank: "S", unit: "sounds and letters0", word: "jump", meaning: "とぶ", sentence: "Cats can ( ) high.", translation: "ネコは高く跳ぶことができます。", answer: "jump" },
+      { id: 12, rank: "A", unit: "sounds and letters0", word: "koala", meaning: "コアラ", sentence: "A ( ) is in the tree.", translation: "コアラが木の中にいます。", answer: "koala" },
+      { id: 13, rank: "B", unit: "sounds and letters0", word: "log", meaning: "丸太", sentence: "We sit on a ( ).", translation: "私たちは丸太の上に座ります。", answer: "log" },
+      { id: 14, rank: "A", unit: "sounds and letters0", word: "monkey", meaning: "サル", sentence: "That ( ) is eating an apple.", translation: "あのサルはリンゴを食べています。", answer: "monkey" },
+      { id: 15, rank: "A", unit: "sounds and letters0", word: "net", meaning: "網", sentence: "We need a tennis ( ).", translation: "私たちはテニスの網が必要です。", answer: "net" },
+      { id: 16, rank: "A", unit: "sounds and letters0", word: "octopus", meaning: "タコ", sentence: "An ( ) has eight legs.", translation: "タコには8本の足があります。", answer: "octopus" },
+      { id: 17, rank: "A", unit: "sounds and letters0", word: "pan", meaning: "平なべ", sentence: "My mother uses a ( ).", translation: "私の母は平なべを使います。", answer: "pan" },
+      { id: 18, rank: "A", unit: "sounds and letters0", word: "queen", meaning: "女王、王妃", sentence: "She is a kind ( ).", translation: "彼女は親切な女王です。", answer: "queen" },
+      { id: 19, rank: "A", unit: "sounds and letters0", word: "rabbit", meaning: "ウサギ", sentence: "I have a white ( ).", translation: "私は白いウサギを飼っています。", answer: "rabbit" },
+      { id: 20, rank: "A", unit: "sounds and letters0", word: "snake", meaning: "ヘビ", sentence: "I saw a big ( ).", translation: "私は大きなヘビを見ました。", answer: "snake" },
+      { id: 21, rank: "S", unit: "sounds and letters0", word: "tree", meaning: "木、樹木", sentence: "This is a tall ( ).", translation: "これは高い木です。", answer: "tree" },
+      { id: 22, rank: "A", unit: "sounds and letters0", word: "umbrella", meaning: "傘", sentence: "Take your ( ).", translation: "傘を持って行きなさい。", answer: "umbrella" },
+      { id: 23, rank: "D", unit: "sounds and letters0", word: "V sign", meaning: "Vサイン", sentence: "Make a ( ).", translation: "Vサインをしなさい。", answer: "V sign" },
+      { id: 24, rank: "A", unit: "sounds and letters0", word: "wolf", meaning: "オオカミ", sentence: "A ( ) is in the forest.", translation: "オオカミが森の中にいます。", answer: "wolf" },
+      { id: 25, rank: "A", unit: "sounds and letters0", word: "fox", meaning: "キツネ", sentence: "I saw a wild ( ).", translation: "私は野生のキツネを見ました。", answer: "fox" },
+      { id: 26, rank: "D", unit: "sounds and letters0", word: "yo-yo", meaning: "(おもちゃの)ヨーヨー", sentence: "I can play with a ( ).", translation: "私はヨーヨーで遊ぶことができます。", answer: "yo-yo" },
+      { id: 27, rank: "A", unit: "sounds and letters0", word: "zipper", meaning: "ジッパー、ファスナー", sentence: "Close the ( ), please.", translation: "ジッパーを閉めてください。", answer: "zipper" },
+      { id: 28, rank: "S", unit: "sounds and letters0", word: "city", meaning: "市、都市、都会", sentence: "Tokyo is a big ( ).", translation: "東京は大きな都市です。", answer: "city" },
+      { id: 29, rank: "A", unit: "sounds and letters0", word: "gym", meaning: "体育館", sentence: "We play basketball in the ( ).", translation: "私たちは体育館でバスケットボールをします。", answer: "gym" },
+      { id: 30, rank: "S", unit: "unit1", word: "I'm", meaning: "私は･･･です", sentence: "( ) Ken.", translation: "私はケンです。", answer: "I'm" },
+      { id: 31, rank: "S", unit: "unit1", word: "call", meaning: "～を（～と）呼ぶ、名づける", sentence: "You can ( ) me Ken.", translation: "私をケンと呼んでいいですよ。", answer: "call" },
+      { id: 32, rank: "D", unit: "unit1", word: "South Africa", meaning: "南アフリカ共和国", sentence: "He is from ( ).", translation: "彼は南アフリカ共和国の出身です。", answer: "South Africa" },
+      { id: 33, rank: "S", unit: "unit1", word: "love", meaning: "･･･が大好きである、･･･を愛している", sentence: "I ( ) my family.", translation: "私は家族を愛しています。", answer: "love" },
+      { id: 34, rank: "S", unit: "unit1", word: "everyone", meaning: "みなさん、みんな、だれでも", sentence: "Good morning, ( ).", translation: "みなさん、おはようございます。", answer: "everyone" },
+      { id: 35, rank: "S", unit: "unit1", word: "me", meaning: "私を[に]", sentence: "Please help ( ).", translation: "私を助けてください。", answer: "me" },
+      { id: 36, rank: "S", unit: "unit1", word: "from", meaning: "～から、出身の、～に由来する", sentence: "I am ( ) Japan.", translation: "私は日本の出身です。", answer: "from" },
+      { id: 37, rank: "A", unit: "unit1", word: "sweet(s)", meaning: "甘い菓子、キャンディー", sentence: "I like ( ).", translation: "私は甘いお菓子が好きです。", answer: "sweets" },
+      { id: 38, rank: "S", unit: "unit1", word: "Japanese", meaning: "日本の、日本人の、日本語の", sentence: "I speak ( ).", translation: "私は日本語を話します。", answer: "Japanese" },
+      { id: 39, rank: "A", unit: "unit1", word: "sushi", meaning: "すし", sentence: "I like ( ) very much.", translation: "私はすしがとても好きです。", answer: "sushi" },
+      { id: 40, rank: "A", unit: "unit1", word: "pizza", meaning: "ピザ", sentence: "Do you like ( )?", translation: "あなたはピザが好きですか。", answer: "pizza" },
+      { id: 41, rank: "S", unit: "unit1", word: "and", meaning: "･･･と～", sentence: "I like apples ( ) oranges.", translation: "私はリンゴとオレンジが好きです。", answer: "and" },
+      { id: 42, rank: "S", unit: "unit1", word: "too", meaning: "･･･もまた、そのうえ", sentence: "Nice to meet you, ( ).", translation: "あなたにもお会いできてうれしいです。", answer: "too" },
+      { id: 43, rank: "A", unit: "unit1", word: "join", meaning: "･･･に加わる、参加する", sentence: "I want to ( ) the soccer club.", translation: "私はサッカー部に参加したいです。", answer: "join" },
+      { id: 44, rank: "S", unit: "unit1", word: "the", meaning: "その", sentence: "Open ( ) door, please.", translation: "そのドアを開けてください。", answer: "the" },
+      { id: 45, rank: "S", unit: "unit1", word: "club", meaning: "クラブ、部", sentence: "I belong to the art ( ).", translation: "私は美術部に所属しています。", answer: "club" },
+      { id: 46, rank: "S", unit: "unit1", word: "want to", meaning: "･･･したい", sentence: "I ( ) study English.", translation: "私は英語を勉強したいです。", answer: "want to" },
+      { id: 47, rank: "A", unit: "unit1", word: "Call me 〜.", meaning: "私を〜と呼んで下さい", sentence: "( ) Ken.", translation: "私をケンと呼んでください。", answer: "Call me" },
+      { id: 48, rank: "S", unit: "unit1", word: "want to 〜", meaning: "〜したい", sentence: "I ( ) play tennis.", translation: "私はテニスがしたいです。", answer: "want to" },
+      { id: 49, rank: "S", unit: "unit1", word: "number(s)", meaning: "数、数字", sentence: "Seven is my lucky ( ).", translation: "7は私の幸運の数字です。", answer: "number" },
+      { id: 50, rank: "A", unit: "unit1", word: "fan", meaning: "ファン", sentence: "I am a big ( ) of baseball.", translation: "私は野球の大ファンです。", answer: "fan" },
+      { id: 51, rank: "S", unit: "unit1", word: "often", meaning: "しばしば、よく", sentence: "I ( ) play soccer.", translation: "私はしばしばサッカーをします。", answer: "often" },
+      { id: 52, rank: "S", unit: "unit1", word: "with", meaning: "･･･といっしょに", sentence: "I go to school ( ) Tom.", translation: "私はトムといっしょに学校へ行きます。", answer: "with" },
+      { id: 53, rank: "S", unit: "unit1", word: "but", meaning: "しかし、けれども", sentence: "I like dogs, ( ) I don't have one.", translation: "私はイヌが好きですが、飼っていません。", answer: "but" },
+      { id: 54, rank: "A", unit: "unit1", word: "rugby", meaning: "ラグビー", sentence: "We play ( ) on Sunday.", translation: "私たちは日曜日にラグビーをします。", answer: "rugby" },
+      { id: 55, rank: "S", unit: "unit1", word: "watch", meaning: "･･･を(注意して)見る", sentence: "I ( ) TV after dinner.", translation: "私は夕食後にテレビを見ます。", answer: "watch" },
+      { id: 56, rank: "S", unit: "unit1", word: "friend(s)", meaning: "友達", sentence: "Ken is my good ( ).", translation: "ケンは私の良い友達です。", answer: "friend" },
+      { id: 57, rank: "S", unit: "unit1", word: "great", meaning: "すばらしい、とても楽しい", sentence: "You are a ( ) teacher.", translation: "あなたはすばらしい先生です。", answer: "great" },
+      { id: 58, rank: "S", unit: "unit1", word: "no", meaning: "いいえ、いや、だめだ", sentence: "( ), I cannot play tennis.", translation: "いいえ、私はテニスができません。", answer: "No" },
+      { id: 59, rank: "S", unit: "unit1", word: "not", meaning: "･･･でない、･･･しない、･･･ではなく", sentence: "I am ( ) a teacher.", translation: "私は先生ではありません。", answer: "not" },
+      { id: 60, rank: "S", unit: "unit1", word: "oh", meaning: "まあ、あら、ああ、おや", sentence: "( ), I see.", translation: "ああ、分かりました。", answer: "Oh" },
+      { id: 61, rank: "S", unit: "unit1", word: "an", meaning: "1つの、1人の", sentence: "This is ( ) apple.", translation: "これは1つのリンゴです。", answer: "an" },
+      { id: 62, rank: "A", unit: "unit1", word: "draw", meaning: "(線画)をかく", sentence: "I can ( ) pictures.", translation: "私は絵を描くことができます。", answer: "draw" },
+      { id: 63, rank: "D", unit: "unit1", word: "anime", meaning: "(日本の)アニメ", sentence: "I like Japanese ( ).", translation: "私は日本のアニメが好きです。", answer: "anime" },
+      { id: 64, rank: "S", unit: "unit1", word: "so", meaning: "だから、それで、では", sentence: "I am tired, ( ) I will sleep.", translation: "私は疲れています、だから寝ます。", answer: "so" },
+      { id: 65, rank: "A", unit: "unit1", word: "lesson(s)", meaning: "授業、レッスン", sentence: "I have an English ( ) today.", translation: "私は今日、英語の授業があります。", answer: "lesson" },
+      { id: 66, rank: "A", unit: "unit1", word: "comic(s)", meaning: "マンガ", sentence: "I read ( ) books every day.", translation: "私は毎日マンガの本を読みます。", answer: "comic" },
+      { id: 67, rank: "S", unit: "unit1", word: "about", meaning: "･･･について、･･･に関する", sentence: "This book is ( ) animals.", translation: "この本は動物についての本です。", answer: "about" },
+      { id: 68, rank: "S", unit: "unit1", word: "wow", meaning: "うわあ、わあ", sentence: "( ), that is great!", translation: "うわあ、それはすばらしい！", answer: "Wow" },
+      { id: 69, rank: "S", unit: "unit1", word: "are", meaning: "･･･です、･･･だ", sentence: "You ( ) a student.", translation: "あなたは生徒です。", answer: "are" },
+      { id: 70, rank: "S", unit: "unit1", word: "in", meaning: "･･･に所属して、参加して", sentence: "I live ( ) Tokyo.", translation: "私は東京に住んでいます。", answer: "in" },
+      { id: 71, rank: "A", unit: "unit1", word: "art", meaning: "芸術、美術", sentence: "I like the ( ) club.", translation: "私は美術部が好きです。", answer: "art" },
+      { id: 72, rank: "S", unit: "unit1", word: "how", meaning: "どんなようすで", sentence: "( ) are you today?", translation: "今日の調子はどうですか。", answer: "How" },
+      { id: 73, rank: "S", unit: "unit1", word: "school", meaning: "学校", sentence: "I walk to ( ) every morning.", translation: "私は毎朝歩いて学校へ行きます。", answer: "school" },
+      { id: 74, rank: "S", unit: "unit1", word: "now", meaning: "今、現在は、今では、今すぐ", sentence: "I am studying English ( ).", translation: "私は今英語を勉強しています。", answer: "now" },
+      { id: 75, rank: "S", unit: "unit1", word: "take", meaning: "･･･を利用する、･･･を受ける", sentence: "I ( ) a bus to school.", translation: "私は学校へ行くのにバスを利用します。", answer: "take" },
+      { id: 76, rank: "A", unit: "unit1", word: "swimming", meaning: "水泳", sentence: "I like ( ) very much.", translation: "私は水泳がとても好きです。", answer: "swimming" },
+      { id: 77, rank: "S", unit: "unit1", word: "How about you ?", meaning: "あなたはどうですか？", sentence: "I like soccer. ( )", translation: "私はサッカーが好きです。あなたはどうですか？", answer: "How about you?" },
+      { id: 78, rank: "S", unit: "sounds and letters1", word: "fish", meaning: "魚", sentence: "Can you eat raw ( )?", translation: "あなたは生の魚を食べられますか。", answer: "fish" },
+      { id: 79, rank: "S", unit: "sounds and letters1", word: "lunch", meaning: "昼食", sentence: "Let's eat ( ) together.", translation: "いっしょに昼食を食べましょう。", answer: "lunch" },
+      { id: 80, rank: "A", unit: "sounds and letters1", word: "math", meaning: "数学", sentence: "I study ( ) on Monday.", translation: "私は月曜日に数学を勉強します。", answer: "math" },
+      { id: 81, rank: "A", unit: "sounds and letters1", word: "king", meaning: "王、国王", sentence: "He is a great ( ).", translation: "彼は偉大な王です。", answer: "king" },
+      { id: 82, rank: "S", unit: "sounds and letters1", word: "English", meaning: "英語", sentence: "We study ( ) at school.", translation: "私たちは学校で英語を勉強します。", answer: "English" },
+      { id: 83, rank: "A", unit: "sounds and letters1", word: "strong", meaning: "強い、じょうぶな", sentence: "He is very ( ).", translation: "彼はとても強いです。", answer: "strong" },
+      { id: 84, rank: "A", unit: "sounds and letters1", word: "bath", meaning: "入浴", sentence: "I take a ( ) every evening.", translation: "私は毎晩お風呂に入ります。", answer: "bath" },
+      { id: 85, rank: "A", unit: "sounds and letters1", word: "clock", meaning: "(かけ)時計、(置き)時計", sentence: "Look at the ( ) on the wall.", translation: "壁のかけ時計を見てください。", answer: "clock" },
+      { id: 86, rank: "A", unit: "sounds and letters1", word: "lake", meaning: "湖、湖水", sentence: "We swim in the ( ).", translation: "私たちは湖で泳ぎます。", answer: "lake" },
+      { id: 87, rank: "S", unit: "sounds and letters1", word: "bike", meaning: "自転車", sentence: "I ride my ( ) to school.", translation: "私は自転車に乗って学校へ行きます。", answer: "bike" },
+      { id: 88, rank: "S", unit: "sounds and letters1", word: "game", meaning: "遊び、ゲーム", sentence: "Let's play a video ( ).", translation: "ビデオゲームをしましょう。", answer: "game" },
+      { id: 89, rank: "B", unit: "sounds and letters1", word: "shrine", meaning: "神社", sentence: "We visited a famous ( ).", translation: "私たちは有名な神社を訪れました。", answer: "shrine" },
+      { id: 90, rank: "A", unit: "sounds and letters1", word: "nose", meaning: "鼻", sentence: "Touch your ( ).", translation: "あなたの鼻を触りなさい。", answer: "nose" },
+      { id: 91, rank: "A", unit: "unit2", word: "cool", meaning: "かっこいい", sentence: "He is very ( ).", translation: "彼はとてもかっこいいです。", answer: "cool" },
+      { id: 92, rank: "S", unit: "unit2", word: "English", meaning: "英語の", sentence: "Ms. Green is our ( ) teacher.", translation: "グリーン先生は私たちの英語の先生です。", answer: "English" },
+      { id: 93, rank: "S", unit: "unit2", word: "good", meaning: "じょうずな、うまい", sentence: "She is a ( ) tennis player.", translation: "彼女はテニスが上手な選手です。", answer: "good" },
+      { id: 94, rank: "A", unit: "unit2", word: "singing", meaning: "歌うこと", sentence: "I like ( ) very much.", translation: "私は歌うことがとても好きです。", answer: "singing" },
+      { id: 95, rank: "S", unit: "unit2", word: "he's", meaning: "he isの短縮形", sentence: "( ) my friend.", translation: "彼は私の友達です。", answer: "He's" },
+      { id: 96, rank: "S", unit: "unit2", word: "she's", meaning: "she isの短縮形", sentence: "( ) our English teacher.", translation: "彼女は私たちの英語の先生です。", answer: "She's" },
+      { id: 97, rank: "A", unit: "unit2", word: "be good at  〜ing", meaning: "〜することが得意だ", sentence: "I ( ) playing tennis.", translation: "私はテニスをすることが得意です。", answer: "am good at" },
+      { id: 98, rank: "A", unit: "unit2", word: "Chinese", meaning: "中国の", sentence: "I like ( ) food.", translation: "私は中国の料理が好きです。", answer: "Chinese" },
+      { id: 99, rank: "S", unit: "unit2", word: "cannot", meaning: "･･･できない", sentence: "I ( ) swim.", translation: "私は泳ぐことができません。", answer: "cannot" },
+      { id: 100, rank: "S", unit: "unit2", word: "some", meaning: "いくつかの、いくらかの、少しの", sentence: "I want ( ) water.", translation: "私はいくらかの水がほしいです。", answer: "some" },
+      { id: 101, rank: "A", unit: "unit2", word: "parent(s)", meaning: "親、親たち、両親", sentence: "I love my ( ).", translation: "私は両親を愛しています。", answer: "parents" },
+      { id: 102, rank: "D", unit: "unit2", word: "China", meaning: "中国", sentence: "Beijing is in ( ).", translation: "北京は中国にあります。", answer: "China" },
+      { id: 103, rank: "S", unit: "unit2", word: "food", meaning: "食べ物", sentence: "Japanese ( ) is delicious.", translation: "日本の食べ物はおいしいです。", answer: "food" },
+      { id: 104, rank: "S", unit: "unit2", word: "father", meaning: "父、お父さん", sentence: "My ( ) is a doctor.", translation: "私の父は医者です。", answer: "father" },
+      { id: 105, rank: "S", unit: "unit2", word: "can", meaning: "･･･することができる", sentence: "I ( ) speak English.", translation: "私は英語を話すことができます。", answer: "can" },
+      { id: 106, rank: "S", unit: "unit2", word: "make", meaning: "･･･を作る、得る", sentence: "I can ( ) a cake.", translation: "私はケーキを作ることができます。", answer: "make" },
+      { id: 107, rank: "S", unit: "unit2", word: "very", meaning: "非常に、とても", sentence: "She is ( ) kind.", translation: "彼女はとても親切です。", answer: "very" },
+      { id: 108, rank: "S", unit: "unit2", word: "well", meaning: "じょうずに、うまく、よく", sentence: "He plays soccer very ( ).", translation: "彼はとても上手にサッカーをします。", answer: "well" },
+      { id: 109, rank: "S", unit: "unit2", word: "that", meaning: "そのこと、それ", sentence: "What is ( )?", translation: "あれは何ですか。", answer: "that" },
+      { id: 110, rank: "S", unit: "unit2", word: "that's", meaning: "that isの短縮形", sentence: "( ) right.", translation: "その通りです。", answer: "That's" },
+      { id: 111, rank: "S", unit: "unit2", word: "can't", meaning: "cannotの短縮形", sentence: "I ( ) swim well.", translation: "私は上手に泳ぐことができません。", answer: "can't" },
+      { id: 112, rank: "S", unit: "unit2", word: "read", meaning: "(･･･を)読む、読んで知る", sentence: "I ( ) books in the library.", translation: "私は図書館で本を読みます。", answer: "read" },
+      { id: 113, rank: "S", unit: "unit2", word: "really", meaning: "本当ですか、へえ、そうなんだ", sentence: "Do you ( ) like it?", translation: "あなたは本当にそれが好きですか。", answer: "really" },
+      { id: 114, rank: "S", unit: "unit2", word: "see", meaning: "(･･･が)わかる、理解する", sentence: "I ( ) your point.", translation: "あなたの言うことがわかります。", answer: "see" },
+      { id: 115, rank: "S", unit: "unit2", word: "I see.", meaning: "なるほど。わかった。", sentence: "\"I am a doctor.\" \"( ).\"", translation: "「私は医者です。」「なるほど。」", answer: "I see" },
+      { id: 116, rank: "S", unit: "unit2", word: "I see .", meaning: "分かりました。なるほど。", sentence: "\"He is a doctor.\" \"( ).\"", translation: "「彼は医者です。」「分かりました。」", answer: "I see" },
+      { id: 117, rank: "A", unit: "unit2", word: "excuse", meaning: "･･･を許す", sentence: "Please ( ) me.", translation: "私を許してください。", answer: "excuse" },
+      { id: 118, rank: "D", unit: "unit2", word: "oops", meaning: "おっと、うわっ、しまった", sentence: "( ), I dropped my pen.", translation: "おっと、ペンを落としてしまった。", answer: "Oops" },
+      { id: 119, rank: "S", unit: "unit2", word: "here", meaning: "さあ、ほら", sentence: "( ) is your book.", translation: "ほら、あなたの本です。", answer: "Here" },
+      { id: 120, rank: "A", unit: "unit2", word: "welcome", meaning: "歓迎される", sentence: "You are ( ) to our school.", translation: "私たちの学校へ歓迎します。", answer: "welcome" },
+      { id: 121, rank: "D", unit: "unit2", word: "totem pole", meaning: "トーテムポール", sentence: "Look at that tall ( ).", translation: "あの高いトーテムポールを見てください。", answer: "totem pole" },
+      { id: 122, rank: "D", unit: "unit2", word: "thunderbird", meaning: "サンダーバード", sentence: "The ( ) is a special bird.", translation: "サンダーバードは特別な鳥です。", answer: "thunderbird" },
+      { id: 123, rank: "S", unit: "unit2", word: "your", meaning: "あなた(たち)の", sentence: "This is ( ) pen.", translation: "これはあなたのペンです。", answer: "your" },
+      { id: 124, rank: "S", unit: "unit2", word: "thank", meaning: "･･･に感謝する", sentence: "I ( ) you for your help.", translation: "助けてくれてあなたに感謝します。", answer: "thank" },
+      { id: 125, rank: "S", unit: "unit2", word: "it", meaning: "それは[が]", sentence: "( ) is a sunny day.", translation: "今日は晴れの日です。", answer: "It" },
+      { id: 126, rank: "S", unit: "unit2", word: "it's", meaning: "it isの短縮形", sentence: "( ) sunny today.", translation: "今日は晴れです。", answer: "It's" },
+      { id: 127, rank: "S", unit: "unit2", word: "bird", meaning: "鳥", sentence: "Look at that blue ( ).", translation: "あの青い鳥を見てください。", answer: "bird" },
+      { id: 128, rank: "S", unit: "unit2", word: "that", meaning: "あれ、それ、あの", sentence: "( ) is my school.", translation: "あれは私の学校です。", answer: "That" },
+      { id: 129, rank: "S", unit: "unit2", word: "you're", meaning: "you areの短縮形", sentence: "( ) my best friend.", translation: "あなたは私の親友です。", answer: "You're" },
+      { id: 130, rank: "S", unit: "unit2", word: "are", meaning: "(･･･に)いる、ある", sentence: "You ( ) in the classroom.", translation: "あなたは教室にいます。", answer: "are" },
+      { id: 131, rank: "S", unit: "unit2", word: "Excuse me.", meaning: "すみません。失礼ですが。", sentence: "( ), where is the station?", translation: "すみません、駅はどこですか。", answer: "Excuse me" },
+      { id: 132, rank: "S", unit: "unit2", word: "Here you are.", meaning: "はい、どうぞ。", sentence: "\"Can I use your pen?\" \"( ).\"", translation: "「あなたのペンを使ってもいいですか。」「はい、どうぞ。」", answer: "Here you are" },
+      { id: 133, rank: "S", unit: "unit2", word: "Thank you.", meaning: "ありがとう。", sentence: "( ) for your help.", translation: "手伝ってくれてありがとう。", answer: "Thank you" },
+      { id: 134, rank: "S", unit: "unit2", word: "You're welcome.", meaning: "どういたしまして。", sentence: "\"Thank you.\" \"( ).\"", translation: "「ありがとう。」「どういたしまして。」", answer: "You're welcome" },
+      { id: 135, rank: "S", unit: "sounds and letters2", word: "train", meaning: "電車，列車", sentence: "I go to Tokyo by ( ).", translation: "私は電車で東京へ行きます。", answer: "train" },
+      { id: 136, rank: "A", unit: "sounds and letters2", word: "rain", meaning: "雨", sentence: "We have much ( ) in June.", translation: "6月にはたくさんの雨が降ります。", answer: "rain" },
+      { id: 137, rank: "B", unit: "sounds and letters2", word: "glue", meaning: "接着剤，のり", sentence: "Can I use your ( )?", translation: "あなたののりを使ってもいいですか。", answer: "glue" },
+      { id: 138, rank: "A", unit: "sounds and letters2", word: "fruit", meaning: "果物", sentence: "I like sweet ( ).", translation: "私は甘い果物が好きです。", answer: "fruit" },
+      { id: 139, rank: "A", unit: "sounds and letters2", word: "sea", meaning: "海", sentence: "We can see the blue ( ).", translation: "私たちは青い海を見ることができます。", answer: "sea" },
+      { id: 140, rank: "A", unit: "sounds and letters2", word: "season", meaning: "季節", sentence: "What is your favorite ( )?", translation: "あなたの一番好きな季節は何ですか。", answer: "season" },
+      { id: 141, rank: "S", unit: "sounds and letters2", word: "day", meaning: "日、1日", sentence: "Have a nice ( )!", translation: "良い1日を！", answer: "day" },
+      { id: 142, rank: "S", unit: "sounds and letters2", word: "speak", meaning: "（言葉）を話す", sentence: "Can you ( ) English?", translation: "あなたは英語を話すことができますか。", answer: "speak" },
+      { id: 143, rank: "A", unit: "sounds and letters2", word: "rainy", meaning: "雨の、雨の多い", sentence: "It is a ( ) day today.", translation: "今日は雨の日です。", answer: "rainy" },
+      { id: 144, rank: "S", unit: "sounds and letters2", word: "room", meaning: "部屋", sentence: "Clean your ( ), please.", translation: "あなたの部屋を掃除してください。", answer: "room" },
+      { id: 145, rank: "A", unit: "sounds and letters2", word: "classroom", meaning: "教室", sentence: "Our ( ) is on the second floor.", translation: "私たちの教室は2階にあります。", answer: "classroom" },
+      { id: 146, rank: "S", unit: "sounds and letters2", word: "cook", meaning: "料理する", sentence: "Can you ( ) dinner?", translation: "あなたは夕食を料理することができますか。", answer: "cook" },
+      { id: 147, rank: "A", unit: "sounds and letters2", word: "textbook", meaning: "教科書", sentence: "Open your ( ) to page ten.", translation: "教科書の10ページを開きなさい。", answer: "textbook" },
+      { id: 148, rank: "S", unit: "sounds and letters2", word: "today", meaning: "今日は", sentence: "It is sunny ( ).", translation: "今日は晴れています。", answer: "today" },
+      { id: 149, rank: "S", unit: "sounds and letters2", word: "usually", meaning: "たいてい、ふつう", sentence: "I ( ) get up at six.", translation: "私はたいてい6時に起きます。", answer: "usually" },
+      { id: 150, rank: "S", unit: "sounds and letters2", word: "drink", meaning: "～を飲む", sentence: "I ( ) water every morning.", translation: "私は毎朝水を飲みます。", answer: "drink" },
+      { id: 151, rank: "A", unit: "sounds and letters2", word: "green tea", meaning: "緑茶", sentence: "I like to drink ( ).", translation: "私は緑茶を飲むのが好きです。", answer: "green tea" },
+      { id: 152, rank: "B", unit: "unit3", word: "symbol", meaning: "シンボル、象徴、記号", sentence: "The dove is a ( ) of peace.", translation: "ハトは平和のシンボルです。", answer: "symbol" },
+      { id: 153, rank: "S", unit: "unit3", word: "for", meaning: "･･･のかわりに、･･･に相当する", sentence: "This present is ( ) you.", translation: "このプレゼントはあなたへのものです。", answer: "for" },
+      { id: 154, rank: "A", unit: "unit3", word: "interesting", meaning: "おもしろい、興味深い", sentence: "This book is very ( ).", translation: "この本はとてもおもしろいです。", answer: "interesting" },
+      { id: 155, rank: "A", unit: "unit3", word: "favorite", meaning: "いちばん好きな、お気に入りの", sentence: "Blue is my ( ) color.", translation: "青は私の一番好きな色です。", answer: "favorite" },
+      { id: 156, rank: "B", unit: "unit3", word: "character", meaning: "登場人物、キャラクター", sentence: "Who is your favorite ( )?", translation: "あなたの一番好きな登場人物はだれですか。", answer: "character" },
+      { id: 157, rank: "S", unit: "unit3", word: "also", meaning: "･･･もまた、そのうえ", sentence: "I like soccer, and I ( ) like tennis.", translation: "私はサッカーが好きで、またテニスも好きです。", answer: "also" },
+      { id: 158, rank: "S", unit: "unit3", word: "what", meaning: "何、どんなもの[こと]", sentence: "( ) is your name?", translation: "あなたの名前は何ですか。", answer: "What" },
+      { id: 159, rank: "S", unit: "unit3", word: "family", meaning: "家族", sentence: "I love my ( ).", translation: "私は自分の家族を愛しています。", answer: "family" },
+      { id: 160, rank: "S", unit: "unit3", word: "who", meaning: "だれ、だれが", sentence: "( ) is that boy?", translation: "あの男の子はだれですか。", answer: "Who" },
+      { id: 161, rank: "S", unit: "unit3", word: "what's", meaning: "what isの短縮形", sentence: "( ) this?", translation: "これは何ですか。", answer: "What's" },
+      { id: 162, rank: "S", unit: "unit3", word: "who's", meaning: "who isの短縮形", sentence: "( ) that girl?", translation: "あの女の子はだれですか。", answer: "Who's" },
+      { id: 163, rank: "S", unit: "unit3", word: "why", meaning: "なぜ、どうして", sentence: "( ) are you late?", translation: "なぜ遅れたのですか。", answer: "Why" },
+      { id: 164, rank: "B", unit: "unit3", word: "brave", meaning: "勇かんな、勇ましい", sentence: "He is a ( ) boy.", translation: "彼は勇敢な少年です。", answer: "brave" },
+      { id: 165, rank: "A", unit: "unit3", word: "kind", meaning: "親切な、やさしい", sentence: "She is very ( ) to everyone.", translation: "彼女はみんなにとても親切です。", answer: "kind" },
+      { id: 166, rank: "S", unit: "unit3", word: "the", meaning: "その、この、あの、例の", sentence: "Look at ( ) sky.", translation: "空を見てください。", answer: "the" },
+      { id: 167, rank: "S", unit: "unit3", word: "what's", meaning: "what is", sentence: "( ) your favorite sport?", translation: "あなたの一番好きなスポーツは何ですか。", answer: "What's" },
+      { id: 168, rank: "S", unit: "unit3", word: "who's", meaning: "who is", sentence: "( ) that tall boy?", translation: "あの背の高い男の子はだれですか。", answer: "Who's" },
+      { id: 169, rank: "S", unit: "unit3", word: "after", meaning: "･･･のあとに[で]", sentence: "Let's play soccer ( ) school.", translation: "放課後にサッカーをしましょう。", answer: "after" },
+      { id: 170, rank: "A", unit: "unit3", word: "online", meaning: "オンラインで", sentence: "I play games ( ).", translation: "私はオンラインでゲームをします。", answer: "online" },
+      { id: 171, rank: "S", unit: "unit3", word: "live", meaning: "住む、住んでいる、生きる", sentence: "I ( ) in Kyoto.", translation: "私は京都に住んでいます。", answer: "live" },
+      { id: 172, rank: "S", unit: "unit3", word: "come", meaning: "来る、行く", sentence: "Please ( ) to my house.", translation: "私の家に来てください。", answer: "come" },
+      { id: 173, rank: "S", unit: "unit3", word: "by", meaning: "･･･によって", sentence: "I go to school ( ) bus.", translation: "私はバスで学校へ行きます。", answer: "by" },
+      { id: 174, rank: "S", unit: "unit3", word: "walk", meaning: "(･･･を)歩く", sentence: "I ( ) to the park every day.", translation: "私は毎日公園へ歩きます。", answer: "walk" },
+      { id: 175, rank: "S", unit: "unit3", word: "when", meaning: "いつ、どんなときに", sentence: "( ) is your birthday?", translation: "あなたの誕生日はいつですか。", answer: "When" },
+      { id: 176, rank: "S", unit: "unit3", word: "study", meaning: "(･･･を)勉強する、研究する", sentence: "I ( ) English every day.", translation: "私は毎日英語を勉強します。", answer: "study" },
+      { id: 177, rank: "S", unit: "unit3", word: "after school", meaning: "放課後", sentence: "Let's meet ( ).", translation: "放課後に会いましょう。", answer: "after school" },
+      { id: 178, rank: "S", unit: "unit3", word: "to", meaning: "･･･へ[に]、･･･のほうへ[に]", sentence: "I go ( ) school by bike.", translation: "私は自転車で学校へ行きます。", answer: "to" },
+      { id: 179, rank: "S", unit: "unit3", word: "do", meaning: "(･･･を)する、行う", sentence: "What do you ( ) on Sunday?", translation: "あなたは日曜日に何をしますか。", answer: "do" },
+      { id: 180, rank: "S", unit: "unit3", word: "week", meaning: "週、1週間", sentence: "There are seven days in a ( ).", translation: "1週間には7日あります。", answer: "week" },
+      { id: 181, rank: "S", unit: "unit3", word: "here", meaning: "ここ", sentence: "Come ( ), please.", translation: "ここに来てください。", answer: "here" },
+      { id: 182, rank: "S", unit: "unit3", word: "how", meaning: "どのようにして", sentence: "( ) do you go to school?", translation: "あなたはどうやって学校へ行きますか。", answer: "How" },
+      { id: 183, rank: "S", unit: "unit3", word: "to", meaning: "･･･へ[に]", sentence: "I walk ( ) the library.", translation: "私は図書館へ歩いて行きます。", answer: "to" },
+      { id: 184, rank: "S", unit: "unit3", word: "on", meaning: "【日時】に", sentence: "We have a match ( ) Sunday.", translation: "私たちは日曜日に試合があります。", answer: "on" },
+      { id: 185, rank: "S", unit: "unit3", word: "do", meaning: "(･･･を)する、行う", sentence: "I ( ) my homework every day.", translation: "私は毎日宿題をします。", answer: "do" },
+      { id: 186, rank: "S", unit: "unit3", word: "Japanese", meaning: "日本語、日本人", sentence: "We speak ( ) at home.", translation: "私たちは家で日本語を話します。", answer: "Japanese" },
+      { id: 187, rank: "B", unit: "unit3", word: "hallway", meaning: "ろうか", sentence: "Do not run in the ( ).", translation: "廊下を走ってはいけません。", answer: "hallway" },
+      { id: 188, rank: "A", unit: "unit3", word: "win", meaning: "(･･･に)勝つ", sentence: "We want to ( ) the game.", translation: "私たちはその試合に勝ちたいです。", answer: "win" },
+      { id: 189, rank: "S", unit: "unit3", word: "next", meaning: "次の、今度の、となりの", sentence: "See you ( ) week.", translation: "また来週会いましょう。", answer: "next" },
+      { id: 190, rank: "A", unit: "unit3", word: "luck", meaning: "運、幸運", sentence: "I wish you good ( ).", translation: "あなたの幸運を祈ります。", answer: "luck" },
+      { id: 191, rank: "A", unit: "unit3", word: "near", meaning: "･･･の近くに", sentence: "The park is ( ) my house.", translation: "公園は私の家の近くにあります。", answer: "near" },
+      { id: 192, rank: "S", unit: "unit3", word: "where", meaning: "どこに[で、へ]", sentence: "( ) do you live?", translation: "あなたはどこに住んでいますか。", answer: "Where" },
+      { id: 193, rank: "A", unit: "unit3", word: "practice", meaning: "(･･･を)練習する", sentence: "I ( ) the piano every day.", translation: "私は毎日ピアノを練習します。", answer: "practice" },
+      { id: 194, rank: "A", unit: "unit3", word: "hard", meaning: "熱心に、一生懸命に", sentence: "He studies very ( ).", translation: "彼はとても一生懸命に勉強します。", answer: "hard" },
+      { id: 195, rank: "S", unit: "unit3", word: "go", meaning: "行く", sentence: "Let's ( ) to the park.", translation: "公園に行きましょう。", answer: "go" },
+      { id: 196, rank: "S", unit: "unit3", word: "park", meaning: "公園、遊園地", sentence: "Children play in the ( ).", translation: "子供たちが公園で遊んでいます。", answer: "park" },
+      { id: 197, rank: "S", unit: "unit3", word: "station", meaning: "駅", sentence: "The bus is at the ( ).", translation: "バスは駅にあります。", answer: "station" },
+      { id: 198, rank: "S", unit: "unit3", word: "under", meaning: "･･･の下に[で]", sentence: "The cat is ( ) the table.", translation: "ネコがテーブルの下にいます。", answer: "under" },
+      { id: 199, rank: "S", unit: "unit3", word: "in", meaning: "･･･(の中)に[で、の]", sentence: "The books are ( ) the box.", translation: "本は箱の中にあります。", answer: "in" },
+      { id: 200, rank: "A", unit: "unit3", word: "game", meaning: "試合、競技", sentence: "We played a soccer ( ) yesterday.", translation: "私たちは昨日サッカーの試合をしました。", answer: "game" },
+      { id: 201, rank: "S", unit: "unit3", word: "and", meaning: "･･･しに(来る、行く)", sentence: "Come ( ) see my new pet.", translation: "私の新しいペットを見に来てください。", answer: "and" },
+      { id: 202, rank: "S", unit: "unit3", word: "see", meaning: "･･･が見える、･･･を見る、見物する", sentence: "Can you ( ) that bird?", translation: "あの鳥が見えますか。", answer: "see" },
+      { id: 203, rank: "S", unit: "unit3", word: "at", meaning: "【場所】に、で", sentence: "Let's meet ( ) the station.", translation: "駅で会いましょう。", answer: "at" },
+      { id: 204, rank: "S", unit: "unit3", word: "is", meaning: "(･･･に)いる、ある", sentence: "The dog ( ) under the tree.", translation: "イヌは木の下にいます。", answer: "is" },
+      { id: 205, rank: "S", unit: "unit3", word: "by", meaning: "【場所】･･･のそばに", sentence: "The chair is ( ) the window.", translation: "いすは窓のそばにあります。", answer: "by" },
+      { id: 206, rank: "S", unit: "unit3", word: "on", meaning: "【場所】(の上)に[で]", sentence: "Put the pen ( ) the desk.", translation: "机の上にペンを置きなさい。", answer: "on" },
+      { id: 207, rank: "S", unit: "unit3", word: "Good luck.", meaning: "幸運を祈ります。がんばって。", sentence: "( ) with your English test!", translation: "英語のテストがんばって！", answer: "Good luck" },
+      { id: 208, rank: "A", unit: "unit3", word: "month", meaning: "月、1か月", sentence: "There are twelve ( )s in a year.", translation: "1年には12か月あります。", answer: "month" },
+      { id: 209, rank: "A", unit: "unit3", word: "date", meaning: "日、日付", sentence: "What is the ( ) today?", translation: "今日の日付は何ですか。", answer: "date" },
+      { id: 210, rank: "S", unit: "sounds and letters3", word: "water", meaning: "水", sentence: "Can I have some ( )?", translation: "お水をいただけますか。", answer: "water" },
+      { id: 211, rank: "S", unit: "sounds and letters3", word: "town", meaning: "町", sentence: "This is a quiet ( ).", translation: "これは静かな町です。", answer: "town" },
+      { id: 212, rank: "A", unit: "sounds and letters3", word: "T-shirt", meaning: "Tシャツ", sentence: "I wear a white ( ).", translation: "私は白いTシャツを着ています。", answer: "T-shirt" },
+      { id: 213, rank: "A", unit: "sounds and letters3", word: "star", meaning: "星", sentence: "Look at that bright ( ).", translation: "あの明るい星を見てください。", answer: "star" },
+      { id: 214, rank: "S", unit: "sounds and letters3", word: "mother", meaning: "母、お母さん", sentence: "My ( ) cooks dinner.", translation: "私の母が夕食を作ります。", answer: "mother" },
+      { id: 215, rank: "A", unit: "sounds and letters3", word: "sound", meaning: "音", sentence: "I hear a strange ( ).", translation: "奇妙な音が聞こえます。", answer: "sound" },
+      { id: 216, rank: "S", unit: "sounds and letters3", word: "baseball", meaning: "野球", sentence: "We play ( ) on Saturday.", translation: "私たちは土曜日に野球をします。", answer: "baseball" },
+      { id: 217, rank: "A", unit: "sounds and letters3", word: "round", meaning: "丸い、球形の", sentence: "The earth is ( ).", translation: "地球は丸いです。", answer: "round" },
+      { id: 218, rank: "A", unit: "sounds and letters3", word: "fall", meaning: "秋", sentence: "I like ( ) best of all seasons.", translation: "私は四季の中で秋が一番好きです。", answer: "fall" },
+      { id: 219, rank: "S", unit: "sounds and letters3", word: "enjoy", meaning: "･･･を楽しむ", sentence: "I ( ) listening to music.", translation: "私は音楽を聴くのを楽しみます。", answer: "enjoy" },
+      { id: 220, rank: "S", unit: "sounds and letters3", word: "summer", meaning: "夏", sentence: "It is hot in ( ).", translation: "夏は暑いです。", answer: "summer" },
+      { id: 221, rank: "S", unit: "sounds and letters3", word: "winter", meaning: "冬", sentence: "We have much snow in ( ).", translation: "冬にはたくさんの雪が降ります。", answer: "winter" },
+      { id: 222, rank: "A", unit: "sounds and letters3", word: "party", meaning: "パーティー", sentence: "We had a birthday ( ).", translation: "私たちは誕生日パーティーを開きました。", answer: "party" },
+      { id: 223, rank: "A", unit: "sounds and letters3", word: "bake", meaning: "(パンなど)を焼く", sentence: "My sister can ( ) bread.", translation: "私の姉はパンを焼くことができます。", answer: "bake" },
+      { id: 224, rank: "S", unit: "sounds and letters3", word: "ball", meaning: "ボール", sentence: "Throw the ( ) to me.", translation: "私にボールを投げてください。", answer: "ball" },
+      { id: 225, rank: "S", unit: "sounds and letters3", word: "house", meaning: "家、住宅", sentence: "This is my new ( ).", translation: "これが私の新しい家です。", answer: "house" },
+      { id: 226, rank: "S", unit: "sounds and letters3", word: "birthday", meaning: "誕生日", sentence: "Happy ( ) to you!", translation: "お誕生日おめでとう！", answer: "birthday" },
+      { id: 227, rank: "D", unit: "unit4", word: "New Zealand", meaning: "ニュージーランド", sentence: "She is from ( ).", translation: "彼女はニュージーランドの出身です。", answer: "New Zealand" },
+      { id: 228, rank: "A", unit: "unit4", word: "puppy", meaning: "子イヌ", sentence: "This little ( ) is cute.", translation: "この小さな子犬はかわいいです。", answer: "puppy" },
+      { id: 229, rank: "A", unit: "unit4", word: "puppies", meaning: "puppyの複数形", sentence: "Those ( ) are very cute.", translation: "あれらの子犬たちはとてもかわいいです。", answer: "puppies" },
+      { id: 230, rank: "B", unit: "unit4", word: "someday", meaning: "いつか", sentence: "I want to visit Canada ( ).", translation: "私はいつかカナダを訪れたいです。", answer: "someday" },
+      { id: 231, rank: "S", unit: "unit4", word: "they", meaning: "彼らは[が]、彼女らは[が]、それらは[が]", sentence: "( ) are my friends.", translation: "彼らは私の友達です。", answer: "They" },
+      { id: 232, rank: "S", unit: "unit4", word: "they're", meaning: "they areの短縮形", sentence: "( ) my classmates.", translation: "彼らは私の同級生です。", answer: "They're" },
+      { id: 233, rank: "A", unit: "unit4", word: "ruler(s)", meaning: "定規", sentence: "I have two ( ) in my pencil case.", translation: "私は筆箱の中に2本の定規を持っています。", answer: "rulers" },
+      { id: 234, rank: "A", unit: "unit4", word: "visit", meaning: "(人・場所)を訪ねる", sentence: "I want to ( ) Tokyo.", translation: "私は東京を訪れたいです。", answer: "visit" },
+      { id: 235, rank: "D", unit: "unit4", word: "Japan", meaning: "日本", sentence: "Tokyo is the capital of ( ).", translation: "東京は日本の首都です。", answer: "Japan" },
+      { id: 236, rank: "S", unit: "unit4", word: "many", meaning: "たくさんの、多くの", sentence: "I have ( ) books.", translation: "私はたくさんの本を持っています。", answer: "many" },
+      { id: 237, rank: "A", unit: "unit4", word: "one of", meaning: "〜の1つ", sentence: "He is ( ) my friends.", translation: "彼は私の友達の1人です。", answer: "one of" },
+      { id: 238, rank: "S", unit: "unit4", word: "a lot of", meaning: "たくさんの", sentence: "There are ( ) cars.", translation: "たくさんの車があります。", answer: "a lot of" },
+      { id: 239, rank: "S", unit: "unit4", word: "really", meaning: "本当に、実際に", sentence: "This is ( ) a wonderful story.", translation: "これは本当にすばらしい物語です。", answer: "really" },
+      { id: 240, rank: "S", unit: "unit4", word: "family", meaning: "家族", sentence: "My ( ) lives in Nagoya.", translation: "私の家族は名古屋に住んでいます。", answer: "family" },
+      { id: 241, rank: "S", unit: "unit4", word: "of", meaning: "･･･の量の、･･･種類の", sentence: "I drank a glass ( ) water.", translation: "私はコップ1杯の水を飲みました。", answer: "of" },
+      { id: 242, rank: "S", unit: "unit4", word: "how", meaning: "どれくらい", sentence: "( ) tall is this tree?", translation: "この木はどれくらい高いですか。", answer: "How" },
+      { id: 243, rank: "S", unit: "unit4", word: "so", meaning: "とても、非常に", sentence: "The puppy is ( ) cute.", translation: "その子犬はとてもかわいいです。", answer: "so" },
+      { id: 244, rank: "S", unit: "unit4", word: "How many...?", meaning: "どれくらい多くの", sentence: "( ) notebooks do you need?", translation: "あなたは何冊のノートが必要ですか。", answer: "How many" },
+      { id: 245, rank: "S", unit: "unit4", word: "they're", meaning: "they are", sentence: "( ) playing soccer in the park.", translation: "彼らは公園でサッカーをしています。", answer: "They're" },
+      { id: 246, rank: "S", unit: "unit4", word: "animal(s)", meaning: "動物", sentence: "I like wild ( ).", translation: "私は野生の動物が好きです。", answer: "animals" },
+      { id: 247, rank: "A", unit: "unit4", word: "one of", meaning: "･･･の1つ[1人]", sentence: "Mt. Fuji is ( ) the highest mountains.", translation: "富士山は最も高い山の1つです。", answer: "one of" },
+      { id: 248, rank: "S", unit: "unit4", word: "a lot of", meaning: "たくさんの、多数の", sentence: "I have ( ) homework today.", translation: "私は今日たくさんの宿題があります。", answer: "a lot of" },
+      { id: 249, rank: "A", unit: "unit4", word: "noon", meaning: "正午、真昼", sentence: "We eat lunch at ( ).", translation: "私たちは正午に昼食を食べます。", answer: "noon" },
+      { id: 250, rank: "S", unit: "unit4", word: "last", meaning: "最後の、最終の", sentence: "This is the ( ) train.", translation: "これが最終の電車です。", answer: "last" },
+      { id: 251, rank: "S", unit: "unit4", word: "like", meaning: "･･･のような[に]、･･･に似た、･･･らしい", sentence: "He runs ( ) a deer.", translation: "彼はシカのように走ります。", answer: "like" },
+      { id: 252, rank: "S", unit: "unit4", word: "o'clock", meaning: "･･･時", sentence: "It is three ( ) now.", translation: "今は3時です。", answer: "o'clock" },
+      { id: 253, rank: "D", unit: "unit4", word: "netball", meaning: "ネットボール", sentence: "We play ( ) in P.E. class.", translation: "私たちは体育の授業でネットボールをします。", answer: "netball" },
+      { id: 254, rank: "S", unit: "unit4", word: "time", meaning: "時刻", sentence: "What ( ) is it now?", translation: "今は何時ですか。", answer: "time" },
+      { id: 255, rank: "S", unit: "unit4", word: "afternoon", meaning: "午後", sentence: "See you this ( ).", translation: "今日の午後に会いましょう。", answer: "afternoon" },
+      { id: 256, rank: "S", unit: "unit4", word: "sport(s)", meaning: "スポーツ", sentence: "Baseball is my favorite ( ).", translation: "野球は私の一番好きなスポーツです。", answer: "sport" },
+      { id: 257, rank: "S", unit: "unit4", word: "class", meaning: "授業", sentence: "Our math ( ) starts at nine.", translation: "私たちの数学の授業は9時に始まります。", answer: "class" },
+      { id: 258, rank: "S", unit: "unit4", word: "what", meaning: "何の、どんな", sentence: "( ) fruit do you like?", translation: "あなたは何の果物が好きですか。", answer: "What" },
+      { id: 259, rank: "A", unit: "unit4", word: "sound", meaning: "･･･に聞こえる、思える", sentence: "That plan doesn't ( ) easy.", translation: "その計画は簡単には思えません。", answer: "sound" },
+      { id: 260, rank: "A", unit: "unit4", word: "Sounds...", meaning: "･･･そうですね。", sentence: "\"Let's eat lunch.\" \"( ) great!\"", translation: "「お昼ご飯を食べよう。」「良さそうですね！」", answer: "Sounds" },
+      { id: 261, rank: "S", unit: "unit4", word: "be", meaning: "･･･である、になる", sentence: "( ) quiet, please.", translation: "静かにしてください。", answer: "Be" },
+      { id: 262, rank: "A", unit: "unit4", word: "front", meaning: "前、正面", sentence: "A big dog is in ( ) of the house.", translation: "大きなイヌが家の前にいます。", answer: "front" },
+      { id: 263, rank: "B", unit: "unit4", word: "nervous", meaning: "緊張して", sentence: "I am ( ) before the test.", translation: "私はテストの前で緊張しています。", answer: "nervous" },
+      { id: 264, rank: "A", unit: "unit4", word: "sheep", meaning: "ヒツジ", sentence: "Look at the white ( ).", translation: "その白いヒツジを見てください。", answer: "sheep" },
+      { id: 265, rank: "A", unit: "unit4", word: "kiwi(s)", meaning: "キーウィ", sentence: "We saw ( ) at the zoo.", translation: "私たちは動物園でキーウィを見ました。", answer: "kiwis" },
+      { id: 266, rank: "S", unit: "unit4", word: "right", meaning: "正しい、正確な", sentence: "Your answer is ( ).", translation: "あなたの答えは正しいです。", answer: "right" },
+      { id: 267, rank: "A", unit: "unit4", word: "turn", meaning: "順番、番", sentence: "It is your ( ).", translation: "あなたの番です。", answer: "turn" },
+      { id: 268, rank: "A", unit: "unit4", word: "worry", meaning: "心配する、悩む", sentence: "Don't ( ).", translation: "心配しないで。", answer: "worry" },
+      { id: 269, rank: "A", unit: "unit4", word: "yourself", meaning: "あなた自身を[に]", sentence: "Take care of ( ).", translation: "あなた自身の体に気をつけてください。", answer: "yourself" },
+      { id: 270, rank: "S", unit: "unit4", word: "please", meaning: "どうぞ、お願いします、すみませんが", sentence: "Help me, ( ).", translation: "お願いですから手伝ってください。", answer: "please" },
+      { id: 271, rank: "S", unit: "unit4", word: "look", meaning: "見る、目を向ける", sentence: "( ) at the blackboard.", translation: "黒板を見なさい。", answer: "Look" },
+      { id: 272, rank: "S", unit: "unit4", word: "look at", meaning: "･･･を見る", sentence: "Please ( ) this picture.", translation: "この写真を見てください。", answer: "look at" },
+      { id: 273, rank: "B", unit: "unit4", word: "enjoy oneself", meaning: "楽しむ、楽しく過ごす", sentence: "Did you ( ) at the party?", translation: "あなたはパーティーで楽しく過ごしましたか。", answer: "enjoy yourself" },
+      { id: 274, rank: "S", unit: "Sound and Letter 4", word: "fine", meaning: "元気な", sentence: "I am ( ), thank you.", translation: "私は元気です、ありがとう。", answer: "fine" },
+      { id: 275, rank: "A", unit: "Sound and Letter 4", word: "pet", meaning: "ペット", sentence: "Do you have a ( )?", translation: "あなたはペットを飼っていますか。", answer: "pet" },
+      { id: 276, rank: "S", unit: "Sound and Letter 4", word: "stop", meaning: "止まる", sentence: "The bus will ( ) here.", translation: "バスはここで止まります。", answer: "stop" },
+      { id: 277, rank: "S", unit: "Sound and Letter 4", word: "eat", meaning: "食べる", sentence: "I ( ) an apple every morning.", translation: "私は毎朝リンゴを食べます。", answer: "eat" },
+      { id: 278, rank: "B", unit: "Sound and Letter 4", word: "eel", meaning: "ウナギ", sentence: "I like to eat ( ).", translation: "私はウナギを食べるのが好きです。", answer: "eel" },
+      { id: 279, rank: "A", unit: "Sound and Letter 4", word: "gift", meaning: "贈り物", sentence: "I got a birthday ( ).", translation: "私は誕生日プレゼントをもらいました。", answer: "gift" },
+      { id: 280, rank: "S", unit: "Sound and Letter 4", word: "man", meaning: "男", sentence: "That ( ) is my teacher.", translation: "あの男性は私の先生です。", answer: "man" },
+      { id: 281, rank: "A", unit: "Sound and Letter 4", word: "bench", meaning: "ベンチ", sentence: "Let's sit on the ( ).", translation: "ベンチに座りましょう。", answer: "bench" },
+      { id: 282, rank: "S", unit: "Sound and Letter 4", word: "picture", meaning: "絵、写真", sentence: "Look at this ( ).", translation: "この写真を見てください。", answer: "picture" },
+      { id: 283, rank: "A", unit: "Sound and Letter 4", word: "basket", meaning: "かご、バスケット", sentence: "Put the apples in the ( ).", translation: "リンゴをかごに入れなさい。", answer: "basket" },
+      { id: 284, rank: "A", unit: "Sound and Letter 4", word: "kitchen", meaning: "台所、キッチン", sentence: "My mother is in the ( ).", translation: "母は台所にいます。", answer: "kitchen" },
+      { id: 285, rank: "S", unit: "Sound and Letter 4", word: "table", meaning: "テーブル", sentence: "Put the dish on the ( ).", translation: "お皿をテーブルの上に置きなさい。", answer: "table" },
+      { id: 286, rank: "S", unit: "Sound and Letter 4", word: "all", meaning: "全員、すべて、みな", sentence: "We ( ) like music.", translation: "私たちは全員音楽が好きです。", answer: "all" },
+      { id: 287, rank: "A", unit: "Unit5", word: "tour", meaning: "ツアー", sentence: "We enjoyed the bus ( ).", translation: "私たちはバスツアーを楽しみました。", answer: "tour" },
+      { id: 288, rank: "A", unit: "Unit5", word: "guide", meaning: "ガイド、案内人", sentence: "He is our tour ( ).", translation: "彼は私たちのツアーガイドです。", answer: "guide" },
+      { id: 289, rank: "B", unit: "Unit5", word: "as", meaning: "･･･として", sentence: "He works ( ) a teacher.", translation: "彼は教師として働いています。", answer: "as" },
+      { id: 290, rank: "S", unit: "Unit5", word: "write(s)", meaning: "(･･･を)書く", sentence: "She ( ) letters to her friend.", translation: "彼女は友達に手紙を書きます。", answer: "writes" },
+      { id: 291, rank: "A", unit: "Unit5", word: "blog", meaning: "ブログ", sentence: "I read your ( ) every day.", translation: "私は毎日あなたのブログを読みます。", answer: "blog" },
+      { id: 292, rank: "B", unit: "Unit5", word: "local", meaning: "(ある)地方の、地元の", sentence: "We visited a ( ) park.", translation: "私たちは地元の公園を訪れました。", answer: "local" },
+      { id: 293, rank: "A", unit: "Unit5", word: "beautiful", meaning: "美しい", sentence: "Kyoto has many ( ) temples.", translation: "京都にはたくさんの美しい寺があります。", answer: "beautiful" },
+      { id: 294, rank: "A", unit: "Unit5", word: "spot(s)", meaning: "地点、場所", sentence: "This is a good ( ) for pictures.", translation: "ここは写真のための良い場所です。", answer: "spot" },
+      { id: 295, rank: "S", unit: "Unit5", word: "his", meaning: "彼の", sentence: "This is ( ) bike.", translation: "これは彼の自転車です。", answer: "his" },
+      { id: 296, rank: "D", unit: "Unit5", word: "Honolulu", meaning: "ホノルル", sentence: "I want to visit ( ).", translation: "私はホノルルを訪れたいです。", answer: "Honolulu" },
+      { id: 297, rank: "D", unit: "Unit5", word: "Hawaii", meaning: "ハワイ", sentence: "We went to ( ) last summer.", translation: "私たちは去年の夏ハワイに行きました。", answer: "Hawaii" },
+      { id: 298, rank: "D", unit: "Unit5", word: "Tomoko", meaning: "トモコ", sentence: "This is my friend, ( ).", translation: "こちらは私の友達のトモコです。", answer: "Tomoko" },
+      { id: 299, rank: "D", unit: "Unit5", word: "Takashi", meaning: "タカシ", sentence: "( ) is a junior high school student.", translation: "タカシは中学生です。", answer: "Takashi" },
+      { id: 300, rank: "S", unit: "Unit5", word: "brother", meaning: "兄、弟、兄弟", sentence: "I have one ( ).", translation: "私には兄弟が1人います。", answer: "brother" },
+      { id: 301, rank: "S", unit: "Unit5", word: "year(s)", meaning: "年、年齢", sentence: "I am twelve ( ) old.", translation: "私は12歳です。", answer: "years" },
+      { id: 302, rank: "S", unit: "Unit5", word: "old", meaning: "･･･歳の、作られてから･･･年[月]になる", sentence: "This temple is very ( ).", translation: "この寺はとても古いです。", answer: "old" },
+      { id: 303, rank: "S", unit: "Unit5", word: "work(s)", meaning: "働く、作業をする", sentence: "My father ( ) in an office.", translation: "私の父はオフィスで働いています。", answer: "works" },
+      { id: 304, rank: "B", unit: "Unit5", word: "nature", meaning: "自然", sentence: "I love the ( ) of Hokkaido.", translation: "私は北海道の自然が大好きです。", answer: "nature" },
+      { id: 305, rank: "S", unit: "Unit5", word: "... year(s) old", meaning: "･･･歳、創立･･･年", sentence: "I am thirteen ( ).", translation: "私は13歳です。", answer: "years old" },
+      { id: 306, rank: "A", unit: "Unit5", word: "enjoy...ing", meaning: "･･･して楽しむ", sentence: "I ( ) playing tennis.", translation: "私はテニスをして楽しみます。", answer: "enjoy" },
+      { id: 307, rank: "S", unit: "Unit5", word: "any", meaning: "いくらかの、何らかの", sentence: "Do you have ( ) questions?", translation: "何か質問はありますか。", answer: "any" },
+      { id: 308, rank: "S", unit: "Unit5", word: "does", meaning: "[疑問文や応答を作る]", sentence: "( ) he play baseball?", translation: "彼は野球をしますか。", answer: "Does" },
+      { id: 309, rank: "S", unit: "Unit5", word: "has", meaning: "haveの三人称単数現在形", sentence: "She ( ) a cute dog.", translation: "彼女はかわいいイヌを飼っています。", answer: "has" },
+      { id: 310, rank: "S", unit: "Unit5", word: "there", meaning: "そこに[で、へ]", sentence: "Put the box ( ).", translation: "箱をそこに置きなさい。", answer: "there" },
+      { id: 311, rank: "A", unit: "Unit5", word: "surf(s)", meaning: "サーフィン[波乗り]をする", sentence: "He ( ) every weekend.", translation: "彼は毎週末サーフィンをします。", answer: "surfs" },
+      { id: 312, rank: "A", unit: "Unit5", word: "life", meaning: "生活、暮らし", sentence: "I enjoy school ( ).", translation: "私は学校生活を楽しんでいます。", answer: "life" },
+      { id: 313, rank: "A", unit: "Unit5", word: "question(s)", meaning: "質問、疑問", sentence: "I have a ( ) for you.", translation: "あなたに質問があります。", answer: "question" },
+      { id: 314, rank: "A", unit: "Unit5", word: "weekend(s)", meaning: "週末", sentence: "I go to the library on the ( ).", translation: "私は週末に図書館へ行きます。", answer: "weekend" },
+      { id: 315, rank: "S", unit: "Unit5", word: "swim(s)", meaning: "泳ぐ", sentence: "He ( ) very fast.", translation: "彼はとても速く泳ぎます。", answer: "swims" },
+      { id: 316, rank: "S", unit: "Unit5", word: "sometimes", meaning: "ときどき", sentence: "I ( ) walk to school.", translation: "私はときどき歩いて学校へ行きます。", answer: "sometimes" },
+      { id: 317, rank: "A", unit: "Unit5", word: "dolphin(s)", meaning: "イルカ", sentence: "We saw many ( ) in the sea.", translation: "私たちは海でたくさんのイルカを見ました。", answer: "dolphins" },
+      { id: 318, rank: "S", unit: "Unit5", word: "does", meaning: "否定文を作る", sentence: "She ( ) not like coffee.", translation: "彼女はコーヒーが好きではありません。", answer: "does" },
+      { id: 319, rank: "S", unit: "Unit5", word: "doesn't", meaning: "does notの短縮形", sentence: "He ( ) play baseball.", translation: "彼は野球をしません。", answer: "doesn't" },
+      { id: 320, rank: "A", unit: "Unit5", word: "cafe", meaning: "喫茶店、カフェ", sentence: "Let's have tea at that ( ).", translation: "あのカフェでお茶を飲みましょう。", answer: "cafe" },
+      { id: 321, rank: "S", unit: "Unit5", word: "popular", meaning: "人気のある", sentence: "Soccer is very ( ) in Japan.", translation: "サッカーは日本でとても人気があります。", answer: "popular" },
+      { id: 322, rank: "B", unit: "Unit5", word: "owner", meaning: "所有者、持ち主", sentence: "He is the ( ) of this shop.", translation: "彼はこの店の持ち主です。", answer: "owner" },
+      { id: 323, rank: "A", unit: "Unit5", word: "wonderful", meaning: "すばらしい、すてきな", sentence: "We had a ( ) time.", translation: "私たちはすばらしい時間を過ごしました。", answer: "wonderful" },
+      { id: 324, rank: "S", unit: "Unit5", word: "know(s)", meaning: "(･･･を)知っている、わかる", sentence: "She ( ) the answer.", translation: "彼女はその答えを知っています。", answer: "knows" },
+      { id: 325, rank: "D", unit: "Unit5", word: "patty", meaning: "パティ(ひき肉などを丸く平たい形にして焼いたもの)", sentence: "This burger has a beef ( ).", translation: "このバーガーには牛肉のパティが入っています。", answer: "patty" },
+      { id: 326, rank: "A", unit: "Unit5", word: "fried", meaning: "油であげた、油でいためた", sentence: "I like ( ) chicken.", translation: "私はフライドチキンが好きです。", answer: "fried" },
+      { id: 327, rank: "A", unit: "Unit5", word: "top", meaning: "表面、上部", sentence: "Put it on the ( ) of the desk.", translation: "それを机の上に置きなさい。", answer: "top" },
+      { id: 328, rank: "A", unit: "Unit5", word: "restaurant", meaning: "レストラン", sentence: "Let's eat dinner at a ( ).", translation: "レストランで夕食を食べましょう。", answer: "restaurant" },
+      { id: 329, rank: "A", unit: "Unit5", word: "friendly", meaning: "好意的な、親切な", sentence: "Our teacher is very ( ).", translation: "私たちの先生はとても親切です。", answer: "friendly" },
+      { id: 330, rank: "A", unit: "Unit5", word: "dish", meaning: "料理、(料理の)1品", sentence: "Sushi is a famous Japanese ( ).", translation: "寿司は有名な日本料理の1品です。", answer: "dish" },
+      { id: 331, rank: "A", unit: "Unit5", word: "fried egg", meaning: "目玉焼き", sentence: "I had a ( ) for breakfast.", translation: "私は朝食に目玉焼きを食べました。", answer: "fried egg" },
+      { id: 332, rank: "B", unit: "Unit5", word: "on top of", meaning: "･･･の上に", sentence: "Put the book ( ) the table.", translation: "テーブルの上に本を置きなさい。", answer: "on top of" },
+      { id: 333, rank: "S", unit: "unit6", word: "say", meaning: "(･･･を)言う、･･･だと言う", sentence: "What did you ( )?", translation: "あなたは何と言いましたか。", answer: "say" },
+      { id: 334, rank: "A", unit: "unit6", word: "everything", meaning: "全てのものの[こと]", sentence: "( ) is ready.", translation: "全て準備ができています。", answer: "Everything" },
+      { id: 335, rank: "B", unit: "unit6", word: "performer", meaning: "演技者", sentence: "She is a great ( ).", translation: "彼女はすばらしい演技者です。", answer: "performer" },
+      { id: 336, rank: "S", unit: "unit6", word: "together", meaning: "いっしょに、ともに", sentence: "Let's sing ( ).", translation: "いっしょに歌いましょう。", answer: "together" },
+      { id: 337, rank: "S", unit: "unit6", word: "let's", meaning: "･･･しよう", sentence: "( ) play tennis.", translation: "テニスをしましょう。", answer: "Let's" },
+      { id: 338, rank: "S", unit: "unit6", word: "how's", meaning: "how isの短縮形", sentence: "( ) the weather today?", translation: "今日の天気はどうですか。", answer: "How's" },
+      { id: 339, rank: "A", unit: "unit6", word: "Why don't we ...?", meaning: "･･･しませんか。", sentence: "( ) go to the park?", translation: "公園に行きませんか。", answer: "Why don't we" },
+      { id: 340, rank: "S", unit: "unit6", word: "him", meaning: "彼を", sentence: "I know ( ) very well.", translation: "私は彼をとてもよく知っています。", answer: "him" },
+      { id: 341, rank: "S", unit: "unit6", word: "fine", meaning: "けっこうな", sentence: "That is a ( ) idea.", translation: "それはけっこうな考えですね。", answer: "fine" },
+      { id: 342, rank: "S", unit: "unit6", word: "for", meaning: "･･･するための", sentence: "This is a knife ( ) cutting bread.", translation: "これはパンを切るためのナイフです。", answer: "for" },
+      { id: 343, rank: "S", unit: "unit6", word: "see", meaning: "･･･に会う", sentence: "I will ( ) my friend tomorrow.", translation: "私は明日友達に会います。", answer: "see" },
+      { id: 344, rank: "S", unit: "unit6", word: "how's", meaning: "how is", sentence: "( ) the weather in Kyoto today?", translation: "今日の京都の天気はどうですか。", answer: "How's" },
+      { id: 345, rank: "A", unit: "unit6", word: "whose", meaning: "だれの、だれのもの", sentence: "( ) bag is this?", translation: "これはだれのかばんですか。", answer: "Whose" },
+      { id: 346, rank: "A", unit: "unit6", word: "minite", meaning: "分", sentence: "Wait a ( ), please.", translation: "ちょっとの間（1分）待ってください。", answer: "minute" },
+      { id: 347, rank: "S", unit: "unit6", word: "wait", meaning: "待つ", sentence: "Please ( ) for me.", translation: "私を待ってください。", answer: "wait" },
+      { id: 348, rank: "S", unit: "unit6", word: "mine", meaning: "私のもの", sentence: "This cap is not ( ).", translation: "この帽子は私のものではありません。", answer: "mine" },
+      { id: 349, rank: "S", unit: "unit6", word: "yours", meaning: "あなた(たち)のもの", sentence: "Is this cap ( )?", translation: "この帽子はあなたのものですか。", answer: "yours" },
+      { id: 350, rank: "A", unit: "unit6", word: "maybe", meaning: "たぶん、もしかすると", sentence: "( ) he is at home.", translation: "たぶん彼は家にいます。", answer: "Maybe" },
+      { id: 351, rank: "B", unit: "unit6", word: "crowded", meaning: "こみ合った、満員の", sentence: "The train was very ( ).", translation: "電車はとても混み合っていました。", answer: "crowded" },
+      { id: 352, rank: "A", unit: "unit6", word: "history", meaning: "歴史", sentence: "I like Japanese ( ).", translation: "私は日本の歴史が好きです。", answer: "history" },
+      { id: 353, rank: "B", unit: "unit6", word: "still", meaning: "まだ、今でも", sentence: "He is ( ) sleeping.", translation: "彼はまだ眠っています。", answer: "still" },
+      { id: 354, rank: "A", unit: "unit6", word: "over", meaning: "･･･より多く、･･･をこえて", sentence: "There are ( ) fifty students.", translation: "50人より多くの生徒がいます。", answer: "over" },
+      { id: 355, rank: "S", unit: "unit6", word: "start(s)", meaning: "始まる、出発する、開始する", sentence: "The game ( ) at two.", translation: "その試合は2時に始まります。", answer: "starts" },
+      { id: 356, rank: "A", unit: "unit6", word: "ticket", meaning: "切符、チケット", sentence: "I bought a train ( ).", translation: "私は電車の切符を買いました。", answer: "ticket" },
+      { id: 357, rank: "S", unit: "unit6", word: "Thanks.", meaning: "ありがとう。", sentence: "\"Here you are.\" \"( ).\"", translation: "「はいどうぞ。」「ありがとう。」", answer: "Thanks" },
+      { id: 358, rank: "B", unit: "unit6", word: "be careful with", meaning: "･･･のあつかいに気をつける", sentence: "Please ( ) this glass.", translation: "このガラスのあつかいに気をつけてください。", answer: "be careful with" },
+      { id: 359, rank: "S", unit: "unit6", word: "How old ...?", meaning: "何歳で、作られてからどれくらいで", sentence: "( ) are you?", translation: "あなたは何歳ですか。", answer: "How old" },
+      { id: 360, rank: "S", unit: "unit6", word: "thank", meaning: "感謝", sentence: "I send my warm ( ) to you.", translation: "あなたに心からの感謝を伝えます。", answer: "thanks" },
+      { id: 361, rank: "S", unit: "unit6", word: "with", meaning: "･･･に関して", sentence: "Can you help me ( ) this problem?", translation: "この問題に関して私を手伝ってくれますか。", answer: "with" },
+      { id: 362, rank: "S", unit: "unit6", word: "here", meaning: "ここに[で、へ]", sentence: "Please stay ( ) with me.", translation: "ここで私といっしょにいなさい。", answer: "here" },
+      { id: 363, rank: "S", unit: "unit6", word: "well", meaning: "ええと、そうですね", sentence: "( ), I have no homework today.", translation: "ええと、今日は宿題がありません。", answer: "Well" },
+      { id: 364, rank: "B", unit: "unit6", word: "cushion", meaning: "クッション", sentence: "Sit on this ( ), please.", translation: "このクッションの上に座ってください。", answer: "cushion" },
+      { id: 365, rank: "A", unit: "unit6", word: "different", meaning: "いろんな", sentence: "I have many ( ) books.", translation: "私はたくさんのいろんな本を持っています。", answer: "different" },
+      { id: 366, rank: "B", unit: "unit6", word: "roles", meaning: "役、役割", sentence: "He plays many ( ) in the play.", translation: "彼は劇の中でたくさんの役を演じます。", answer: "roles" },
+      { id: 367, rank: "S", unit: "unit6", word: "use(s)", meaning: "～を使う、利用する", sentence: "Can I ( ) this computer?", translation: "このコンピュータを使ってもいいですか。", answer: "use" },
+      { id: 368, rank: "A", unit: "unit6", word: "only", meaning: "ただ･･･だけ", sentence: "I have ( ) one pen.", translation: "私は1本だけペンを持っています。", answer: "only" },
+      { id: 369, rank: "C", unit: "unit6", word: "prop(s)", meaning: "小道具", sentence: "Actors use many ( ) on stage.", translation: "俳優は舞台でたくさんの小道具を使います。", answer: "props" },
+      { id: 370, rank: "S", unit: "unit6", word: "or", meaning: "･･･かまたは～、･･･や～", sentence: "Do you want tea ( ) water?", translation: "お茶かまたは水がほしいですか。", answer: "or" },
+      { id: 371, rank: "S", unit: "unit6", word: "which", meaning: "どちら、どれ、どちらの人[もの]", sentence: "( ) bag is yours?", translation: "どちらのかばんがあなたのものですか。", answer: "Which" },
+      { id: 372, rank: "B", unit: "unit6", word: "casual", meaning: "カジュアルな、くだけた、ふだん着の", sentence: "I like ( ) clothes.", translation: "私はカジュアルな服が好きです。", answer: "casual" },
+      { id: 373, rank: "A", unit: "unit6", word: "large", meaning: "多い、多数の", sentence: "Tokyo is a ( ) city.", translation: "東京は大きな都市です。", answer: "large" },
+      { id: 374, rank: "B", unit: "unit6", word: "collection", meaning: "収集したもの、コレクション", sentence: "He has a coin ( ).", translation: "彼はコインのコレクションを持っています。", answer: "collection" },
+      { id: 375, rank: "B", unit: "unit6", word: "comic storytelling", meaning: "話芸", sentence: "Rakugo is Japanese traditional ( ).", translation: "落語は日本の伝統的な話芸です。", answer: "comic storytelling" },
+      { id: 376, rank: "S", unit: "unit6", word: "hand", meaning: "手", sentence: "Wash your ( ) before dinner.", translation: "夕食の前に手を洗いなさい。", answer: "hands" },
+      { id: 377, rank: "A", unit: "unit6", word: "towel", meaning: "タオル、手ぬぐい", sentence: "Dry your hands with a ( ).", translation: "タオルで手をふきなさい。", answer: "towel" },
+      { id: 378, rank: "A", unit: "unit6", word: "wear", meaning: "･･･を着ている、身につけている", sentence: "I ( ) a school uniform.", translation: "私は学生服を着ています。", answer: "wear" },
+      { id: 379, rank: "A", unit: "unit6", word: "clothes", meaning: "[複数あつかい] 衣服", sentence: "I bought new ( ) yesterday.", translation: "私は昨日新しい衣服を買いました。", answer: "clothes" },
+      { id: 380, rank: "S", unit: "Real Life English", word: "open", meaning: "(･･･を)開く、開ける", sentence: "Please ( ) the window.", translation: "窓を開けてください。", answer: "open" },
+      { id: 381, rank: "S", unit: "Real Life English", word: "close", meaning: "～を閉じる、終える", sentence: "Please ( ) the door.", translation: "ドアを閉めてください。", answer: "close" },
+      { id: 382, rank: "S", unit: "Real Life English", word: "sure", meaning: "[返事で] もちろん、いいとも", sentence: "\"Can you help me?\" \"( ).\"", translation: "「手伝ってくれますか。」「もちろん。」", answer: "Sure" },
+      { id: 383, rank: "A", unit: "Real Life English", word: "problem", meaning: "問題", sentence: "This math ( ) is difficult.", translation: "この数学の問題は難しいです。", answer: "problem" },
+      { id: 384, rank: "A", unit: "Real Life English", word: "little", meaning: "[a littleで]少し", sentence: "I can speak a ( ) English.", translation: "私は英語を少し話すことができます。", answer: "little" },
+      { id: 385, rank: "B", unit: "Real Life English", word: "moment", meaning: "瞬間、ちょっとの間", sentence: "Wait a ( ), please.", translation: "ちょっとの間待ってください。", answer: "moment" },
+      { id: 386, rank: "A", unit: "Real Life English", word: "light(s)", meaning: "明かり、電灯", sentence: "Turn on the ( ), please.", translation: "明かりをつけてください。", answer: "light" },
+      { id: 387, rank: "A", unit: "Real Life English", word: "just", meaning: "ただ･･･だけ、ほんの、ちょっと", sentence: "It is ( ) three o'clock.", translation: "ちょうど3時です。", answer: "just" },
+      { id: 388, rank: "A", unit: "Real Life English", word: "off", meaning: "(電気・ガス・水道などが)切れて、とまって", sentence: "The TV is ( ).", translation: "テレビが消えています。", answer: "off" },
+      { id: 389, rank: "B", unit: "Real Life English", word: "borrow", meaning: "･･･を借りる", sentence: "May I ( ) your eraser?", translation: "あなたの消しゴムを借りてもいいですか。", answer: "borrow" },
+      { id: 390, rank: "S", unit: "Real Life English", word: "help", meaning: "･･･を手伝う、助ける、･･･の役に立つ", sentence: "Can you ( ) me?", translation: "私を手伝ってくれますか。", answer: "help" },
+      { id: 391, rank: "S", unit: "Real Life English", word: "homework", meaning: "宿題", sentence: "I do my ( ) after dinner.", translation: "私は夕食後に宿題をします。", answer: "homework" },
+      { id: 392, rank: "S", unit: "Real Life English", word: "No problem.", meaning: "いいですよ。もちろん。", sentence: "\"Thank you.\" \"( ).\"", translation: "「ありがとう。」「いいですよ。」", answer: "No problem" },
+      { id: 393, rank: "A", unit: "Real Life English", word: "a little", meaning: "少し", sentence: "I am ( ) tired today.", translation: "私は今日少し疲れています。", answer: "a little" },
+      { id: 394, rank: "A", unit: "Real Life English", word: "turn on", meaning: "(スイッチ)を入れる、つける", sentence: "Please ( ) the radio.", translation: "ラジオをつけてください。", answer: "turn on" },
+      { id: 395, rank: "B", unit: "Real Life English", word: "help... with~", meaning: "･･･を～の面で手伝う", sentence: "Can you ( ) me with my homework?", translation: "私の宿題を手伝ってくれますか。", answer: "help" },
+      { id: 396, rank: "S", unit: "Real Life English", word: "All right.", meaning: "よろしい。わかった。了解した。", sentence: "\"Let's clean the room.\" \"( ).\"", translation: "「部屋を掃除しましょう。」「了解した。」", answer: "All right" },
+      { id: 397, rank: "A", unit: "Real Life English", word: "Just a moment.", meaning: "ちょっと待って。", sentence: "( ) please.", translation: "ちょっと待ってください。", answer: "Just a moment" },
+      { id: 398, rank: "A", unit: "Real Life English", word: "turn off", meaning: "(スイッチ)をとめる、消す", sentence: "Please ( ) the TV.", translation: "テレビを消してください。", answer: "turn off" },
+      { id: 399, rank: "S", unit: "Real Life English", word: "this", meaning: "この", sentence: "Look at ( ) beautiful picture.", translation: "この美しい写真を見なさい。", answer: "this" },
+      { id: 400, rank: "S", unit: "Real Life English", word: "can", meaning: "してもよいですか", sentence: "( ) I open the window?", translation: "窓を開けてもよいですか。", answer: "Can" },
+      { id: 401, rank: "S", unit: "Real Life English", word: "no", meaning: "1つ[1人]も･･･ない", sentence: "There were ( ) cars on the road.", translation: "道路には車が1台もありませんでした。", answer: "no" },
+      { id: 402, rank: "S", unit: "Real Life English", word: "on", meaning: "通じて、ついて", sentence: "The lights are ( ) now.", translation: "今、電気がついています。", answer: "on" },
+      { id: 403, rank: "S", unit: "Real Life English", word: "and", meaning: "そして、それから", sentence: "Wash your hands ( ) eat dinner.", translation: "手を洗って、それから夕食を食べなさい。", answer: "and" },
+      { id: 404, rank: "S", unit: "Real Life English", word: "can", meaning: "してくれますか", sentence: "( ) you close the door?", translation: "ドアを閉めてくれますか。", answer: "Can" },
+      { id: 405, rank: "S", unit: "Real Life English", word: "all", meaning: "全く、全て", sentence: "The answers are ( ) right.", translation: "答えは全て正しいです。", answer: "all" },
+      { id: 406, rank: "A", unit: "Unit7", word: "free", meaning: "ひまな", sentence: "Are you ( ) tomorrow?", translation: "明日はひまですか。", answer: "free" },
+      { id: 407, rank: "S", unit: "Unit7", word: "tomorrow", meaning: "明日(は)", sentence: "I will go shopping ( ).", translation: "私は明日買い物に行きます。", answer: "tomorrow" },
+      { id: 408, rank: "A", unit: "Unit7", word: "plan(s)", meaning: "計画、予定", sentence: "What are your ( ) for Sunday?", translation: "日曜日の予定は何ですか。", answer: "plans" },
+      { id: 409, rank: "A", unit: "Unit7", word: "What's up?", meaning: "どうしたのですか。", sentence: "\"Hi, Ken. ( )?\"", translation: "「やあ、ケン。どうしたの？」", answer: "What's up" },
+      { id: 410, rank: "B", unit: "Unit7", word: "sound like", meaning: "･･･のように聞こえる、思える", sentence: "That ( ) a good idea.", translation: "それは良い考えのように聞こえます。", answer: "sounds like" },
+      { id: 411, rank: "B", unit: "Unit7", word: "look forward to", meaning: "･･･を楽しみに待つ", sentence: "I ( ) the summer vacation.", translation: "私は夏休みを楽しみに待っています。", answer: "look forward to" },
+      { id: 412, rank: "S", unit: "Unit7", word: "busy", meaning: "忙しい", sentence: "I am very ( ) today.", translation: "私は今日とても忙しいです。", answer: "busy" },
+      { id: 413, rank: "S", unit: "Unit7", word: "talk", meaning: "話す、しゃべる", sentence: "Let's ( ) about soccer.", translation: "サッカーについて話しましょう。", answer: "talk" },
+      { id: 414, rank: "A", unit: "Unit7", word: "online", meaning: "オンラインの", sentence: "I take an ( ) English lesson.", translation: "私はオンラインの英語の授業を受けています。", answer: "online" },
+      { id: 415, rank: "A", unit: "Unit7", word: "market", meaning: "市場", sentence: "We buy fresh fish at the ( ).", translation: "私たちは市場で新鮮な魚を買います。", answer: "market" },
+      { id: 416, rank: "S", unit: "Unit7", word: "buy", meaning: "･･･を買う", sentence: "I want to ( ) a new cap.", translation: "私は新しい帽子を買いたいです。", answer: "buy" },
+      { id: 417, rank: "D", unit: "Unit7", word: "London", meaning: "ロンドン [地名]", sentence: "( ) is a big city in the U.K.", translation: "ロンドンはイギリスの大きな都市です。", answer: "London" },
+      { id: 418, rank: "S", unit: "Unit7", word: "people", meaning: "人々", sentence: "Many ( ) visit this park.", translation: "たくさんの人々がこの公園を訪れます。", answer: "people" },
+      { id: 419, rank: "S", unit: "Unit7", word: "Welcome to ....", meaning: "･･･へようこそ。", sentence: "( ) Japan!", translation: "日本へようこそ！", answer: "Welcome to" },
+      { id: 420, rank: "S", unit: "Unit7", word: "welcome", meaning: "ようこそ", sentence: "( ) to our school festival!", translation: "私たちの文化祭へようこそ！", answer: "Welcome" },
+      { id: 421, rank: "S", unit: "Unit7", word: "also", meaning: "そのうえ、さらに", sentence: "She sings well and ( ) plays the piano.", translation: "彼女は歌が上手で、そのうえピアノも弾きます。", answer: "also" },
+      { id: 422, rank: "S", unit: "Unit7", word: "angry", meaning: "怒って、腹を立てた", sentence: "Why are you so ( )?", translation: "なぜあなたはそんなに怒っているのですか。", answer: "angry" },
+      { id: 423, rank: "S", unit: "Unit7", word: "take", meaning: "(写真など)を撮る", sentence: "Can you ( ) a picture of us?", translation: "私たちの写真を撮ってくれますか。", answer: "take" },
+      { id: 424, rank: "S", unit: "Unit7", word: "home", meaning: "故郷", sentence: "Hokkaido is my mother's ( ).", translation: "北海道は私の母の故郷です。", answer: "home" },
+      { id: 425, rank: "S", unit: "Unit7", word: "around", meaning: "･･･のまわりを回って", sentence: "The earth moves ( ) the sun.", translation: "地球は太陽のまわりを回っています。", answer: "around" },
+      { id: 426, rank: "A", unit: "Unit7", word: "exciting", meaning: "興奮させるような、わくわくさせるような", sentence: "It was an ( ) game!", translation: "わくわくさせるような試合でした！", answer: "exciting" },
+      { id: 427, rank: "S", unit: "Unit7", word: "late", meaning: "遅い、おくれた、遅刻した", sentence: "Do not be ( ) for school.", translation: "学校に遅刻してはいけません。", answer: "late" },
+      { id: 428, rank: "S", unit: "Unit7", word: "sorry", meaning: "すまなく思って", sentence: "I am ( ) for being late.", translation: "遅れてすまなく思っています。", answer: "sorry" },
+      { id: 429, rank: "A", unit: "Unit7", word: "funny", meaning: "おかしな", sentence: "He told a ( ) story.", translation: "彼はおかしな話をしました。", answer: "funny" },
+      { id: 430, rank: "S", unit: "Unit7", word: "I'm sorry.", meaning: "すみません。ごめんなさい。", sentence: "( ), I am late.", translation: "ごめんなさい、遅刻しました。", answer: "I'm sorry" },
+      { id: 431, rank: "S", unit: "Unit7", word: "what", meaning: "なんと、なんて", sentence: "( ) a beautiful bird!", translation: "なんと美しい鳥でしょう！", answer: "What" },
+      { id: 432, rank: "A", unit: "Unit7", word: "excuse", meaning: "言い訳", sentence: "Don't make a silly ( ).", translation: "ばかな言い訳をしてはいけません。", answer: "excuse" },
+      { id: 433, rank: "S", unit: "Unit7", word: "is", meaning: "現在進行形やbe going toを作る", sentence: "Ken ( ) reading a book in his room.", translation: "ケンは部屋で本を読んでいるところです。", answer: "is" },
+      { id: 434, rank: "S", unit: "Unit7", word: "for", meaning: "･･･のために[の]", sentence: "This letter is ( ) you.", translation: "この手紙はあなた宛てのものです。", answer: "for" },
+      { id: 435, rank: "S", unit: "Unit7", word: "how", meaning: "なんと、どんなに", sentence: "( ) pretty this flower is!", translation: "この花はなんと可愛らしいのでしょう！", answer: "How" },
+      { id: 436, rank: "S", unit: "Unit7", word: "well", meaning: "ところで、それでは", sentence: "( ), let's start the meeting.", translation: "それでは、会議を始めましょう。", answer: "Well" },
+      { id: 437, rank: "S", unit: "Unit7", word: "too", meaning: "あまりに、･･･すぎる", sentence: "This tea is ( ) hot to drink.", translation: "このお茶は熱すぎて飲めません。", answer: "too" },
+      { id: 438, rank: "S", unit: "SCENE3", word: "woman", meaning: "女性、女の人", sentence: "That ( ) is our music teacher.", translation: "あの女の人は私たちの音楽の先生です。", answer: "woman" },
+      { id: 439, rank: "A", unit: "SCENE3", word: "straight", meaning: "まっすぐに", sentence: "Go ( ) along this street.", translation: "この通りをまっすぐに進みなさい。", answer: "straight" },
+      { id: 440, rank: "S", unit: "SCENE3", word: "hospital", meaning: "病院", sentence: "The ( ) is near the station.", translation: "病院は駅の近くにあります。", answer: "hospital" },
+      { id: 441, rank: "S", unit: "SCENE3", word: "left", meaning: "左に[へ]、左側に", sentence: "Turn ( ) at the corner.", translation: "かどを左に曲がりなさい。", answer: "left" },
+      { id: 442, rank: "S", unit: "SCENE3", word: "right", meaning: "右に[へ]、右側に", sentence: "Turn ( ) at the station.", translation: "駅で右に曲がりなさい。", answer: "right" },
+      { id: 443, rank: "A", unit: "SCENE3", word: "museum", meaning: "博物館、美術館", sentence: "We visited the art ( ) yesterday.", translation: "私たちは昨日美術館を訪れました。", answer: "museum" },
+      { id: 444, rank: "S", unit: "SCENE3", word: "post office", meaning: "郵便局", sentence: "Where is the nearest ( )?", translation: "一番近い郵便局はどこですか。", answer: "post office" },
+      { id: 445, rank: "S", unit: "SCENE3", word: "library", meaning: "図書館、図書室", sentence: "I study in the school ( ).", translation: "私は学校の図書室で勉強します。", answer: "library" },
+      { id: 446, rank: "A", unit: "SCENE3", word: "look for", meaning: "･･･をさがす", sentence: "I ( ) my lost key.", translation: "私はなくしたカギをさがします。", answer: "look for" },
+      { id: 447, rank: "B", unit: "SCENE3", word: "Pardon me?", meaning: "何とおっしゃいましたか。もう一度おっしゃってください。", sentence: "\"( ) Could you say that again?\"", translation: "「何とおっしゃいましたか。もう一度言っていただけますか。」", answer: "Pardon me?" },
+      { id: 448, rank: "A", unit: "SCENE3", word: "Let's see.", meaning: "[考えながら] ええと。そうですね。", sentence: "\"Where is my pen?\" \"( ).\"", translation: "「私のペンはどこかな。」「ええと。」", answer: "Let's see" },
+      { id: 449, rank: "B", unit: "SCENE3", word: "go along", meaning: "(通り・道)を進む", sentence: "( ) this street to the station.", translation: "駅までこの道を進みなさい。", answer: "Go along" },
+      { id: 450, rank: "S", unit: "SCENE3", word: "for", meaning: "･･･のために、･･･を求めて", sentence: "We searched ( ) the missing cat.", translation: "私達はいなくなったネコを求めて探しました。", answer: "for" },
+      { id: 451, rank: "S", unit: "SCENE3", word: "turn", meaning: "向く、曲がる", sentence: "( ) right at the next corner.", translation: "次の角を右に曲がりなさい。", answer: "Turn" },
+      { id: 452, rank: "A", unit: "SCENE3", word: "large", meaning: "大きい、広い", sentence: "There is a ( ) park near here.", translation: "この近くに広い公園があります。", answer: "large" },
+      { id: 453, rank: "C", unit: "Unit8", word: "ethnic", meaning: "民族(特有)の", sentence: "I like to eat ( ) food.", translation: "私は民族特有の料理を食べるのが好きです。", answer: "ethnic" },
+      { id: 454, rank: "B", unit: "Unit8", word: "volunteer", meaning: "ボランティア", sentence: "She is a park ( ).", translation: "彼女は公園のボランティアです。", answer: "volunteer" },
+      { id: 455, rank: "A", unit: "Unit8", word: "try, tries", meaning: "(･･･を)試す、やってみる、努力する", sentence: "She ( ) to speak English every day.", translation: "彼女は毎日英語を話そうと努力します。", answer: "tries" },
+      { id: 456, rank: "D", unit: "Unit8", word: "Africa", meaning: "アフリカ", sentence: "Lions live in wild parts of ( ).", translation: "ライオンはアフリカの野生地域に生息しています。", answer: "Africa" },
+      { id: 457, rank: "D", unit: "Unit8", word: "Kenya", meaning: "ケニア", sentence: "Nairobi is in ( ).", translation: "ナイロビはケニアにあります。", answer: "Kenya" },
+      { id: 458, rank: "A", unit: "Unit8", word: "try to", meaning: "･･･しようと試みる、努力する", sentence: "I ( ) speak English every day.", translation: "私は毎日英語を話そうと努力します。", answer: "try to" },
+      { id: 459, rank: "S", unit: "Unit8", word: "best", meaning: "最もよいもの、最良の状態", sentence: "I will do my ( ).", translation: "私は最善を尽くします。", answer: "best" },
+      { id: 460, rank: "B", unit: "Unit8", word: "respect", meaning: "･･･を尊敬する、尊重する", sentence: "We ( ) our teacher.", translation: "私たちは先生を尊敬しています。", answer: "respect" },
+      { id: 461, rank: "A", unit: "Unit8", word: "become", meaning: "･･･になる", sentence: "I want to ( ) a doctor.", translation: "私は医者になりたいです。", answer: "become" },
+      { id: 462, rank: "A", unit: "Unit8", word: "cousin", meaning: "いとこ", sentence: "Tom is my ( ).", translation: "トムは私のいとこです。", answer: "cousin" },
+      { id: 463, rank: "S", unit: "Unit8", word: "children", meaning: "childの複数形、子供たち", sentence: "The ( ) are playing in the park.", translation: "子供たちが公園で遊んでいます。", answer: "children" },
+      { id: 464, rank: "S", unit: "Unit8", word: "child", meaning: "子供", sentence: "She is a happy ( ).", translation: "彼女は幸せな子供です。", answer: "child" },
+      { id: 465, rank: "S", unit: "Unit8", word: "country, countries", meaning: "国", sentence: "Japan is a beautiful ( ).", translation: "日本は美しい国です。", answer: "country" },
+      { id: 466, rank: "S", unit: "Unit8", word: "always", meaning: "いつも、常に", sentence: "He is ( ) kind to me.", translation: "彼はいつも私に親切です。", answer: "always" },
+      { id: 467, rank: "B", unit: "Unit8", word: "in need", meaning: "困っている", sentence: "We should help people ( ).", translation: "私たちは困っている人を助けるべきです。", answer: "in need" },
+      { id: 468, rank: "A", unit: "Unit8", word: "do one's best", meaning: "最善を尽くす", sentence: "We should always ( ).", translation: "私たちは常に最善を尽くすべきです。", answer: "do our best" },
+      { id: 469, rank: "S", unit: "Unit8", word: "some", meaning: "一部の、一部の人々[もの]", sentence: "( ) people like dogs, and others like cats.", translation: "一部の人々はイヌが好きで、ほかの人々はネコが好きです。", answer: "Some" },
+      { id: 470, rank: "A", unit: "Unit8", word: "try to", meaning: "～しようと努力する、～してみる", sentence: "I will ( ) study hard every day.", translation: "私は毎日一生懸命勉強しようと努力します。", answer: "try to" },
+      { id: 471, rank: "B", unit: "Unit8", word: "reduce", meaning: "(サイズ・数量・程度など)を減らす、縮小する", sentence: "We should ( ) waste.", translation: "私たちはごみを減らすべきです。", answer: "reduce" },
+      { id: 472, rank: "B", unit: "Unit8", word: "waste", meaning: "ごみ、廃棄物", sentence: "Do not throw ( ) here.", translation: "ここにごみを捨ててはいけません。", answer: "waste" },
+      { id: 473, rank: "A", unit: "Unit8", word: "African", meaning: "アフリカ(人)の", sentence: "I like ( ) music.", translation: "私はアフリカの音楽が好きです。", answer: "African" },
+      { id: 474, rank: "S", unit: "Unit8", word: "paper", meaning: "紙の", sentence: "I write on a piece of ( ).", translation: "私は1枚の紙に書きます。", answer: "paper" },
+      { id: 475, rank: "A", unit: "Unit8", word: "plastic", meaning: "プラスチック[ビニール]製の", sentence: "We use a ( ) bag.", translation: "私たちはビニール袋を使います。", answer: "plastic" },
+      { id: 476, rank: "A", unit: "Unit8", word: "straw(s)", meaning: "ストロー", sentence: "I drink juice with a ( ).", translation: "私はストローでジュースを飲みます。", answer: "straw" },
+      { id: 477, rank: "B", unit: "Unit8", word: "original", meaning: "独創的な、独自の", sentence: "She has an ( ) idea.", translation: "彼女は独創的な考えを持っています。", answer: "original" },
+      { id: 478, rank: "B", unit: "Unit8", word: "reusable", meaning: "再利用できる", sentence: "I use a ( ) bottle.", translation: "私は再利用できるボトルを使います。", answer: "reusable" },
+      { id: 479, rank: "A", unit: "Unit8", word: "course", meaning: "[of course で] もちろん", sentence: "\"Can I come?\" \"Of ( )!\"", translation: "「行ってもいい？」「もちろんです！」", answer: "course" },
+      { id: 480, rank: "A", unit: "Unit8", word: "meat", meaning: "肉", sentence: "I like to eat ( ).", translation: "私は肉を食べるのが好きです。", answer: "meat" },
+      { id: 481, rank: "A", unit: "Unit8", word: "pie", meaning: "パイ", sentence: "My mother baked an apple ( ).", translation: "母がアップルパイを焼きました。", answer: "pie" },
+      { id: 482, rank: "A", unit: "Unit8", word: "bean", meaning: "豆", sentence: "Soy sauce is made from ( )s.", translation: "しょうゆは大豆から作られます。", answer: "bean" },
+      { id: 483, rank: "A", unit: "Unit8", word: "soup", meaning: "スープ", sentence: "This vegetable ( ) is hot.", translation: "この野菜スープは熱いです。", answer: "soup" },
+      { id: 484, rank: "A", unit: "Unit8", word: "chicken", meaning: "とり肉、チキン", sentence: "We ate fried ( ) for lunch.", translation: "私たちは昼食にフライドチキンを食べました。", answer: "chicken" },
+      { id: 485, rank: "A", unit: "Unit8", word: "curry", meaning: "カレー(料理)", sentence: "I like spicy ( ) and rice.", translation: "私は辛いカレーライスが好きです。", answer: "curry" },
+      { id: 486, rank: "S", unit: "Unit8", word: "of course", meaning: "もちろん", sentence: "\"Can you swim?\" \"( ) I can.\"", translation: "「泳げますか。」「もちろん泳げます。」", answer: "Of course" },
+      { id: 487, rank: "S", unit: "Unit8", word: "need", meaning: "～を必要とする", sentence: "We ( ) clean water to live.", translation: "私たちは生きるためにきれいな水を必要とします。", answer: "need" },
+      { id: 488, rank: "A", unit: "Unit8", word: "need to", meaning: "･･･する必要がある", sentence: "We ( ) protect nature.", translation: "私たちは自然を保護する必要があります。", answer: "need to" },
+      { id: 489, rank: "A", unit: "Unit8", word: "one", meaning: "代名詞のone (1つ、1人)", sentence: "I lost my pen, so I bought a new ( ).", translation: "ペンをなくしたので、新しいものを買いました。", answer: "one" },
+      { id: 490, rank: "A", unit: "Unit8", word: "well", meaning: "井戸", sentence: "They get water from the ( ).", translation: "彼らは井戸から水を得ます。", answer: "well" },
+      { id: 491, rank: "A", unit: "Unit8", word: "other", meaning: "(2つの中で)もう1つ[一方]の", sentence: "Show me the ( ) one.", translation: "もう一方のを見せてください。", answer: "other" },
+      { id: 492, rank: "B", unit: "Unit8", word: "village(s)", meaning: "村", sentence: "He lives in a small ( ).", translation: "彼は小さな村に住んでいます。", answer: "village" },
+      { id: 493, rank: "B", unit: "Unit8", word: "collect", meaning: "･･･を集める", sentence: "I ( ) stamps.", translation: "私は切手を集めています。", answer: "collect" },
+      { id: 494, rank: "A", unit: "Unit8", word: "far", meaning: "遠くに[へ]", sentence: "My school is not ( ) from here.", translation: "私の学校はここから遠くありません。", answer: "far" },
+      { id: 495, rank: "A", unit: "Unit8", word: "group", meaning: "グループ、団体", sentence: "We work in a ( ).", translation: "私たちはグループで活動します。", answer: "group" },
+      { id: 496, rank: "A", unit: "Unit8", word: "build(s)", meaning: "･･･を建てる、つくる", sentence: "Birds ( ) nests in spring.", translation: "鳥は春に巣をつくります。", answer: "build" },
+      { id: 497, rank: "S", unit: "Unit8", word: "these", meaning: "これら、この人たち", sentence: "( ) are my favorite books.", translation: "これらは私のお気に入りの本です。", answer: "These" },
+      { id: 498, rank: "S", unit: "Unit8", word: "money", meaning: "金、通貨", sentence: "I don't have much ( ).", translation: "私はあまりお金を持っていません。", answer: "money" },
+      { id: 499, rank: "S", unit: "Unit8", word: "get(ting)", meaning: "･･･を得る、受け取る、手に入れる", sentence: "It is ( ) cold today.", translation: "今日は寒くなってきています。", answer: "getting" },
+      { id: 500, rank: "A", unit: "Unit8", word: "clean", meaning: "きれいな、清潔な", sentence: "Keep your room ( ).", translation: "部屋をきれいにしておきなさい。", answer: "clean" },
+      { id: 501, rank: "S", unit: "Unit8", word: "river", meaning: "川", sentence: "Let's swim in the ( ).", translation: "川で泳ぎましょう。", answer: "river" },
+      { id: 502, rank: "S", unit: "Unit8", word: "happy", meaning: "幸せな、うれしい", sentence: "I am very ( ) to see you.", translation: "あなたに会えてとてもうれしいです。", answer: "happy" },
+      { id: 503, rank: "B", unit: "Unit8", word: "on the other hand", meaning: "他方では、これに反して", sentence: "He likes dogs; ( ), she likes cats.", translation: "彼はイヌが好きですが、他方では彼女はネコが好きです。", answer: "on the other hand" },
+      { id: 504, rank: "S", unit: "Unit8", word: "help", meaning: "援助、手助け", sentence: "Thank you for your ( ).", translation: "あなたの援助に感謝します。", answer: "help" },
+      { id: 505, rank: "S", unit: "Unit8", word: "from", meaning: "～から、～出身の", sentence: "They get water ( ) the river.", translation: "彼らは川から水を得ます。", answer: "from" },
+      { id: 506, rank: "S", unit: "Unit8", word: "look", meaning: "～に見える", sentence: "You ( ) very happy today.", translation: "あなたは今日とても幸せそうに見えます。", answer: "look" },
+      { id: 507, rank: "S", unit: "Unit8", word: "for", meaning: "･･･の間", sentence: "I stayed in Tokyo ( ) three days.", translation: "私は東京に3日間滞在しました。", answer: "for" },
+      { id: 508, rank: "S", unit: "Unit8", word: "time", meaning: "[for a long time で] 時間、期間", sentence: "I waited for a long ( ).", translation: "私は長い時間待ちました。", answer: "time" },
+      { id: 509, rank: "B", unit: "Unit8", word: "server", meaning: "給仕、ウェイター", sentence: "The ( ) brought our food.", translation: "ウェイターが私たちの料理を持ってきました。", answer: "server" },
+      { id: 510, rank: "A", unit: "Unit8", word: "would", meaning: "[would likeで] ･･･がほしい(のですが)", sentence: "I ( ) like some water.", translation: "お水がほしいのですが。", answer: "would" },
+      { id: 511, rank: "A", unit: "Unit8", word: "anything", meaning: "[疑問文で]何か", sentence: "Do you want ( ) to drink?", translation: "何か飲むものがほしいですか。", answer: "anything" },
+      { id: 512, rank: "A", unit: "Unit8", word: "else", meaning: "(その)ほかに[の]", sentence: "Do you need anything ( )?", translation: "そのほかに何か必要ですか。", answer: "else" },
+      { id: 513, rank: "A", unit: "Unit8", word: "full", meaning: "いっぱいの、満腹の", sentence: "I am ( ) now.", translation: "私は今お腹がいっぱいです。", answer: "full" },
+      { id: 514, rank: "A", unit: "Unit8", word: "salad", meaning: "サラダ", sentence: "I eat green ( ) every day.", translation: "私は毎日生野菜サラダを食べます。", answer: "salad" },
+      { id: 515, rank: "A", unit: "Unit8", word: "dessert", meaning: "デザート", sentence: "We had ice cream for ( ).", translation: "私たちはデザートにアイスクリームを食べました。", answer: "dessert" },
+      { id: 516, rank: "A", unit: "Unit8", word: "would like", meaning: "･･･がほしい(のですが)", sentence: "I ( ) a cup of tea.", translation: "お茶を1杯ほしいのですが。", answer: "would like" },
+      { id: 517, rank: "A", unit: "Unit8", word: "would like to", meaning: "･･･したい(のですが)", sentence: "I ( ) visit London.", translation: "私はロンドンを訪れたいのですが。", answer: "would like to" },
+      { id: 518, rank: "S", unit: "Unit8", word: "No, thank you.", meaning: "いいえ、けっこうです。", sentence: "\"More tea?\" \"( ).\"", translation: "「お茶のおかわりはいかがですか。」「いいえ、けっこうです。」", answer: "No, thank you" },
+      { id: 519, rank: "A", unit: "Unit8", word: "would", meaning: "［would likeで］～したいのですが", sentence: "I ( ) like a glass of water, please.", translation: "お水を1杯いただきたいのですが。", answer: "would" },
+      { id: 520, rank: "S", unit: "Unit8", word: "thank you.", meaning: "ありがとう。", sentence: "\"Here is your coffee.\" \"( )\"", translation: "「コーヒーをどうぞ。」「ありがとう。」", answer: "Thank you." },
+      { id: 521, rank: "A", unit: "Stage Activity2", word: "voice", meaning: "声", sentence: "She has a sweet ( ).", translation: "彼女は優しい声をしています。", answer: "voice" },
+      { id: 522, rank: "S", unit: "Stage Activity2", word: "word(s)", meaning: "歌詞、単語", sentence: "I learned ten new ( ) today.", translation: "私は今日10個の新しい単語を学びました。", answer: "words" },
+      { id: 523, rank: "A", unit: "Stage Activity2", word: "cheer", meaning: "･･･を元気づける", sentence: "We ( ) for our team.", translation: "私たちは自分たちのチームを応援して元気づけます。", answer: "cheer" },
+      { id: 524, rank: "A", unit: "Stage Activity2", word: "concert", meaning: "演奏会、コンサート", sentence: "I went to a piano ( ).", translation: "私はピアノの演奏会に行きました。", answer: "concert" },
+      { id: 525, rank: "B", unit: "Stage Activity2", word: "dome", meaning: "丸屋根、ドーム", sentence: "Look at the big ( ) stadium.", translation: "大きなドーム球場を見てください。", answer: "dome" },
+      { id: 526, rank: "A", unit: "Stage Activity2", word: "stage", meaning: "舞台、ステージ", sentence: "The actors are on the ( ).", translation: "俳優たちが舞台の上にいます。", answer: "stage" },
+      { id: 527, rank: "B", unit: "Stage Activity2", word: "performance", meaning: "演技、演奏、公演", sentence: "His ( ) was great.", translation: "彼の演奏はすばらしかったです。", answer: "performance" },
+      { id: 528, rank: "S", unit: "Stage Activity2", word: "again", meaning: "もう一度、再び、また", sentence: "Please say that ( ).", translation: "もう一度それを言ってください。", answer: "again" },
+      { id: 529, rank: "A", unit: "Stage Activity2", word: "hero", meaning: "英雄、ヒーロー", sentence: "He is a true ( ).", translation: "彼は真の英雄です。", answer: "hero" },
+      { id: 530, rank: "A", unit: "Stage Activity2", word: "singer", meaning: "歌手", sentence: "She wants to be a ( ).", translation: "彼女は歌手になりたいと思っています。", answer: "singer" },
+      { id: 531, rank: "S", unit: "Stage Activity2", word: "world", meaning: "世界", sentence: "People all over the ( ) love soccer.", translation: "世界中の人々がサッカーを愛しています。", answer: "world" },
+      { id: 532, rank: "S", unit: "Stage Activity2", word: "music", meaning: "音楽", sentence: "I listen to ( ) every day.", translation: "私は毎日音楽を聴きます。", answer: "music" },
+      { id: 533, rank: "A", unit: "Stage Activity2", word: "all over", meaning: "･･･のいたるところに[で、の]", sentence: "He traveled ( ) Japan.", translation: "彼は日本のいたるところを旅行しました。", answer: "all over" },
+      { id: 534, rank: "B", unit: "Stage Activity2", word: "cheer... up", meaning: "･･･を元気づける", sentence: "Music can ( ) me up.", translation: "音楽は私を元気づけてくれます。", answer: "cheer" },
+      { id: 535, rank: "S", unit: "Unit9", word: "back", meaning: "戻って、返して", sentence: "Come ( ) soon.", translation: "すぐに戻ってきなさい。", answer: "back" },
+      { id: 536, rank: "B", unit: "Unit9", word: "during", meaning: "･･･の間ずっと、･･･の間に", sentence: "I read books ( ) the vacation.", translation: "私は休暇の間に本を読みました。", answer: "during" },
+      { id: 537, rank: "A", unit: "Unit9", word: "stay(ed)", meaning: "滞在する、泊まる", sentence: "I ( ) at my uncle's house.", translation: "私はおじの家に滞在しました。", answer: "stayed" },
+      { id: 538, rank: "A", unit: "Unit9", word: "snowboarding", meaning: "スノーボード(をすること)", sentence: "I like ( ) in winter.", translation: "私は冬にスノーボードをすることが好きです。", answer: "snowboarding" },
+      { id: 539, rank: "D", unit: "Unit9", word: "Christmas Day", meaning: "クリスマス", sentence: "We get presents on ( ).", translation: "私たちはクリスマスの日にプレゼントをもらいます。", answer: "Christmas Day" },
+      { id: 540, rank: "A", unit: "Unit9", word: "relax(ed)", meaning: "くつろぐ", sentence: "I ( ) on the sofa.", translation: "私はソファでくつろぎました。", answer: "relaxed" },
+      { id: 541, rank: "A", unit: "Unit9", word: "met (meet)", meaning: "meetの過去形", sentence: "I ( ) Ken yesterday.", translation: "私は昨日ケンに会いました。", answer: "met" },
+      { id: 542, rank: "A", unit: "Unit9", word: "ice hockey", meaning: "アイスホッケー", sentence: "He plays ( ) very well.", translation: "彼はとても上手にアイスホッケーをします。", answer: "ice hockey" },
+      { id: 543, rank: "D", unit: "Unit9", word: "Vancouver", meaning: "バンクーバー [地名]", sentence: "( ) is a big city in Canada.", translation: "バンクーバーはカナダの大きな都市です。", answer: "Vancouver" },
+      { id: 544, rank: "S", unit: "Unit9", word: "meet", meaning: "(･･･に)会う", sentence: "Nice to ( ) you.", translation: "あなたにお会いできてうれしいです。", answer: "meet" },
+      { id: 545, rank: "A", unit: "Unit9", word: "vacation", meaning: "休暇、休み", sentence: "What did you do during the ( )?", translation: "休暇の間は何をしましたか。", answer: "vacation" },
+      { id: 546, rank: "S", unit: "Unit9", word: "mountain(s)", meaning: "山", sentence: "Mt. Fuji is a high ( ).", translation: "富士山は高い山です。", answer: "mountain" },
+      { id: 547, rank: "S", unit: "Unit9", word: "saw", meaning: "seeの過去形", sentence: "I ( ) a movie yesterday.", translation: "私は昨日映画を見ました。", answer: "saw" },
+      { id: 548, rank: "A", unit: "Unit9", word: "go back", meaning: "帰る、戻る", sentence: "It is time to ( ) home.", translation: "家に帰る時間です。", answer: "go back" },
+      { id: 549, rank: "S", unit: "Unit9", word: "at home", meaning: "家で[に]", sentence: "I stayed ( ) on Sunday.", translation: "私は日曜日に家にいました。", answer: "at home" },
+      { id: 550, rank: "S", unit: "Unit9", word: "did", meaning: "doの過去形", sentence: "I ( ) my homework yesterday.", translation: "私は昨日宿題をしました。", answer: "did" },
+      { id: 551, rank: "B", unit: "Unit9", word: "traditional", meaning: "伝統的な", sentence: "Soba is a ( ) Japanese food.", translation: "そばは伝統的な日本料理です。", answer: "traditional" },
+      { id: 552, rank: "A", unit: "Unit9", word: "special", meaning: "特別な", sentence: "Today is a ( ) day for me.", translation: "今日はお正月の特別な日です。", answer: "special" },
+      { id: 553, rank: "S", unit: "Unit9", word: "write", meaning: "書く", sentence: "Please ( ) your name here.", translation: "ここにお名前を書いてください。", answer: "write" },
+      { id: 554, rank: "A", unit: "Unit9", word: "wrote (write)", meaning: "writeの過去形", sentence: "I ( ) a letter to Tom.", translation: "私はトムに手紙を書きました。", answer: "wrote" },
+      { id: 555, rank: "D", unit: "Unit9", word: "New Year", meaning: "新年", sentence: "Happy ( )!", translation: "明けましておめでとう！", answer: "New Year" },
+      { id: 556, rank: "S", unit: "Unit9", word: "ate (eat)", meaning: "eatの過去形", sentence: "I ( ) an apple for breakfast.", translation: "私は朝食にリンゴを食べました。", answer: "ate" },
+      { id: 557, rank: "D", unit: "Unit9", word: "New Year's Eve", meaning: "大みそか", sentence: "We eat soba on ( ).", translation: "私たちは大みそかにそばを食べます。", answer: "New Year's Eve" },
+      { id: 558, rank: "A", unit: "Unit9", word: "card(s)", meaning: "カード、はがき", sentence: "I received many New Year's ( )s.", translation: "私はたくさんの年賀状を受け取りました。", answer: "card" },
+      { id: 559, rank: "A", unit: "Unit9", word: "rice cake", meaning: "もち", sentence: "We eat ( ) in New Year.", translation: "私たちはお正月に餅を食べます。", answer: "rice cake" },
+      { id: 560, rank: "A", unit: "Unit9", word: "Good for you!", meaning: "よくやった。", sentence: "\"I passed the test.\" \"( )!\"", translation: "「テストに合格したよ。」「よくやったね！」", answer: "Good for you" },
+      { id: 561, rank: "A", unit: "Unit9", word: "How nice!", meaning: "いいね。すばらしい。", sentence: "\"I bought a new bike.\" \"( )!\"", translation: "「新しい自転車を買ったんだ。」「いいね！」", answer: "How nice" },
+      { id: 562, rank: "A", unit: "Unit9", word: "spend", meaning: "（時を）過ごす", sentence: "How do you ( ) your winter vacation?", translation: "あなたは冬休みをどのように過ごしますか。", answer: "spend" },
+      { id: 563, rank: "A", unit: "Unit9", word: "spent", meaning: "spendの過去形", sentence: "I ( ) a happy time with my family.", translation: "私は家族と幸せな時を過ごしました。", answer: "spent" },
+      { id: 564, rank: "S", unit: "Unit9", word: "came", meaning: "comeの過去形", sentence: "Tom ( ) to my house yesterday.", translation: "トムは昨日私の家に来ました。", answer: "came" },
+      { id: 565, rank: "S", unit: "Unit9", word: "bought", meaning: "buyの過去形", sentence: "I ( ) a new bag yesterday.", translation: "私は昨日新しいかばんを買いました。", answer: "bought" },
+      { id: 566, rank: "B", unit: "Unit9", word: "fortune slip", meaning: "おみくじ", sentence: "I drew a ( ) at the shrine.", translation: "私は神社でおみくじを引きました。", answer: "fortune slip" },
+      { id: 567, rank: "S", unit: "Unit9", word: "read", meaning: "read の過去形", sentence: "I ( ) that book last night.", translation: "私は昨夜その本を読みました。", answer: "read" },
+      { id: 568, rank: "S", unit: "Unit9", word: "said", meaning: "say の過去形", sentence: "She ( ) hello to me.", translation: "彼女は私にこんにちはと言いました。", answer: "said" },
+      { id: 569, rank: "B", unit: "Unit9", word: "charm", meaning: "お守り", sentence: "I bought a lucky ( ) at the temple.", translation: "私は寺で幸運のお守りを買いました。", answer: "charm" },
+      { id: 570, rank: "S", unit: "Unit9", word: "got", meaning: "get の過去形", sentence: "I ( ) many presents on my birthday.", translation: "私は誕生日にたくさんのプレゼントをもらいました。", answer: "got" },
+      { id: 571, rank: "B", unit: "Unit9", word: "wooden", meaning: "木でできた", sentence: "I wrote my wish on a ( ) plate.", translation: "私は木の絵馬（木でできた板）に願い事を書きました。", answer: "wooden" },
+      { id: 572, rank: "A", unit: "Unit9", word: "wish", meaning: "願い、願い事", sentence: "Make a ( ) on a star.", translation: "星に願い事をしなさい。", answer: "wish" },
+      { id: 573, rank: "D", unit: "Unit9", word: "New Year`s Day", meaning: "元日", sentence: "We eat special food on ( ).", translation: "私たちは元日に特別な料理を食べます。", answer: "New Year's Day" },
+      { id: 574, rank: "A", unit: "Unit9", word: "future", meaning: "未来、将来", sentence: "I want to be a teacher in the ( ).", translation: "私は将来先生になりたいです。", answer: "future" },
+      { id: 575, rank: "S", unit: "Unit9", word: "bad", meaning: "悪い、よくない", sentence: "Eating too much is ( ) for you.", translation: "食べ過ぎはあなたにとってよくないです。", answer: "bad" },
+      { id: 576, rank: "S", unit: "Unit9", word: "had", meaning: "haveの過去形", sentence: "We ( ) a good time yesterday.", translation: "私たちは昨日楽しい時間を過ごしました。", answer: "had" },
+      { id: 577, rank: "A", unit: "Unit9", word: "have a ～ time", meaning: "～な時間を過ごす", sentence: "Did you ( ) at the party?", translation: "あなたはパーティーで楽しい時間を過ごしましたか。", answer: "have a good time" },
+      { id: 578, rank: "A", unit: "SCENE5", word: "dear", meaning: "親愛なる･･･(様) [手紙などの書き出しの言葉]", sentence: "( ) Ken, how are you?", translation: "親愛なるケンへ、元気ですか。", answer: "Dear" },
+      { id: 579, rank: "A", unit: "SCENE5", word: "grandma", meaning: "おばあちゃん", sentence: "I visited my ( ) yesterday.", translation: "私は昨日おばあちゃんを訪ねました。", answer: "grandma" },
+      { id: 580, rank: "A", unit: "SCENE5", word: "grandpa", meaning: "おじいちゃん", sentence: "My ( ) is seventy years old.", translation: "私のおじいちゃんは70歳です。", answer: "grandpa" },
+      { id: 581, rank: "A", unit: "SCENE5", word: "ski(ing)", meaning: "スキーをする", sentence: "We went ( ) last winter.", translation: "私たちは去年の冬スキーに行きました。", answer: "skiing" },
+      { id: 582, rank: "A", unit: "SCENE5", word: "fell (fall)", meaning: "fallの過去形", sentence: "The leaves ( ) from the tree.", translation: "葉が木から落ちました。", answer: "fell" },
+      { id: 583, rank: "D", unit: "SCENE5", word: "Mt.", meaning: "[Mountの略。山の名の前につけて]･･･山", sentence: "We climbed ( ) Fuji.", translation: "私たちは富士山に登りました。", answer: "Mt." },
+      { id: 584, rank: "A", unit: "SCENE5", word: "go...ing", meaning: "･･･しに行く", sentence: "Let's ( ) fishing this weekend.", translation: "今週末釣りをしに行きましょう。", answer: "go" },
+      { id: 585, rank: "A", unit: "SCENE5", word: "snow", meaning: "雪", sentence: "We had much ( ) yesterday.", translation: "昨日は雪がたくさん降りました。", answer: "snow" },
+      { id: 586, rank: "A", unit: "SCENE5", word: "outside", meaning: "外で[に、へ]", sentence: "Let's play ( ) today.", translation: "今日は外で遊びましょう。", answer: "outside" },
+      { id: 587, rank: "B", unit: "SCENE5", word: "miss", meaning: "･･･がいないのをさびしく思う", sentence: "I will ( ) you very much.", translation: "あなたがいないのをとてもさびしく思うでしょう。", answer: "miss" },
+      { id: 588, rank: "A", unit: "SCENE5", word: "care", meaning: "世話", sentence: "Take good ( ) of your dog.", translation: "イヌの世話をしっかりしなさい。", answer: "care" },
+      { id: 589, rank: "S", unit: "SCENE5", word: "down", meaning: "下に、下がって", sentence: "Sit ( ), please.", translation: "座ってください。", answer: "down" },
+      { id: 590, rank: "A", unit: "SCENE5", word: "hotel", meaning: "ホテル、旅館", sentence: "We stayed at a nice ( ).", translation: "私たちはすてきなホテルに泊まりました。", answer: "hotel" },
+      { id: 591, rank: "A", unit: "SCENE5", word: "for the first time", meaning: "はじめて", sentence: "I saw snow ( ).", translation: "私ははじめて雪を見ました。", answer: "for the first time" },
+      { id: 592, rank: "A", unit: "SCENE5", word: "fall down", meaning: "倒れる", sentence: "Do not ( ) on the ice.", translation: "氷の上で倒れないようにしなさい。", answer: "fall down" },
+      { id: 593, rank: "A", unit: "SCENE5", word: "take care of", meaning: "･･･をだいじにする、[take care of oneselfで]体に気をつける", sentence: "Please ( ) yourself.", translation: "体に気をつけてください。", answer: "take care of" },
+      { id: 594, rank: "S", unit: "SCENE5", word: "time", meaning: "［timesで］回、度", sentence: "I have visited Kyoto three ( )s.", translation: "私は京都を3回訪れたことがあります。", answer: "time" },
+      { id: 595, rank: "A", unit: "SCENE5", word: "fall", meaning: "転ぶ、落ちる", sentence: "Be careful not to ( ) on the snow.", translation: "雪の上で転ばないように気をつけてください。", answer: "fall" },
+      { id: 596, rank: "S", unit: "SCENE5", word: "take", meaning: "［行動・措置など］をとる", sentence: "Please ( ) care of yourself.", translation: "体に気をつけてください。", answer: "take" },
+      { id: 597, rank: "A", unit: "unit10", word: "anyone", meaning: "[肯定文で]だれでも", sentence: "( ) can join this club.", translation: "だれでもこのクラブに参加できます。", answer: "Anyone" },
+      { id: 598, rank: "A", unit: "unit10", word: "love", meaning: "愛をこめて", sentence: "With ( ), Ken.", translation: "愛をこめて、ケンより。", answer: "love" },
+      { id: 599, rank: "B", unit: "unit10", word: "realize(d)", meaning: "･･･だと気づく", sentence: "I ( ) my mistake.", translation: "私は自分の間違いに気づきました。", answer: "realized" },
+      { id: 600, rank: "A", unit: "unit10", word: "mistake(s)", meaning: "誤り、まちがい", sentence: "I made a small ( ).", translation: "私は小さな間違いをしました。", answer: "mistake" },
+      { id: 601, rank: "A", unit: "unit10", word: "won (win)", meaning: "winの過去形", sentence: "Our team ( ) the game!", translation: "私たちのチームが試合に勝ちました！", answer: "won" },
+      { id: 602, rank: "B", unit: "unit10", word: "anyway", meaning: "とにかく、それでも", sentence: "Thank you ( ).", translation: "とにかくありがとう。", answer: "anyway" },
+      { id: 603, rank: "S", unit: "unit10", word: "made", meaning: "make の過去形", sentence: "My mother ( ) a cake for me.", translation: "母は私のためにケーキを作ってくれました。", answer: "made" },
+      { id: 604, rank: "S", unit: "unit10", word: "remember", meaning: "～を思い出す、覚えている", sentence: "Do you ( ) my name?", translation: "私の名前を覚えていますか。", answer: "remember" },
+      { id: 605, rank: "A", unit: "unit10", word: "chorus", meaning: "合唱", sentence: "We joined the ( ) contest.", translation: "私たちは合唱コンテストに参加しました。", answer: "chorus" },
+      { id: 606, rank: "A", unit: "unit10", word: "contest", meaning: "コンテスト、コンクール", sentence: "He won the speech ( ).", translation: "彼はスピーチコンテストで優勝しました。", answer: "contest" },
+      { id: 607, rank: "B", unit: "unit10", word: "memory", meaning: "思い出", sentence: "I have a good ( ) of summer.", translation: "私は夏の良い思い出があります。", answer: "memory" },
+      { id: 608, rank: "A", unit: "unit10", word: "at first", meaning: "最初は、はじめのうちは", sentence: "( ) I was shy, but now I have friends.", translation: "最初は恥ずかしがり屋でしたが、今は友達がいます。", answer: "At first" },
+      { id: 609, rank: "A", unit: "unit10", word: "like ...ing", meaning: "･･･するのが好きである", sentence: "I ( ) reading books.", translation: "私は本を読むのが好きです。", answer: "like" },
+      { id: 610, rank: "A", unit: "unit10", word: "practice", meaning: "練習", sentence: "We had hard soccer ( ) yesterday.", translation: "私たちは昨日きついサッカーの練習がありました。", answer: "practice" },
+      { id: 611, rank: "A", unit: "unit10", word: "win", meaning: "～を勝ち取る、獲得する", sentence: "Our class wants to ( ) first prize.", translation: "私たちのクラスは1位を勝ち取りたいです。", answer: "win" },
+      { id: 612, rank: "B", unit: "unit10", word: "place", meaning: "［順位］位、場所", sentence: "He won second ( ) in the speech contest.", translation: "彼はスピーチコンテストで2位を獲得しました。", answer: "place" },
+      { id: 613, rank: "S", unit: "unit10", word: "make", meaning: "･･･をする", sentence: "Let's ( ) friends with them.", translation: "彼らと友達になりましょう。", answer: "make" },
+      { id: 614, rank: "S", unit: "unit10", word: "can", meaning: "･･･することがあり得る", sentence: "Anyone ( ) make mistakes.", translation: "だれでも間違いをすることがあり得ます。", answer: "can" },
+      { id: 615, rank: "S", unit: "unit10", word: "best", meaning: "最もよい、最良の", sentence: "This is the ( ) picture of all.", translation: "これはすべての中で最もよい写真です。", answer: "best" },
+      { id: 616, rank: "S", unit: "unit10", word: "hey", meaning: "やあ、おい、ちょっと", sentence: "( ), look at that cat!", translation: "おい、あのネコを見て！", answer: "Hey" },
+      { id: 617, rank: "A", unit: "unit10", word: "break", meaning: "休憩", sentence: "Let's take a short ( ).", translation: "少し休憩をしましょう。", answer: "break" },
+      { id: 618, rank: "S", unit: "unit10", word: "then", meaning: "そのとき(に)", sentence: "I was twelve years old ( ).", translation: "私はそのとき12歳でした。", answer: "then" },
+      { id: 619, rank: "A", unit: "unit10", word: "bring", meaning: "･･･をもたらす", sentence: "Spring will ( ) warm days.", translation: "春は暖かい日々をもたらします。", answer: "bring" },
+      { id: 620, rank: "A", unit: "unit10", word: "heart", meaning: "心臓、心", sentence: "My ( ) is beating fast.", translation: "私の心臓が速く脈打っています。", answer: "heart" },
+      { id: 621, rank: "B", unit: "unit10", word: "beat(ing)", meaning: "どきどきする", sentence: "My heart is ( ) fast.", translation: "私の心臓はどきどきしています。", answer: "beating" },
+      { id: 622, rank: "A", unit: "unit10", word: "way", meaning: "道、道筋", sentence: "Do you know the ( ) to the park?", translation: "公園へ行く道を知っていますか。", answer: "way" },
+      { id: 623, rank: "A", unit: "unit10", word: "each", meaning: "それぞれの、各自の", sentence: "( ) student has a notebook.", translation: "それぞれの生徒がノートを持っています。", answer: "Each" },
+      { id: 624, rank: "A", unit: "unit10", word: "album", meaning: "アルバム", sentence: "Look at our school ( ).", translation: "私たちの学校のアルバムを見てください。", answer: "album" },
+      { id: 625, rank: "S", unit: "unit10", word: "yesterday", meaning: "昨日(は)", sentence: "I stayed home ( ).", translation: "私は昨日家にいました。", answer: "yesterday" },
+      { id: 626, rank: "S", unit: "unit10", word: "fast", meaning: "速く", sentence: "He can run very ( ).", translation: "彼はとても速く走ることができます。", answer: "fast" },
+      { id: 627, rank: "B", unit: "unit10", word: "bring back", meaning: "･･･を思い出させる", sentence: "These pictures ( ) old memories.", translation: "これらの写真は古い思い出を思い出させます。", answer: "bring back" },
+      { id: 628, rank: "B", unit: "unit10", word: "on one's way (to)", meaning: "(･･･へ行く)途中で", sentence: "I met Ken ( ) to school.", translation: "私は学校へ行く途中でケンに会いました。", answer: "on my way" },
+      { id: 629, rank: "S", unit: "unit10", word: "show", meaning: "･･･を見せる、示す", sentence: "Please ( ) me your pictures.", translation: "あなたの写真を見せてください。", answer: "show" },
+      { id: 630, rank: "A", unit: "unit10", word: "trip", meaning: "旅行", sentence: "We went on a school ( ).", translation: "私たちは修学旅行に行きました。", answer: "trip" },
+      { id: 631, rank: "B", unit: "unit10", word: "campground", meaning: "キャンプ場", sentence: "We pitched a tent at the ( ).", translation: "私たちはキャンプ場にテントを張りました。", answer: "campground" },
+      { id: 632, rank: "A", unit: "unit10", word: "hot spring", meaning: "温泉", sentence: "Japan has many famous ( )s.", translation: "日本には多くの有名な温泉があります。", answer: "hot spring" },
+      { id: 633, rank: "A", unit: "unit10", word: "set", meaning: "setの過去形、･･･を置く、すえる、配置する", sentence: "He ( ) the cups on the table.", translation: "彼はテーブルの上にカップを置きました。", answer: "set" },
+      { id: 634, rank: "A", unit: "unit10", word: "tent(s)", meaning: "テント", sentence: "We slept in a ( ) last night.", translation: "私たちは昨夜テントの中で寝ました。", answer: "tent" },
+      { id: 635, rank: "B", unit: "unit10", word: "main", meaning: "主な、主要な", sentence: "This is the ( ) street of the town.", translation: "これはこの町の主要な通りです。", answer: "main" },
+      { id: 636, rank: "B", unit: "unit10", word: "campfire", meaning: "キャンプファイア", sentence: "We sang songs around the ( ).", translation: "私たちはキャンプファイヤーを囲んで歌を歌いました。", answer: "campfire" },
+      { id: 637, rank: "A", unit: "unit10", word: "camping", meaning: "キャンプ(生活)", sentence: "I like going ( ) with my family.", translation: "私は家族とキャンプに行くのが好きです。", answer: "camping" },
+      { id: 638, rank: "S", unit: "unit10", word: "night(s)", meaning: "夜、晩", sentence: "Good ( ), Ken.", translation: "おやすみなさい、ケン。", answer: "night" },
+      { id: 639, rank: "A", unit: "unit10", word: "event", meaning: "出来事、行事", sentence: "The sports day is a big school ( ).", translation: "運動会は大きな学校行事です。", answer: "event" },
+      { id: 640, rank: "S", unit: "unit10", word: "there is [are]", meaning: "･･･がある[いる]", sentence: "( ) a book on the desk.", translation: "机の上に本が1冊あります。", answer: "There is" },
+      { id: 641, rank: "B", unit: "unit10", word: "set up", meaning: "･･･を建てる", sentence: "Let's ( ) the tent together.", translation: "いっしょにテントを建てましょう。", answer: "set up" },
+      { id: 642, rank: "S", unit: "unit10", word: "there's", meaning: "there isの短縮形", sentence: "( ) a cat under the table.", translation: "テーブルの下にネコがいます。", answer: "There's" },
+      { id: 643, rank: "A", unit: "unit10", word: "lot", meaning: "[a lotで]たいへん、とても", sentence: "Thank you a ( ).", translation: "たいへんありがとうございます。", answer: "lot" },
+      { id: 644, rank: "A", unit: "SCENE6", word: "wrong", meaning: "ぐあいが悪い", sentence: "Something is ( ) with my bike.", translation: "私の自転車はどこかぐあいが悪いです。", answer: "wrong" },
+      { id: 645, rank: "B", unit: "SCENE6", word: "stomachache", meaning: "胃痛、腹痛", sentence: "I have a bad ( ).", translation: "私はひどい腹痛がします。", answer: "stomachache" },
+      { id: 646, rank: "S", unit: "SCENE6", word: "before", meaning: "･･･の前に[の]", sentence: "Wash your hands ( ) dinner.", translation: "夕食の前に手を洗いなさい。", answer: "before" },
+      { id: 647, rank: "B", unit: "SCENE6", word: "mild", meaning: "穏やかな、強くない、軽い", sentence: "I have a ( ) cold.", translation: "私は軽い風邪をひいています。", answer: "mild" },
+      { id: 648, rank: "B", unit: "SCENE6", word: "medicine", meaning: "薬", sentence: "Take this ( ), please.", translation: "この薬を飲んでください。", answer: "medicine" },
+      { id: 649, rank: "A", unit: "SCENE6", word: "rest", meaning: "休み、休息", sentence: "You need some ( ).", translation: "あなたは休息が必要です。", answer: "rest" },
+      { id: 650, rank: "B", unit: "SCENE6", word: "headache", meaning: "頭痛", sentence: "I have a terrible ( ).", translation: "私はひどい頭痛がします。", answer: "headache" },
+      { id: 651, rank: "B", unit: "SCENE6", word: "fever", meaning: "熱", sentence: "He has a high ( ).", translation: "彼は高い熱があります。", answer: "fever" },
+      { id: 652, rank: "B", unit: "SCENE6", word: "toothache", meaning: "歯痛", sentence: "I went to the dentist for my ( ).", translation: "私は歯痛で歯医者に行きました。", answer: "toothache" },
+      { id: 653, rank: "B", unit: "SCENE6", word: "food poisoning", meaning: "食中毒", sentence: "He had ( ) after eating the fish.", translation: "彼はその魚を食べた後に食中毒になりました。", answer: "food poisoning" },
+      { id: 654, rank: "S", unit: "SCENE6", word: "doctor", meaning: "医者、医師", sentence: "You should see a ( ).", translation: "あなたは医者に診てもらうべきです。", answer: "doctor" },
+      { id: 655, rank: "A", unit: "SCENE6", word: "What's wrong?", meaning: "どうかしたのですか。", sentence: "\"You look sad. ( )?\"", translation: "「悲しそうですね。どうかしたのですか。」", answer: "What's wrong" },
+      { id: 656, rank: "A", unit: "SCENE6", word: "take a rest", meaning: "ひと休みする", sentence: "Let's ( ) under the tree.", translation: "木の下でひと休みしましょう。", answer: "take a rest" },
+      { id: 657, rank: "S", unit: "SCENE6", word: "take", meaning: "［薬など］を飲む、服用する", sentence: "You should ( ) this medicine.", translation: "あなたはこの薬を飲むべきです。", answer: "take" },
+      { id: 658, rank: "S", unit: "SCENE6", word: "ran (run)", meaning: "runの過去形", sentence: "He ( ) very fast in the race.", translation: "彼はレースでとても速く走りました。", answer: "ran" },
+      { id: 659, rank: "A", unit: "SCENE6", word: "relay", meaning: "リレー競走", sentence: "We won the ( ) race.", translation: "私たちはリレー競走に勝ちました。", answer: "relay" },
+      { id: 660, rank: "B", unit: "SCENE6", word: "another", meaning: "ほかの、別の、ちがった", sentence: "Can I have ( ) cup of tea?", translation: "お茶をもう1杯いただけますか。", answer: "another" },
+      { id: 661, rank: "B", unit: "SCENE6", word: "runner", meaning: "走者", sentence: "He is the fastest ( ) in our class.", translation: "彼は私たちのクラスで一番速い走者です。", answer: "runner" },
+      { id: 662, rank: "B", unit: "SCENE6", word: "behind", meaning: "･･･の後ろに", sentence: "The cat is ( ) the door.", translation: "ネコがドアの後ろにいます。", answer: "behind" },
+      { id: 663, rank: "C", unit: "Let's Read", word: "naughty", meaning: "いたずらな", sentence: "He was a ( ) boy.", translation: "彼はいたずらな少年でした。", answer: "naughty" },
+      { id: 664, rank: "B", unit: "Let's Read", word: "trick(s)", meaning: "いたずら", sentence: "The fox played a ( ) on him.", translation: "キツネは彼にいたずらをしました。", answer: "trick" },
+      { id: 665, rank: "C", unit: "Let's Read", word: "crept", meaning: "creepの過去形", sentence: "The cat ( ) quietly into the room.", translation: "ネコは静かに部屋へ這って入りました。", answer: "crept" },
+      { id: 666, rank: "C", unit: "Let's Read", word: "creep", meaning: "はう", sentence: "Babies ( ) on the floor.", translation: "赤ちゃんは床の上を這います。", answer: "creep" },
+      { id: 667, rank: "B", unit: "Let's Read", word: "let", meaning: "letの過去形、･･･の状態にさせる", sentence: "He ( ) the bird go.", translation: "彼は鳥を逃がしてやりました。", answer: "let" },
+      { id: 668, rank: "B", unit: "Let's Read", word: "shout(ed)", meaning: "(･･･と)さけぶ", sentence: "The boy ( ) for help.", translation: "その少年は助けを求めて叫びました。", answer: "shouted" },
+      { id: 669, rank: "B", unit: "Let's Read", word: "escape(d)", meaning: "(･･･から)逃げる", sentence: "The bird ( ) from the cage.", translation: "鳥はかごから逃げました。", answer: "escaped" },
+      { id: 670, rank: "A", unit: "Let's Read", word: "later", meaning: "あとで", sentence: "See you ( ).", translation: "またあとで会いましょう。", answer: "later" },
+      { id: 671, rank: "A", unit: "Let's Read", word: "thought (think)", meaning: "thinkの過去形", sentence: "I ( ) about the answer.", translation: "私はその答えについて考えました。", answer: "thought" },
+      { id: 672, rank: "S", unit: "Let's Read", word: "think", meaning: "･･･だと思う", sentence: "I ( ) so, too.", translation: "私もそうだと思います。", answer: "think" },
+      { id: 673, rank: "A", unit: "Let's Read", word: "die(d)", meaning: "死ぬ", sentence: "The old tree ( ) last year.", translation: "その古い木は昨年枯れて死にました。", answer: "died" },
+      { id: 674, rank: "B", unit: "Let's Read", word: "alone", meaning: "ひとりだけの", sentence: "He lived ( ) in the mountains.", translation: "彼は山の中でひとりで暮らしていました。", answer: "alone" },
+      { id: 675, rank: "A", unit: "Let's Read", word: "one day", meaning: "ある日", sentence: "( ), a little bird came to my window.", translation: "ある日、小さな鳥が私の窓にやって来ました。", answer: "One day" },
+      { id: 676, rank: "B", unit: "Let's Read", word: "be full of", meaning: "･･･でいっぱいである", sentence: "The basket ( ) apples.", translation: "そのかごはリンゴでいっぱいです。", answer: "is full of" },
+      { id: 677, rank: "A", unit: "Let's Read", word: "out of", meaning: "･･･から外へ", sentence: "He ran ( ) the house.", translation: "彼は家から外へ走って出ました。", answer: "out of" },
+      { id: 678, rank: "A", unit: "Let's Read", word: "little", meaning: "小さい", sentence: "Gon was a ( ) fox.", translation: "ごんは小さなキツネでした。", answer: "little" },
+      { id: 679, rank: "A", unit: "Let's Read", word: "play", meaning: "(いたずらなど)をする", sentence: "He liked to ( ) tricks.", translation: "彼はいたずらをするのが好きでした。", answer: "play" },
+      { id: 680, rank: "A", unit: "Let's Read", word: "one", meaning: "ある･･･", sentence: "( ) day, Gon saw Hyoju.", translation: "ある日、ごんは兵十を見ました。", answer: "One" },
+      { id: 681, rank: "A", unit: "Let's Read", word: "up", meaning: "近づいて", sentence: "Gon came ( ) to the house.", translation: "ごんは家に近づいて来ました。", answer: "up" },
+      { id: 682, rank: "A", unit: "Let's Read", word: "in", meaning: "･･･を身につけて", sentence: "He was dressed ( ) black.", translation: "彼は黒い服を身につけていました。", answer: "in" },
+      { id: 683, rank: "S", unit: "Let's Read", word: "think", meaning: "･･･だと思う", sentence: "I ( ) he was very kind.", translation: "私は彼がとても親切だったと思います。", answer: "think" },
+      { id: 684, rank: "S", unit: "Let's Read", word: "took (take)", meaning: "takeの過去形", sentence: "My father ( ) me to the zoo.", translation: "父は私を動物園へ連れて行きました。", answer: "took" },
+      { id: 685, rank: "C", unit: "Let's Read", word: "vendor", meaning: "もの売り", sentence: "We bought fruit from the street ( ).", translation: "私たちは露天の物売りから果物を買いました。", answer: "vendor" },
+      { id: 686, rank: "B", unit: "Let's Read", word: "cart", meaning: "手押し車", sentence: "He pushed a wooden ( ).", translation: "彼は木の手押し車を押しました。", answer: "cart" },
+      { id: 687, rank: "A", unit: "Let's Read", word: "left", meaning: "leaveの過去形", sentence: "I ( ) my umbrella on the train.", translation: "私は電車に傘を置いてきてしまいました。", answer: "left" },
+      { id: 688, rank: "B", unit: "Let's Read", word: "leave", meaning: "･･･を置いていく", sentence: "Do not ( ) your bag here.", translation: "ここにかばんを置いていってはいけません。", answer: "leave" },
+      { id: 689, rank: "B", unit: "Let's Read", word: "brought (bring)", meaning: "bringの過去形", sentence: "He ( ) some flowers for me.", translation: "彼は私のために花を持ってきてくれました。", answer: "brought" },
+      { id: 690, rank: "B", unit: "Let's Read", word: "chestnut(s)", meaning: "クリ", sentence: "We picked ( ) in autumn.", translation: "私たちは秋にクリを拾いました。", answer: "chestnuts" },
+      { id: 691, rank: "A", unit: "Let's Read", word: "heard", meaning: "hearの過去形", sentence: "I ( ) a strange sound outside.", translation: "私は外で奇妙な音を聞きました。", answer: "heard" },
+      { id: 692, rank: "S", unit: "Let's Read", word: "hear", meaning: "･･･を聞く", sentence: "Can you ( ) me?", translation: "私の声が聞こえますか。", answer: "hear" },
+      { id: 693, rank: "A", unit: "Let's Read", word: "something", meaning: "何か", sentence: "I want ( ) cold to drink.", translation: "私は何か冷たい飲み物がほしいです。", answer: "something" },
+      { id: 694, rank: "B", unit: "Let's Read", word: "himself", meaning: "彼自身に", sentence: "He looked at ( ) in the mirror.", translation: "彼は鏡の中の彼自身を見ました。", answer: "himself" },
+      { id: 695, rank: "B", unit: "Let's Read", word: "neighbor", meaning: "近所の人", sentence: "Mr. Sato is my kind ( ).", translation: "佐藤さんは私の親切な近所の人です。", answer: "neighbor" },
+      { id: 696, rank: "B", unit: "Let's Read", word: "receive", meaning: "･･･を受け取る", sentence: "I ( ) a letter from Tom.", translation: "私はトムから手紙を受け取ります。", answer: "receive" },
+      { id: 697, rank: "A", unit: "Let's Read", word: "someone", meaning: "だれか", sentence: "( ) is knocking at the door.", translation: "だれかがドアをノックしています。", answer: "Someone" },
+      { id: 698, rank: "S", unit: "Let's Read", word: "thing(s)", meaning: "もの", sentence: "Put your ( ) in the box.", translation: "あなたのものを箱に入れなさい。", answer: "things" },
+      { id: 699, rank: "A", unit: "Let's Read", word: "god", meaning: "神", sentence: "People prayed to ( ).", translation: "人々は神に祈りました。", answer: "god" },
+      { id: 700, rank: "B", unit: "Let's Read", word: "say to oneself", meaning: "･･･とひとり言を言う", sentence: "\"I can do it,\" I ( ).", translation: "「私にはできるぞ」と私はひとり言を言います。", answer: "say to myself" },
+      { id: 701, rank: "S", unit: "Let's Read", word: "take", meaning: "･･･を(手に)取る、･･･を持っていく、連れていく", sentence: "( ) your umbrella with you.", translation: "傘を持って行きなさい。", answer: "Take" },
+      { id: 702, rank: "A", unit: "Let's Read", word: "bring", meaning: "(～に)･･･を持ってくる、･･･を連れてくる", sentence: "Please ( ) me a glass of water.", translation: "私にコップ1杯の水を持ってきてください。", answer: "bring" },
+      { id: 703, rank: "B", unit: "Let's Read", word: "through", meaning: "･･･を通って", sentence: "We walked ( ) the forest.", translation: "私たちは森を通って歩きました。", answer: "through" },
+      { id: 704, rank: "S", unit: "Let's Read", word: "door", meaning: "ドア、戸", sentence: "Open the ( ), please.", translation: "ドアを開けてください。", answer: "door" },
+      { id: 705, rank: "A", unit: "Let's Read", word: "into", meaning: "･･･の中へ", sentence: "The cat jumped ( ) the box.", translation: "ネコは箱の中へ跳び込みました。", answer: "into" },
+      { id: 706, rank: "A", unit: "Let's Read", word: "pick(ed)", meaning: "[pick upで] ･･･を手に取る", sentence: "He ( ) up the ball.", translation: "彼はボールを手に取りました。", answer: "picked" },
+      { id: 707, rank: "B", unit: "Let's Read", word: "gun", meaning: "銃", sentence: "The hunter carried a ( ).", translation: "猟師は銃を持っていました。", answer: "gun" },
+      { id: 708, rank: "D", unit: "Let's Read", word: "bang", meaning: "ズドン", sentence: "The door closed with a ( ).", translation: "ドアがズドンと音を立てて閉まりました。", answer: "bang" },
+      { id: 709, rank: "A", unit: "Let's Read", word: "ground", meaning: "地面", sentence: "The snow covers the ( ).", translation: "雪が地面を覆っています。", answer: "ground" },
+      { id: 710, rank: "A", unit: "Let's Read", word: "fresh", meaning: "新鮮な", sentence: "We drink ( ) milk every morning.", translation: "私たちは毎朝新鮮な牛乳を飲みます。", answer: "fresh" },
+      { id: 711, rank: "A", unit: "Let's Read", word: "floor", meaning: "床", sentence: "Clean the ( ) of your room.", translation: "あなたの部屋の床を掃除しなさい。", answer: "floor" },
+      { id: 712, rank: "C", unit: "Let's Read", word: "weakly", meaning: "弱く", sentence: "The sick boy smiled ( ).", translation: "病気の少年は弱く微笑みました。", answer: "weakly" },
+      { id: 713, rank: "A", unit: "Let's Read", word: "drop(ped)", meaning: "･･･を落とす", sentence: "I ( ) my pencil on the floor.", translation: "私は床に鉛筆を落としました。", answer: "dropped" },
+      { id: 714, rank: "B", unit: "Let's Read", word: "rose", meaning: "riseの過去形", sentence: "The sun ( ) at six this morning.", translation: "今朝、太陽は6時にのぼりました。", answer: "rose" },
+      { id: 715, rank: "B", unit: "Let's Read", word: "smoke", meaning: "煙", sentence: "White ( ) rose from the chimney.", translation: "煙突から白い煙がのぼりました。", answer: "smoke" },
+      { id: 716, rank: "B", unit: "Let's Read", word: "rise", meaning: "のぼる", sentence: "The sun will ( ) soon.", translation: "まもなく太陽がのぼります。", answer: "rise" },
+      { id: 717, rank: "A", unit: "Let's Read", word: "look up", meaning: "視線を上げる", sentence: "( ) at the sky.", translation: "空へ視線を上げなさい。", answer: "Look up" },
+      { id: 718, rank: "A", unit: "Let's Read", word: "pick up", meaning: "･･･を手に取る", sentence: "Please ( ) the trash.", translation: "ごみを手に取ってください。", answer: "pick up" },
+    ];
+
+    const ALL_UNITS = [
+      { key: "sounds and letters0", label: "Sounds & Letters 0" },
+      { key: "unit1", label: "Unit 1" },
+      { key: "sounds and letters1", label: "Sounds & Letters 1" },
+      { key: "unit2", label: "Unit 2" },
+      { key: "sounds and letters2", label: "Sounds & Letters 2" },
+      { key: "unit3", label: "Unit 3" },
+      { key: "sounds and letters3", label: "Sounds & Letters 3" },
+      { key: "unit4", label: "Unit 4" },
+      { key: "Sound and Letter 4", label: "Sound and Letter 4" },
+      { key: "Unit5", label: "Unit 5" },
+      { key: "unit6", label: "Unit 6" },
+      { key: "Real Life English", label: "Real Life English" },
+      { key: "Unit7", label: "Unit 7" },
+      { key: "SCENE3", label: "SCENE3" },
+      { key: "Unit8", label: "Unit 8" },
+      { key: "Stage Activity2", label: "Stage Activity2" },
+      { key: "Unit9", label: "Unit 9" },
+      { key: "SCENE5", label: "SCENE5" },
+      { key: "unit10", label: "Unit 10" },
+      { key: "SCENE6", label: "SCENE6" },
+      { key: "Let's Read", label: "Let's Read" },
+    ];
+    // ==========================================
+
+
+    let selectedUnits = ALL_UNITS.map(u => u.key);
+    let wordsData = [];
+    let currentQuiz = {
+      mode: 'en-ja',
+      level: 'intermediate',
+      count: 10,
+      unitFilter: 'ALL',
+      studentName: '',
+      questions: [],
+      currentIndex: 0,
+      score: 0,
+      results: []
+    };
+
+    let spellingState = { targetLetters: [], originalLetters: [], currentInput: [], revealedHints: [] };
+
+    window.addEventListener('DOMContentLoaded', () => {
+      initStorage();
+      loadStudentProfile();
+      updateTotalWordsCount();
+      renderUnitCheckboxes();
+      renderManageTable();
+      updateAnalyticsDisplay();
+      initKeyboardListener();
+      updateSheetSyncStatusBar();
+    });
+
+    function initStorage() {
+      const STORAGE_KEY = 'm1_words_data_v1';
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          wordsData = JSON.parse(stored);
+          if (wordsData.length < DEFAULT_WORDS.length) {
+            wordsData = [...DEFAULT_WORDS];
+            saveWordsToStorage();
+          }
+        } catch(e) {
+          wordsData = [...DEFAULT_WORDS];
+          saveWordsToStorage();
+        }
+      } else {
+        wordsData = [...DEFAULT_WORDS];
+        saveWordsToStorage();
+      }
+
+      if (DEFAULT_TEACHER_GAS_URL) {
+        localStorage.setItem('m1_gas_url', DEFAULT_TEACHER_GAS_URL);
+      }
+    }
+
+    function saveWordsToStorage() {
+      localStorage.setItem('m1_words_data_v1', JSON.stringify(wordsData));
+      updateTotalWordsCount();
+    }
+
+    function updateTotalWordsCount() {
+      const el = document.getElementById('total-words-count');
+      if (el) el.textContent = wordsData.length;
+    }
+
+    function loadStudentProfile() {
+      const savedName = localStorage.getItem('m1_student_name') || '';
+      const nameInput = document.getElementById('student-name-input');
+      if (nameInput) nameInput.value = savedName;
+    }
+
+    function saveStudentProfile(sName) {
+      localStorage.setItem('m1_student_name', sName);
+    }
+
+    function renderUnitCheckboxes() {
+      const container = document.getElementById('unit-checkbox-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      ALL_UNITS.forEach(u => {
+        const count = wordsData.filter(w => isUnitMatch(w.unit, u.key)).length;
+        const isChecked = selectedUnits.includes(u.key);
+
+        const label = document.createElement('label');
+        label.className = `p-2.5 rounded-xl border-2 transition flex items-center justify-between cursor-pointer select-none ${
+          isChecked ? 'border-indigo-600 bg-indigo-50/70 text-indigo-950 font-bold' : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+        }`;
+        
+        label.innerHTML = `
+          <div class="flex items-center gap-2">
+            <input type="checkbox" value="${u.key}" ${isChecked ? 'checked' : ''} onchange="toggleUnit('${u.key}', this.checked)" class="accent-indigo-600 w-4 h-4 rounded">
+            <span class="text-xs">${u.label}</span>
+          </div>
+          <span class="text-[10px] text-slate-400 font-mono">${count}語</span>
+        `;
+        container.appendChild(label);
+      });
+
+      updateUnitSummaryDisplay();
+    }
+
+    function toggleUnit(unitKey, isChecked) {
+      if (isChecked) {
+        if (!selectedUnits.includes(unitKey)) selectedUnits.push(unitKey);
+      } else {
+        selectedUnits = selectedUnits.filter(k => k !== unitKey);
+      }
+      renderUnitCheckboxes();
+    }
+
+    function setAllUnits(enableAll) {
+      if (enableAll) {
+        selectedUnits = ALL_UNITS.map(u => u.key);
+      } else {
+        selectedUnits = [];
+      }
+      renderUnitCheckboxes();
+    }
+
+    function isUnitMatch(targetUnit, filterUnit) {
+      if (!targetUnit || !filterUnit) return false;
+      return targetUnit.toLowerCase().replace(/[\s\-_]/g, '') === filterUnit.toLowerCase().replace(/[\s\-_]/g, '');
+    }
+
+    function updateUnitSummaryDisplay() {
+      const summaryEl = document.getElementById('unit-selection-summary');
+      const alertEl = document.getElementById('unit-select-alert');
+      if (!summaryEl) return;
+
+      const matchedWords = wordsData.filter(w => selectedUnits.some(uKey => isUnitMatch(w.unit, uKey)));
+
+      if (selectedUnits.length === 0) {
+        summaryEl.textContent = '選択なし (0語)';
+        summaryEl.className = 'bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full text-[11px]';
+        if (alertEl) alertEl.classList.remove('hidden');
+      } else if (selectedUnits.length === ALL_UNITS.length) {
+        summaryEl.textContent = `全Unit対象 (${matchedWords.length}語)`;
+        summaryEl.className = 'bg-indigo-100 text-indigo-800 font-bold px-2 py-0.5 rounded-full text-[11px]';
+        if (alertEl) alertEl.classList.add('hidden');
+      } else {
+        summaryEl.textContent = `${selectedUnits.length}つのUnit選択中 (${matchedWords.length}語)`;
+        summaryEl.className = 'bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full text-[11px]';
+        if (alertEl) alertEl.classList.add('hidden');
+      }
+    }
+
+    function showScreen(screenId) {
+      ['home', 'quiz', 'result', 'analytics', 'dictionary', 'manage'].forEach(s => {
+        const el = document.getElementById(`screen-${s}`);
+        if (el) el.classList.add('hidden');
+      });
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) target.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (screenId === 'analytics') updateAnalyticsDisplay();
+      if (screenId === 'manage') renderManageTable();
+    }
+
+    function selectMode(mode) {
+      currentQuiz.mode = mode;
+      document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.remove('border-indigo-600', 'bg-indigo-50/50');
+        btn.classList.add('border-slate-200');
+      });
+      const activeBtn = document.getElementById(`btn-mode-${mode}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-slate-200');
+        activeBtn.classList.add('border-indigo-600', 'bg-indigo-50/50');
+      }
+    }
+
+    function selectLevel(level) {
+      currentQuiz.level = level;
+      document.querySelectorAll('.lvl-btn').forEach(btn => {
+        btn.classList.remove('border-indigo-600', 'bg-indigo-50/50', 'border-red-600', 'bg-rose-50');
+        btn.classList.add('border-slate-200');
+      });
+      const activeBtn = document.getElementById(`btn-lvl-${level}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-slate-200');
+        if (level === 'hell') activeBtn.classList.add('border-red-600', 'bg-rose-50');
+        else activeBtn.classList.add('border-indigo-600', 'bg-indigo-50/50');
+      }
+    }
+
+    function selectCount(count) {
+      currentQuiz.count = count;
+      document.querySelectorAll('.count-btn').forEach(btn => {
+        btn.classList.remove('border-indigo-600', 'bg-indigo-50/50', 'text-indigo-900');
+        btn.classList.add('border-slate-200', 'text-slate-700');
+      });
+      const activeBtn = document.getElementById(`btn-count-${count}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-slate-200', 'text-slate-700');
+        activeBtn.classList.add('border-indigo-600', 'bg-indigo-50/50', 'text-indigo-900');
+      }
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById('student-name-input');
+      const alertBox = document.getElementById('student-input-alert');
+      const sName = nameInput ? nameInput.value.trim() : '';
+
+      if (!sName) {
+        if (alertBox) alertBox.classList.remove('hidden');
+        if (nameInput) nameInput.focus();
+        showToast('⚠️ 氏名を入力してください');
+        return;
+      }
+      if (selectedUnits.length === 0) {
+        showToast('⚠️ 出題範囲のUnitを選んでください');
+        return;
+      }
+
+      if (alertBox) alertBox.classList.add('hidden');
+      saveStudentProfile(sName);
+      currentQuiz.studentName = sName;
+      document.getElementById('quiz-student-display-name').textContent = sName;
+      currentQuiz.unitFilter = (selectedUnits.length === ALL_UNITS.length) ? 'ALL' : selectedUnits.join(', ');
+
+      let pool = wordsData.filter(w => selectedUnits.some(uKey => isUnitMatch(w.unit, uKey)));
+      if (pool.length === 0) {
+        showToast('選択された範囲に単語がありません');
+        return;
+      }
+
+      currentQuiz.questions = generateQuizQuestions(pool, currentQuiz.level, currentQuiz.count, currentQuiz.mode);
+      currentQuiz.currentIndex = 0;
+      currentQuiz.score = 0;
+      currentQuiz.results = [];
+
+      renderQuestionUI();
+      showScreen('quiz');
+    }
+
+    function generateQuizQuestions(pool, level, count, mode) {
+      const byRank = { S: [], A: [], B: [], C: [], D: [] };
+      pool.forEach(w => {
+        const r = (w.rank || 'A').toUpperCase();
+        if (byRank[r]) byRank[r].push(w);
+        else byRank['A'].push(w);
+      });
+
+      let selected = [];
+      const shuffle = arr => [...arr].sort(() => Math.random() - 0.5);
+
+      if (level === 'beginner') {
+        selected = shuffle(byRank.S).slice(0, count);
+        if (selected.length < count) selected = selected.concat(shuffle([...byRank.A, ...byRank.B]).slice(0, count - selected.length));
+      } else if (level === 'intermediate') {
+        const sCount = Math.round(count * 0.3);
+        selected = [...shuffle(byRank.S).slice(0, sCount), ...shuffle(byRank.A).slice(0, count - sCount)];
+      } else if (level === 'advanced') {
+        const aCount = Math.round(count * 0.3);
+        selected = [...shuffle(byRank.A).slice(0, aCount), ...shuffle(byRank.B).slice(0, count - aCount)];
+      } else if (level === 'super') {
+        const bCount = Math.round(count * 0.3);
+        selected = [...shuffle(byRank.B).slice(0, bCount), ...shuffle(byRank.C).slice(0, count - bCount)];
+      } else if (level === 'hell') {
+        const cCount = Math.round(count * 0.3);
+        selected = [...shuffle(byRank.C).slice(0, cCount), ...shuffle(byRank.D).slice(0, count - cCount)];
+      } else {
+        selected = shuffle(pool).slice(0, count);
+      }
+
+      if (selected.length < count) {
+        const remain = pool.filter(w => !selected.includes(w));
+        selected = selected.concat(shuffle(remain).slice(0, count - selected.length));
+      }
+
+      return shuffle(selected).map(target => buildQuestionOptions(target, mode, pool));
+    }
+
+    function buildQuestionOptions(target, mode, fullPool = wordsData) {
+      let prompt = '', mainText = '', subText = '', correctVal = '';
+
+      if (mode === 'en-ja') {
+        prompt = 'この英単語の意味を選んでください';
+        mainText = target.word;
+        correctVal = target.meaning;
+      } else if (mode === 'ja-en') {
+        prompt = 'この日本語の意味に当てはまる英単語を選んでください';
+        mainText = target.meaning;
+        correctVal = target.word;
+      } else if (mode === 'fill-in') {
+        prompt = 'カッコに入る最も適切な単語を選んでください';
+        mainText = target.sentence || `I ( ) English.`;
+        subText = target.translation ? `訳: ${target.translation}` : '';
+        correctVal = target.answer || target.word;
+      } else {
+        prompt = '意味と例文を見て、正しい英単語のスペルを完成させてください';
+        mainText = target.meaning;
+        subText = target.sentence ? `例文: ${target.sentence}` : '';
+        correctVal = target.word;
+      }
+
+      const poolOthers = fullPool.filter(w => w.id !== target.id);
+      const shuffledOthers = [...poolOthers].sort(() => Math.random() - 0.5);
+
+      const dummyList = [];
+      for (const other of shuffledOthers) {
+        const val = (mode === 'en-ja') ? other.meaning : (mode === 'fill-in' ? (other.answer || other.word) : other.word);
+        if (val && val !== correctVal && !dummyList.some(d => d.text === val)) {
+          dummyList.push({ wordObj: other, text: val });
+        }
+        if (dummyList.length === 3) break;
+      }
+
+      const allChoices = [
+        { wordObj: target, text: correctVal, isCorrect: true },
+        ...dummyList.map(d => ({ wordObj: d.wordObj, text: d.text, isCorrect: false }))
+      ].sort(() => Math.random() - 0.5);
+
+      return { target, prompt, mainText, subText, choices: allChoices };
+    }
+
+    function renderQuestionUI() {
+      const q = currentQuiz.questions[currentQuiz.currentIndex];
+      if (!q) return;
+
+      const total = currentQuiz.questions.length;
+      const current = currentQuiz.currentIndex + 1;
+
+      document.getElementById('current-q-index').textContent = current;
+      document.getElementById('total-q-index').textContent = total;
+      document.getElementById('progress-bar-fill').style.width = `${(current / total) * 100}%`;
+
+      const lvlNames = { beginner: '初級', intermediate: '中級', advanced: '上級', super: '超級', hell: '地獄級', random: 'ランダム' };
+      const modeNames = { 'en-ja': '英語 → 日本語', 'ja-en': '日本語 → 英語', 'fill-in': '英文穴埋め', 'spelling': '裏・スペルタイピング' };
+
+      const lvlBadge = document.getElementById('quiz-level-badge');
+      lvlBadge.textContent = lvlNames[currentQuiz.level] || '標準';
+      lvlBadge.className = `px-2.5 py-1 rounded-md text-xs font-bold ${currentQuiz.level === 'hell' ? 'bg-rose-100 text-rose-800 border border-rose-300' : 'badge-b'}`;
+
+      document.getElementById('quiz-mode-badge').textContent = modeNames[currentQuiz.mode] || '';
+      document.getElementById('q-unit-tag').textContent = (q.target.unit || 'UNIT').toUpperCase();
+      const rankTag = document.getElementById('q-rank-tag');
+      rankTag.textContent = `${q.target.rank}ランク`;
+      rankTag.className = `text-[10px] font-bold px-2 py-0.5 rounded badge-${(q.target.rank || 'A').toLowerCase()}`;
+
+      const choicesContainer = document.getElementById('choices-container');
+      const spellingContainer = document.getElementById('spelling-container');
+
+      if (currentQuiz.mode === 'spelling') {
+        choicesContainer.classList.add('hidden');
+        spellingContainer.classList.remove('hidden');
+        document.getElementById('question-prompt-label').textContent = '意味と例文を見て、正しい英単語のスペルを完成させてください';
+        document.getElementById('question-main-text').textContent = q.target.meaning;
+        const subTextEl = document.getElementById('question-sub-text');
+        subTextEl.textContent = q.target.sentence ? `例文: ${q.target.sentence}` : '';
+        subTextEl.classList.remove('hidden');
+        setupSpellingPuzzle(q.target.word);
+      } else {
+        spellingContainer.classList.add('hidden');
+        choicesContainer.classList.remove('hidden');
+        document.getElementById('question-prompt-label').textContent = q.prompt;
+        document.getElementById('question-main-text').textContent = q.mainText;
+        const subTextEl = document.getElementById('question-sub-text');
+        if (q.subText) {
+          subTextEl.textContent = q.subText;
+          subTextEl.classList.remove('hidden');
+        } else {
+          subTextEl.classList.add('hidden');
+        }
+
+        choicesContainer.innerHTML = '';
+        q.choices.forEach((choice, index) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'choice-btn w-full p-4 rounded-xl border-2 border-slate-200 hover:border-indigo-500 hover:bg-indigo-50/40 text-left font-bold text-sm text-slate-800 transition flex items-center gap-3 bg-white shadow-xs';
+          btn.innerHTML = `
+            <span class="w-7 h-7 rounded-lg bg-slate-100 text-slate-600 text-xs font-extrabold flex items-center justify-center shrink-0">${['A', 'B', 'C', 'D'][index]}</span>
+            <span class="flex-1">${choice.text}</span>
+          `;
+          btn.onclick = () => handleChoice(choice, btn);
+          choicesContainer.appendChild(btn);
+        });
+      }
+      document.getElementById('feedback-panel').classList.add('hidden');
+    }
+
+    function handleChoice(selectedChoice, clickedBtn) {
+      const q = currentQuiz.questions[currentQuiz.currentIndex];
+      const isCorrect = !!selectedChoice.isCorrect;
+
+      document.querySelectorAll('.choice-btn').forEach(btn => {
+        btn.disabled = true;
+        btn.classList.add('opacity-70', 'cursor-not-allowed');
+      });
+
+      if (isCorrect) {
+        currentQuiz.score++;
+        if (clickedBtn) {
+          clickedBtn.classList.remove('border-slate-200', 'bg-white', 'opacity-70');
+          clickedBtn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'ring-2', 'ring-emerald-400');
+        }
+      } else {
+        if (clickedBtn) {
+          clickedBtn.classList.remove('border-slate-200', 'bg-white', 'opacity-70');
+          clickedBtn.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-900', 'ring-2', 'ring-rose-400');
+        }
+        document.querySelectorAll('.choice-btn').forEach((btn, idx) => {
+          if (q.choices[idx]?.isCorrect) {
+            btn.classList.remove('border-slate-200', 'bg-white', 'opacity-70');
+            btn.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-900', 'font-black');
+          }
+        });
+      }
+
+      currentQuiz.results.push({ target: q.target, selectedChoice, isCorrect });
+      renderFeedbackPanel(isCorrect, q, selectedChoice);
+    }
+
+    function renderFeedbackPanel(isCorrect, q, selectedChoice) {
+      const panel = document.getElementById('feedback-panel');
+      const icon = document.getElementById('feedback-icon');
+      const title = document.getElementById('feedback-title');
+      const desc = document.getElementById('feedback-desc');
+      const border = document.getElementById('feedback-header-border');
+
+      panel.classList.remove('hidden', 'bg-emerald-50/80', 'border-emerald-200', 'bg-rose-50/80', 'border-rose-200');
+
+      if (isCorrect) {
+        panel.classList.add('bg-emerald-50/80', 'border-emerald-200');
+        border.className = 'flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-emerald-200/80 pb-3';
+        icon.className = 'w-9 h-9 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs';
+        icon.innerHTML = '<i class="ph-bold ph-check text-xl"></i>';
+        title.className = 'font-extrabold text-base text-emerald-900';
+        title.textContent = 'Excellent! 正解です！';
+        desc.className = 'text-xs font-semibold text-emerald-700';
+        desc.textContent = `正解: ${q.target.word} （${q.target.meaning}）`;
+      } else {
+        panel.classList.add('bg-rose-50/80', 'border-rose-200');
+        border.className = 'flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-rose-200/80 pb-3';
+        icon.className = 'w-9 h-9 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 shadow-xs';
+        icon.innerHTML = '<i class="ph-bold ph-x text-xl"></i>';
+        title.className = 'font-extrabold text-base text-rose-900';
+        title.textContent = '惜しい！不正解です';
+        desc.className = 'text-xs font-semibold text-rose-700';
+        desc.textContent = `正解は 「${q.target.word}」（${q.target.meaning}） でした`;
+      }
+
+      const choicesExpContainer = document.getElementById('feedback-choices-explanation');
+      choicesExpContainer.innerHTML = '';
+
+      q.choices.forEach(ch => {
+        const item = ch.wordObj;
+        const isTarget = ch.isCorrect;
+        const wasSelected = (ch === selectedChoice);
+
+        let borderClass = 'border-slate-200 bg-white';
+        let badgeText = '選択肢';
+        let badgeClass = 'bg-slate-100 text-slate-600';
+
+        if (isTarget) {
+          borderClass = 'border-emerald-300 bg-emerald-50/60 ring-1 ring-emerald-300';
+          badgeText = '正解';
+          badgeClass = 'bg-emerald-600 text-white';
+        } else if (wasSelected) {
+          borderClass = 'border-rose-300 bg-rose-50/60 ring-1 ring-rose-300';
+          badgeText = '誤答';
+          badgeClass = 'bg-rose-600 text-white';
+        }
+
+        const card = document.createElement('div');
+        card.className = `p-3 rounded-xl border ${borderClass} flex items-start justify-between gap-2 shadow-xs`;
+        card.innerHTML = `
+          <div class="space-y-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-[10px] font-black px-1.5 py-0.5 rounded ${badgeClass}">${badgeText}</span>
+              <span class="text-[10px] font-bold px-1.5 py-0.5 rounded badge-${item.rank.toLowerCase()}">${item.rank}ランク</span>
+            </div>
+            <div class="font-extrabold text-sm text-slate-900">${item.word}</div>
+            <div class="text-[11px] text-slate-600 font-medium">${item.meaning}</div>
+          </div>
+          <button onclick="speakWord('${item.word}')" class="p-2 rounded-lg bg-slate-50 hover:bg-indigo-50 text-indigo-600 text-base shrink-0">
+            <i class="ph-bold ph-speaker-high"></i>
+          </button>
+        `;
+        choicesExpContainer.appendChild(card);
+      });
+
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function goToNextQuestion() {
+      currentQuiz.currentIndex++;
+      if (currentQuiz.currentIndex < currentQuiz.questions.length) {
+        renderQuestionUI();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function finishQuiz() {
+      const total = currentQuiz.questions.length;
+      const score = currentQuiz.score;
+      const percent = Math.round((score / total) * 100);
+      const studentName = currentQuiz.studentName || '生徒';
+
+      document.getElementById('result-student-display').textContent = `${studentName} さんのテスト結果`;
+      document.getElementById('result-score-percent').innerHTML = `${percent}<span class="text-xl font-normal text-slate-400">%</span>`;
+      document.getElementById('result-score-correct').textContent = score;
+      document.getElementById('result-score-total').textContent = total;
+
+      const reviewContainer = document.getElementById('result-review-list');
+      reviewContainer.innerHTML = '';
+      const wrongWords = [];
+
+      currentQuiz.results.forEach((res) => {
+        const item = res.target;
+        if (!res.isCorrect) wrongWords.push(item.word);
+
+        const row = document.createElement('div');
+        row.className = 'py-3 flex items-center justify-between gap-3 text-xs';
+        row.innerHTML = `
+          <div class="flex items-center gap-3">
+            <span class="w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs ${res.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">
+              ${res.isCorrect ? '○' : '✕'}
+            </span>
+            <div>
+              <div class="font-extrabold text-sm text-slate-900 flex items-center gap-1.5">
+                ${item.word} <span class="text-[10px] font-bold px-1.5 py-0.2 rounded badge-${item.rank.toLowerCase()}">${item.rank}</span>
+              </div>
+              <div class="text-[11px] text-slate-500">${item.meaning}</div>
+            </div>
+          </div>
+          <button onclick="speakWord('${item.word}')" class="p-2 rounded-lg bg-slate-100 hover:bg-indigo-50 text-indigo-700">
+            <i class="ph-bold ph-speaker-high text-base"></i>
+          </button>
+        `;
+        reviewContainer.appendChild(row);
+      });
+
+      const newLog = {
+        date: new Date().toLocaleString('ja-JP'),
+        student: studentName,
+        grade: "中1",
+        unitFilter: currentQuiz.unitFilter,
+        mode: currentQuiz.mode,
+        level: currentQuiz.level,
+        score, total, percent, wrongWords
+      };
+
+      saveQuizLog(newLog);
+      sendToGoogleSheetIfConfigured(newLog);
+      showScreen('result');
+    }
+
+    function retryCurrentQuiz() { startQuiz(); }
+    function confirmQuitQuiz() { if (confirm('テストを中断してホームに戻りますか？')) showScreen('home'); }
+
+    function speakWord(text) {
+      const clean = text.replace(/[\(\)\[\]]/g, '').trim().toLowerCase();
+      if (!clean) return;
+
+      const audioUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(clean)}&type=2`;
+      const audio = new Audio(audioUrl);
+
+      audio.play().catch(() => {
+        if (!('speechSynthesis' in window)) return;
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(clean);
+        utter.lang = 'en-US';
+        utter.rate = 0.85;
+        window.speechSynthesis.speak(utter);
+      });
+    }
+
+    function setupSpellingPuzzle(targetWord) {
+      const cleanOriginal = targetWord.replace(/[\(\)\[\]]/g, '').trim();
+      spellingState.originalLetters = cleanOriginal.split('');
+      spellingState.targetLetters = cleanOriginal.toLowerCase().split('');
+      spellingState.currentInput = new Array(spellingState.targetLetters.length).fill('');
+      spellingState.revealedHints = [];
+
+      spellingState.targetLetters.forEach((char, idx) => {
+        if (!/^[a-zA-Z]$/.test(char)) {
+          spellingState.currentInput[idx] = spellingState.originalLetters[idx];
+          spellingState.revealedHints.push(idx);
+        }
+      });
+      renderSpellingSlots();
+      renderSpellingKeyboard();
+    }
+
+    function renderSpellingSlots() {
+      const container = document.getElementById('spelling-slots');
+      if (!container) return;
+      container.innerHTML = '';
+      let firstEmptyIndex = spellingState.currentInput.findIndex((c, idx) => c === '' && !spellingState.revealedHints.includes(idx));
+
+      spellingState.targetLetters.forEach((char, idx) => {
+        if (char === ' ') {
+          const space = document.createElement('div');
+          space.className = 'w-4 sm:w-6';
+          container.appendChild(space);
+          return;
+        }
+        const slot = document.createElement('div');
+        const val = spellingState.currentInput[idx];
+        const isHinted = spellingState.revealedHints.includes(idx);
+        const isCurrentActive = (idx === firstEmptyIndex);
+
+        let borderClass = 'border-b-4 border-slate-300 text-slate-800';
+        let bgClass = 'bg-white';
+        if (isCurrentActive) { borderClass = 'border-b-4 border-indigo-600 shadow-sm'; bgClass = 'bg-indigo-50/50 animate-pulse'; }
+        else if (isHinted) { borderClass = 'border-b-4 border-amber-400 text-amber-800 font-bold'; bgClass = 'bg-amber-50/60'; }
+        else if (val) { borderClass = 'border-b-4 border-slate-700 text-slate-900'; }
+
+        slot.className = `w-9 h-12 sm:w-12 sm:h-14 rounded-lg flex items-center justify-center font-mono text-xl sm:text-2xl font-bold transition-all duration-150 ${borderClass} ${bgClass}`;
+        slot.textContent = val || '_';
+        container.appendChild(slot);
+      });
+    }
+
+    function renderSpellingKeyboard() {
+      const kbContainer = document.getElementById('spelling-keyboard');
+      if (!kbContainer) return;
+      const rows = [['q','w','e','r','t','y','u','i','o','p'],['a','s','d','f','g','h','j','k','l'],['z','x','c','v','b','n','m']];
+      kbContainer.innerHTML = '';
+      rows.forEach(rowKeys => {
+        const rowDiv = document.createElement('div');
+        rowDiv.className = 'flex justify-center gap-1 sm:gap-1.5';
+        rowKeys.forEach(k => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'w-7 sm:w-9 h-10 rounded-lg bg-white hover:bg-indigo-50 active:scale-95 border border-slate-200 shadow-xs font-mono font-bold text-xs sm:text-sm text-slate-800 flex items-center justify-center transition';
+          btn.textContent = k;
+          btn.onclick = () => handleSpellingKey(k);
+          rowDiv.appendChild(btn);
+        });
+        kbContainer.appendChild(rowDiv);
+      });
+    }
+
+    function handleSpellingKey(inputChar) {
+      if (!inputChar) return;
+      const lowerChar = inputChar.toLowerCase();
+      for (let i = 0; i < spellingState.targetLetters.length; i++) {
+        if (spellingState.currentInput[i] === '' && !spellingState.revealedHints.includes(i)) {
+          const origChar = spellingState.originalLetters ? spellingState.originalLetters[i] : lowerChar;
+          spellingState.currentInput[i] = (origChar && origChar !== origChar.toLowerCase()) ? lowerChar.toUpperCase() : lowerChar;
+          break;
+        }
+      }
+      renderSpellingSlots();
+      if (spellingState.currentInput.every(c => c !== '')) {
+        setTimeout(() => checkSpellingAnswer(), 300);
+      }
+    }
+
+    function handleSpellingBackspace() {
+      for (let i = spellingState.currentInput.length - 1; i >= 0; i--) {
+        if (spellingState.currentInput[i] !== '' && !spellingState.revealedHints.includes(i)) {
+          spellingState.currentInput[i] = '';
+          break;
+        }
+      }
+      renderSpellingSlots();
+    }
+
+    function giveSpellingHint() {
+      const unrevealed = [];
+      spellingState.targetLetters.forEach((char, idx) => {
+        if (!spellingState.revealedHints.includes(idx)) unrevealed.push(idx);
+      });
+      if (unrevealed.length <= 1) return;
+      const hintIdx = unrevealed[0];
+      spellingState.revealedHints.push(hintIdx);
+      spellingState.currentInput[hintIdx] = spellingState.originalLetters ? spellingState.originalLetters[hintIdx] : spellingState.targetLetters[hintIdx];
+      renderSpellingSlots();
+    }
+
+    function checkSpellingAnswer() {
+      const q = currentQuiz.questions[currentQuiz.currentIndex];
+      if (!q) return;
+      const userWord = spellingState.currentInput.join('').toLowerCase().trim();
+      const targetWord = spellingState.targetLetters.join('').toLowerCase().trim();
+      const isCorrect = (userWord === targetWord);
+
+      if (isCorrect) currentQuiz.score++;
+      currentQuiz.results.push({ target: q.target, selectedChoice: { text: userWord }, isCorrect });
+      renderFeedbackPanel(isCorrect, q, { wordObj: q.target, text: userWord });
+    }
+
+    function initKeyboardListener() {
+      window.addEventListener('keydown', (e) => {
+        const quizScreen = document.getElementById('screen-quiz');
+        if (!quizScreen || quizScreen.classList.contains('hidden') || currentQuiz.mode !== 'spelling') return;
+        const feedbackPanel = document.getElementById('feedback-panel');
+        if (feedbackPanel && !feedbackPanel.classList.contains('hidden')) {
+          if (e.key === 'Enter') goToNextQuestion();
+          return;
+        }
+        if (e.key === 'Backspace') { e.preventDefault(); handleSpellingBackspace(); }
+        else if (e.key === 'Enter') { e.preventDefault(); checkSpellingAnswer(); }
+        else if (/^[a-zA-Z]$/.test(e.key)) { e.preventDefault(); handleSpellingKey(e.key); }
+      });
+    }
+
+    function resetDefaultWords() {
+      wordsData = [...DEFAULT_WORDS];
+      saveWordsToStorage();
+      renderManageTable();
+      renderUnitCheckboxes();
+      showToast(`全${DEFAULT_WORDS.length}語のマスターデータに復元しました！`);
+    }
+
+    function renderManageTable() {
+      const tbody = document.getElementById('manage-table-body');
+      if (!tbody) return;
+      const search = (document.getElementById('manage-search-input')?.value || '').toLowerCase().trim();
+      const rankFilter = document.getElementById('manage-rank-filter')?.value || 'ALL';
+
+      let list = [...wordsData];
+      if (search) list = list.filter(w => w.word.toLowerCase().includes(search) || w.meaning.includes(search));
+      if (rankFilter !== 'ALL') list = list.filter(w => (w.rank || '').toUpperCase() === rankFilter);
+
+      tbody.innerHTML = '';
+      list.forEach(w => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        tr.innerHTML = `
+          <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold badge-${(w.rank || 'A').toLowerCase()}">${w.rank || 'A'}</span></td>
+          <td class="p-3 font-semibold text-slate-500 uppercase text-[11px]">${w.unit || '-'}</td>
+          <td class="p-3 font-extrabold text-slate-900">${w.word}</td>
+          <td class="p-3 text-slate-700">${w.meaning}</td>
+          <td class="p-3 font-mono text-[11px] text-slate-500 max-w-xs truncate">${w.sentence || '-'}</td>
+          <td class="p-3 text-center">
+            <button onclick="speakWord('${w.word}')" class="p-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50"><i class="ph-bold ph-speaker-high text-base"></i></button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function getQuizLogs() {
+      try { return JSON.parse(localStorage.getItem('m1_quiz_logs') || '[]'); } catch(e) { return []; }
+    }
+    function saveQuizLog(log) {
+      const logs = getQuizLogs();
+      logs.unshift(log);
+      localStorage.setItem('m1_quiz_logs', JSON.stringify(logs.slice(0, 500)));
+    }
+    function clearAnalyticsLogs() {
+      if (confirm('すべての解答履歴ログを消去しますか？')) {
+        localStorage.removeItem('m1_quiz_logs');
+        updateAnalyticsDisplay();
+        showToast('履歴を消去しました');
+      }
+    }
+
+    function updateAnalyticsDisplay() {
+      const logs = getQuizLogs();
+      const totalQuizzes = logs.length;
+      let totalQuestions = 0, totalScore = 0;
+      const wrongCountMap = {};
+
+      logs.forEach(l => {
+        totalQuestions += (l.total || 0);
+        totalScore += (l.score || 0);
+        (l.wrongWords || []).forEach(w => { wrongCountMap[w] = (wrongCountMap[w] || 0) + 1; });
+      });
+
+      const avgAccuracy = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;
+      document.getElementById('stat-total-quizzes').innerHTML = `${totalQuizzes} <span class="text-xs font-normal text-slate-400">回</span>`;
+      document.getElementById('stat-total-questions').innerHTML = `${totalQuestions} <span class="text-xs font-normal text-slate-400">問</span>`;
+      document.getElementById('stat-avg-accuracy').innerHTML = `${avgAccuracy}<span class="text-xs font-normal text-slate-400">%</span>`;
+      document.getElementById('stat-weak-words-count').innerHTML = `${Object.keys(wrongCountMap).length} <span class="text-xs font-normal text-slate-400">語</span>`;
+      renderStudentReport();
+    }
+
+    function renderStudentReport() {
+      const select = document.getElementById('student-filter-select');
+      const student = select ? select.value : 'ALL';
+      const container = document.getElementById('student-report-card');
+      if (!container) return;
+      const logs = getQuizLogs();
+      const filtered = (student === 'ALL') ? logs : logs.filter(l => (l.student || '未記入生徒') === student);
+      if (filtered.length === 0) { container.innerHTML = `<div class="text-slate-400">データがありません</div>`; return; }
+      const totalQ = filtered.reduce((acc, cur) => acc + (cur.total || 0), 0);
+      const totalS = filtered.reduce((acc, cur) => acc + (cur.score || 0), 0);
+      const avg = totalQ > 0 ? Math.round((totalS / totalQ) * 100) : 0;
+      container.innerHTML = `
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200"><span class="text-slate-400 text-[10px]">受験回数</span><div class="font-black text-slate-900 text-lg">${filtered.length} 回</div></div>
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200"><span class="text-slate-400 text-[10px]">平均正答率</span><div class="font-black text-emerald-600 text-lg">${avg}%</div></div>
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200"><span class="text-slate-400 text-[10px]">総正解数</span><div class="font-black text-indigo-600 text-lg">${totalS} / ${totalQ}</div></div>
+          <div class="bg-white p-2.5 rounded-lg border border-slate-200"><span class="text-slate-400 text-[10px]">間違えた単語数</span><div class="font-black text-rose-600 text-lg">${filtered.reduce((a,c) => a + (c.wrongWords?.length||0), 0)} 語</div></div>
+        </div>
+      `;
+    }
+
+    function updateSheetSyncStatusBar() {
+      const gasUrl = localStorage.getItem('m1_gas_url') || DEFAULT_TEACHER_GAS_URL;
+      const dot = document.getElementById('sheet-status-dot');
+      const text = document.getElementById('sheet-status-text');
+      if (dot && text) {
+        dot.className = gasUrl ? 'w-3 h-3 rounded-full bg-emerald-500 animate-pulse' : 'w-3 h-3 rounded-full bg-slate-400';
+        text.textContent = gasUrl ? 'Google スプレッドシート連携: 接続中（自動送信ON）' : 'Google スプレッドシート連携: 未設定';
+      }
+    }
+
+    async function sendToGoogleSheetIfConfigured(logData) {
+      const gasUrl = localStorage.getItem('m1_gas_url') || DEFAULT_TEACHER_GAS_URL;
+      if (!gasUrl) return;
+      try {
+        await fetch(gasUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          cache: 'no-cache',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(logData)
+        });
+      } catch (e) { console.warn('送信失敗:', e); }
+    }
+
+    function exportLogsToCSV() {
+      const logs = getQuizLogs();
+      if (logs.length === 0) { showToast('エクスポートするログがありません'); return; }
+      let csv = '\uFEFF日時,生徒名,学年,出題範囲,モード,難易度,得点,総問題数,正答率,間違えた単語\n';
+      logs.forEach(l => {
+        csv += `"${l.date}","${l.student || '未記入'}","中1","${l.unitFilter || 'ALL'}","${l.mode}","${l.level}",${l.score},${l.total},"${l.percent}%","${(l.wrongWords || []).join(';')}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `中1英単語_成績ログ_${new Date().toISOString().slice(0,10)}.csv`;
+      link.click();
+      showToast('CSVファイルを書き出しました');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const text = document.getElementById('toast-message');
+      text.textContent = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
